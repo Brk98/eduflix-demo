@@ -1,0 +1,3 @@
+RewriteEngine off
+RewriteCond $1 !^(index.php|css|js|images|robots.txt)
+RewriteRule ^(.*)$ /eduflix/public/index.php/$1 [L]
