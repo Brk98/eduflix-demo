@@ -1,2 +1,2 @@
-# serviciosocial
-Plataforma de Servicio Social
+# Eduflix
+Plataforma elearning LMS
