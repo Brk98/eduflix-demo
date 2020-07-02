@@ -30,4 +30,19 @@ class Users extends \Core\Controller
     {
         echo 'User admin index';
     }
+
+    public function showAction()
+    {
+        echo 'User admin index';
+    }
+
+    public function getAction()
+    {
+        echo 'User admin index';
+    
+    }
+
+   
+
+
 }
