@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Admin;
 
 use PDO;
 
@@ -8,7 +8,7 @@ use PDO;
  * Post model
  *
  */
-class Post extends \Core\Model
+class Grupo extends \Core\Model
 {
 
     /**
@@ -18,12 +18,10 @@ class Post extends \Core\Model
      */
     public static function getAll()
     {
-       
         try {
            
             $db = static::getDB();
-
-            $stmt = $db->query('SELECT id, title, content FROM posts ORDER BY created_at');
+            $stmt = $db->query('SELECT id, grupo, descripcion,activo,fechar FROM grupos WHERE borrado = 0 ORDER BY grupo');
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             return $results;

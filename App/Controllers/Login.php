@@ -44,6 +44,7 @@ class Login extends \Core\Controller
     public function indexAction()
     {
         
+        
         View::renderTemplate('Login/index.html', [
             'name'    => 'Dave',
             'colours' => ['red', 'green', 'blue']
