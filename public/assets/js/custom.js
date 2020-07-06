@@ -253,3 +253,39 @@ $(document).keydown(function (event) {
 	}
 });
 */
+
+// DataTable
+$(document).ready( function () {
+	$('#tabla').DataTable();
+ });
+ 
+
+ // Carga en tiempo real la imagen de usuario o curso
+ $('input[name=imagen]').change(function(ev) {
+	$('#imagen').attr("src", "");
+ });
+ 
+ $(window).on('load', function() {                      
+	$("#imagen").change(function() {
+	   readURL(this);
+	});
+ });
+ 
+ function readURL(input) {
+	if (input.files && input.files[0]) {
+	   var reader = new FileReader();
+	   reader.onload = function (e) {
+		  $('#preview').attr('src', e.target.result);
+	   }
+	   reader.readAsDataURL(input.files[0]);
+	}
+ }
+
+ // Función del CKEDITOR y para aceptar caracteres especiales
+  CKEDITOR.replace('descripcion', {
+	fullPage: true,
+	extraPlugins: 'docprops',
+	allowedContent: true,
+	height: 320,
+	entities_latin: false
+  });
