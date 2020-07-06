@@ -281,11 +281,11 @@ $(document).ready( function () {
 	}
  }
 
- // Función del CKEDITOR y para aceptar caracteres especiales
-  CKEDITOR.replace('descripcion', {
+// Función del CKEDITOR y para aceptar caracteres especiales
+CKEDITOR.replace('descripcion', {
 	fullPage: true,
 	extraPlugins: 'docprops',
 	allowedContent: true,
 	height: 320,
 	entities_latin: false
-  });
+});

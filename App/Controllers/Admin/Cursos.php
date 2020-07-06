@@ -12,10 +12,6 @@ use libs\ImageResizeException;
 
 class Cursos extends \Core\Controller
 {
-    protected function before()
-    {
-    }
-
     public function tablaAction()
     {      
         try 
@@ -46,7 +42,7 @@ class Cursos extends \Core\Controller
     {      
         try 
         {  
-            $elementos = Curso::elemento($this->route_params['id']);
+            $elementos = Curso::obtener($this->route_params['id']);
             $categorias = Curso::categorias();
             View::renderTemplate('Cursos/editar.html', [
                 'elementos' => $elementos,
@@ -61,8 +57,9 @@ class Cursos extends \Core\Controller
     {      
         try 
         {  
+            Curso::$ip = $this->getIP();
             Curso::agregar($_POST['codigo'], $_POST['curso'], $_POST['descripcion'], $_POST['id_categoria'], isset($_POST['activo']));
-            $id = Curso::ultimoID();
+            $id = Curso::obtenerUltimoID();
             $id = $id[0]['id'];
             $dir_subida = "repositorio/cursos/";
             $fichero_subido = $dir_subida . basename($id . '.jpg');
@@ -87,6 +84,7 @@ class Cursos extends \Core\Controller
     {      
         try 
         {  
+            Curso::$ip = $this->getIP();
             $dir_subida = "repositorio/cursos/";
             $fichero_subido = $dir_subida . basename($_POST['id'] . '.jpg');
             $sourcePath = $_FILES['imagen']['tmp_name'];
@@ -109,6 +107,7 @@ class Cursos extends \Core\Controller
     {      
         try 
         {  
+            Curso::$ip = $this->getIP();
             Curso::eliminar($this->route_params['id']);
             header( "Location: ".Config::HOST.Config::DIRECTORY."admin/cursos/tabla");
         } catch (PDOException $e) {

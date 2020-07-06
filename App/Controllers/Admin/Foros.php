@@ -7,10 +7,6 @@ use App\Models\Admin\Foro;
 
 class Foros extends \Core\Controller
 {
-    protected function before()
-    {
-    }
-
     public function tablaAction()
     {      
         try 
@@ -47,7 +43,7 @@ class Foros extends \Core\Controller
         {  
             $foros = Foro::tabla();
             $tipos = Foro::tipo();
-            $elementos = Foro::elemento($this->route_params['id']);
+            $elementos = Foro::obtener($this->route_params['id']);
             View::renderTemplate('Foros/editar.html', [
                 'elementos' => $elementos,
                 'foros' => $foros,
@@ -62,8 +58,9 @@ class Foros extends \Core\Controller
     {      
         try 
         {  
+            Foro::$ip = $this->getIP();
             Foro::agregar($_POST['tema'], $_POST['descripcion'], '', $_POST['id_tipo_foro'], isset($_POST['activo']));
-            $id = Foro::ultimoID();
+            $id = Foro::obtenerUltimoID();
             $id = $id[0]['id'];
             $dir_subida = "repositorio/foros/";
             mkdir($dir_subida.$id."/");
@@ -80,6 +77,7 @@ class Foros extends \Core\Controller
     {      
         try 
         {  
+            Foro::$ip = $this->getIP();
             $dir_subida = "repositorio/foros/";
             $fichero_subido = $dir_subida .$_POST['id']."/".basename($_FILES['archivo']['name']);
             move_uploaded_file($_FILES['archivo']['tmp_name'], $fichero_subido);
@@ -95,6 +93,7 @@ class Foros extends \Core\Controller
     {      
         try 
         {  
+            Foro::$ip = $this->getIP();
             Foro::eliminar($this->route_params['id']);
             header( "Location: ".Config::HOST.Config::DIRECTORY."admin/foros/tabla");
         } catch (PDOException $e) {

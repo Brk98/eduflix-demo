@@ -12,10 +12,6 @@ use libs\ImageResizeException;
 
 class Usuarios extends \Core\Controller
 {
-    protected function before()
-    {
-    }
-
     public function tablaAction()
     {      
         try 
@@ -47,7 +43,7 @@ class Usuarios extends \Core\Controller
         try 
         {  
             $roles = Usuario::roles();
-            $elementos = Usuario::elemento($this->route_params['id']);
+            $elementos = Usuario::obtener($this->route_params['id']);
             View::renderTemplate('Usuarios/editar.html', [
                 'elementos' => $elementos,
                 'roles' => $roles
@@ -61,8 +57,9 @@ class Usuarios extends \Core\Controller
     {      
         try 
         {
+            Usuario::$ip = $this->getIP();
             Usuario::agregar('', $_POST['nombre'], $_POST['apaterno'], $_POST['amaterno'], $_POST['email'], $_POST['telefono'], $_POST['usuario'], $_POST['password'], $_POST['role'], isset($_POST['activo']));
-            $id = Usuario::ultimoID();
+            $id = Usuario::obtenerUltimoID();
             $id = $id[0]['id'];
             $dir_subida = "repositorio/usuarios/";
             $fichero_subido = $dir_subida . basename($id . '.jpg');
@@ -88,6 +85,7 @@ class Usuarios extends \Core\Controller
     {      
         try 
         {  
+            Usuario::$ip = $this->getIP();
             $dir_subida = "repositorio/usuarios/";
             $fichero_subido = $dir_subida . basename($_POST['id'] . '.jpg');
             $sourcePath = $_FILES['imagen']['tmp_name'];
@@ -110,6 +108,7 @@ class Usuarios extends \Core\Controller
     {      
         try 
         {  
+            Usuario::$ip = $this->getIP();
             Usuario::eliminar($this->route_params['id']);
             header( "Location: ".Config::HOST.Config::DIRECTORY."admin/usuarios/tabla");
         } catch (PDOException $e) {
