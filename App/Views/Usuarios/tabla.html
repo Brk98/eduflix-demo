@@ -1,0 +1,83 @@
+{% extends "master.html" %}
+{% block body %}
+<div class="wrapper">
+<div class="sa4d25">
+<div class="container-fluid">
+   <div class="row">
+      <div class="col-lg-12">
+         <h2 class="st_title"><i class="uil uil-user"></i>Usuarios</h2>
+      </div>
+      <div class="col-md-12">
+         <div class="card_dash1">
+            <div class="card_dash_left1">
+               <i class="uil uil-book-alt"></i>
+               <h1>Creación de Usuarios</h1>
+            </div>
+            <div class="card_dash_right1">
+               <button class="create_btn_dash" onclick="window.location.href = '{{host}}{{directory}}admin/usuarios/nuevo';">Crear usuario</button>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="row">
+      <div class="col-md-12">
+         <div class="my_courses_tabs mp-30">
+            <div class="table-responsive ">
+               <table class="table ucp-table display" id="tabla">
+                  <thead class="thead-s">
+                     <tr>
+                        <th scope="col">No.</th>
+                        <th scope="col">Usuario</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Apellidos</th>
+                        <th scope="col">email</th>
+                        <th scope="col">Teléfono</th>
+                        <th scope="col">Rol</th>
+                        <th scope="col">Registro</th>
+                        <th scope="col">Actions</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     {% for usuario in usuarios %}
+                     <tr>
+                        <td>{{usuario.id}}</td>
+                        <td><a href="#">{{usuario.usuario}}</a></td>
+                        <td>{{usuario.nombre}}</a></td>
+                        <td>{{usuario.apaterno}} {{usuario.amaterno}}</td>
+                        <td>{{usuario.email}}</td>
+                        <td>{{usuario.telefono}}</td>
+                        <td>{{usuario.role}}</td>
+                        <td>{{usuario.fechar}}</td>
+                        <td>
+                           <a href="{{host}}{{directory}}admin/usuarios/{{usuario.id}}/editar" title="Edit" class="gray-s"><i class="uil uil-edit-alt"></i></a>
+                           <a href="" data-toggle="modal" data-target="#modal{{usuario.id}}" title="Delete" class="gray-s"><i class="uil uil-trash-alt"></i></a>
+                           <div class="modal fade" id="modal{{usuario.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog" role="document">
+                                 <div class="modal-content">
+                                    <div class="modal-header">
+                                       <h5 class="modal-title" id="exampleModalLabel">Confirmar eliminación</h5>
+                                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                       <span aria-hidden="true">&times;</span>
+                                       </button>
+                                    </div>
+                                    <div class="modal-body">
+                                       Eliminar {{usuario.usuario}}
+                                    </div>
+                                    <div class="modal-footer">
+                                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                       <a href="{{host}}{{directory}}admin/usuarios/{{usuario.id}}/eliminar"><button type="button" class="btn btn-primary">Aceptar</button></a>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     {% endfor %}
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock %}

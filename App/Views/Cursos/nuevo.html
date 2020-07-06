@@ -1,0 +1,109 @@
+{% extends "master.html" %}
+{% block body %}
+<div class="wrapper">
+<div class="sa4d25">
+   <div class="container">
+      <div class="row">
+         <div class="col-lg-12">
+            <h2 class="st_title"><i class="uil uil-analysis"></i> Crear Nuevo Curso</h2>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-12">
+            <div id="add-course-tab" class="step-app">
+               <form method="POST" action="{{host}}{{directory}}admin/cursos/agregar" enctype="multipart/form-data">
+                  <div class="tab-from-content">
+                     <div class="course__form">
+                        <div class="general_info10">
+                           <div class="row">
+                              <div class="col-lg-12 col-md-12">
+                                 <div class="view_all_dt">
+                                    <div class="view_img_left">
+                                       <div class="view__img">	
+                                          <img id="preview" src="{{host}}{{directory}}repositorio/cursos/default.jpg" class="rounded-circle" alt="" style="width: 192px; height: 192px;">
+                                       </div>
+                                    </div>
+                                    <div class="view_img_right">
+                                       <h4>Imagen Curso</h4>
+                                       <p>Sube la imagen del curso aquí. Solo se acepta Imagenes con: 750x422 pixels; .jpg, .jpeg,. gif, or .png.</p>
+                                       <div class="upload__input">
+                                          <div class="input-group">
+                                             <div class="custom-file">
+                                                <input type="file" id="imagen" name="imagen" class="custom-file-input" accept=".jpg, .jpeg, .gif, .png">
+                                                <label class="custom-file-label" for="inputGroupFile04">Selecciona la imagen</label>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="col-lg-3 col-md-3">
+                                 <div class="ui search focus mt-30 lbel25">
+                                    <label>Codigo Curso*</label>
+                                    <div class="ui left icon input swdh19">
+                                       <input class="prompt srch_explore" type="text" required id="codigo" name="codigo" placeholder="Codigo." name="title" data-purpose="edit-course-title" maxlength="30" value="">															
+                                       <div class="badge_num">30</div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="col-lg-9 col-md-9">
+                                 <div class="ui search focus mt-30 lbel25">
+                                    <label>Titulo Curso*</label>
+                                    <div class="ui left icon input swdh19">
+                                       <input class="prompt srch_explore" required id="curso" name="curso" type="text" placeholder="Titulo del curso." name="subtitle" data-purpose="edit-course-title" maxlength="180" id="sub[title]" value="">															
+                                       <div class="badge_num2">180</div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="col-lg-12 col-md-12">
+                                 <div class="course_des_textarea mt-30 lbel25">
+                                    <label>Descripción*</label>
+                                    <div class="course_des_bg">
+                                       <div class="textarea_dt">
+                                          <div class="ui form swdh339">
+                                             <div class="field">
+                                                <textarea rows="5" required id="descripcion" name="descripcion" id="id_course_description" placeholder="Descripción del curso"></textarea>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="col-lg-4 col-md-12">
+                                 <div class="mt-30 lbel25">
+                                    <label>Categoría*</label>
+                                 </div>
+                                 <select class="ui hj145 dropdown cntry152 prompt srch_explore" required id="id_categoria" name="id_categoria">
+                                    {% for categoria in categorias %}
+                                    <option value="{{categoria.id}}">{{categoria.categoria}}</option>
+                                    {% endfor %}
+                                 </select>
+                              </div>
+                              <div class="col-lg-4 col-md-12">
+                                 <div class="mt-30 lbel25">
+                                    <label>Disponible*</label>
+                                 </div>
+                                 <div class="ui form checkbox_sign cp_458">
+                                    <div class="inline field">
+                                       <div class="ui checkbox mncheck">
+                                          <input type="checkbox" tabindex="0" class="hidden" checked="" id="activo" name="activo">
+                                          <label>Activo</label>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="step-footer step-tab-pager">
+                     <button data-direction="prev" class="btn btn-default steps_btn">Cancelar</button>
+                     <button data-direction="finish" type="submit" class="btn btn-default steps_btn">Crear Curso</button>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock %}
