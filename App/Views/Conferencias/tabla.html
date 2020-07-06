@@ -1,0 +1,83 @@
+{% extends "master.html" %}
+{% block body %}
+<div class="wrapper">
+<div class="sa4d25">
+<div class="container-fluid">
+   <div class="row">
+      <div class="col-lg-12">
+         <h2 class="st_title"><i class="uil uil-kayak"></i>Conferencias</h2>
+      </div>
+      <div class="col-md-12">
+         <div class="card_dash1">
+            <div class="card_dash_left1">
+               <i class="uil uil-book-alt"></i>
+               <h1>Creación de Conferencias</h1>
+            </div>
+            <div class="card_dash_right1">
+               <button class="create_btn_dash" onclick="window.location.href = '{{host}}{{directory}}admin/conferencias/nuevo';">Crear conferencia</button>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="row">
+      <div class="col-md-12">
+         <div class="my_courses_tabs mp-30">
+            <div class="table-responsive ">
+               <table class="table ucp-table display" id="tabla">
+                  <thead class="thead-s">
+                     <tr>
+                        <th scope="col">No.</th>
+                        <th scope="col">Conferencia</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Hora</th>
+                        <th scope="col">Duración</th>
+                        <th scope="col">Activo</th>
+                        <th scope="col">Usuario</th>
+                        <th scope="col">Actions</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     {% for conferencia in conferencias %}
+                     <tr>
+                        <td>{{conferencia.id}}</td>
+                        <td><a href="#">{{conferencia.conferencia}}</a></td>
+                        <td>{{conferencia.descripcion}}</a></td>
+                        <td>{{conferencia.fecha}}</td>
+                        <td>{{conferencia.horario}}</td>
+                        <td>{{conferencia.duracion}}</td>
+                        <td>{{conferencia.activo?'Si':'No'}}</td>
+                        <td>{{conferencia.usuario}}</td>
+                        <td>
+                           <a href="{{host}}{{directory}}admin/conferencias/{{conferencia.id}}/editar" title="Edit" class="gray-s"><i class="uil uil-edit-alt"></i></a>
+                           <a href="" data-toggle="modal" data-target="#modal{{conferencia.id}}" title="Delete" class="gray-s"><i class="uil uil-trash-alt"></i></a>
+                           <div class="modal fade" id="modal{{conferencia.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog" role="document">
+                                 <div class="modal-content">
+                                    <div class="modal-header">
+                                       <h5 class="modal-title" id="exampleModalLabel">Confirmar eliminación</h5>
+                                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                       <span aria-hidden="true">&times;</span>
+                                       </button>
+                                    </div>
+                                    <div class="modal-body">
+                                       Eliminar {{conferencia.conferencia}}
+                                    </div>
+                                    <div class="modal-footer">
+                                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                       <a href="{{host}}{{directory}}admin/conferencias/{{conferencia.id}}/eliminar"><button type="button" class="btn btn-primary">Aceptar</button></a>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     {% endfor %}
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock %}

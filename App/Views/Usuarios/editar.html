@@ -1,0 +1,151 @@
+{% extends "master.html" %}
+{% block body %}
+<div class="wrapper">
+<div class="sa4d25">
+   <div class="container">
+      <div class="row">
+         <div class="col-lg-12">
+            <h2 class="st_title"><i class="uil uil-user"></i>Editar Usuario</h2>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-12">
+            <div id="add-course-tab" class="step-app">
+               <form method="POST" action="{{host}}{{directory}}admin/usuarios/actualizar" enctype="multipart/form-data">
+                  <div class="tab-from-content">
+                     {% for elemento in elementos %}
+                     <input type="text" id="id" name="id" value="{{elemento.id}}" style="display:none" />
+                     <div class="course__form">
+                        <div class="general_info10">
+                           <div class="row">
+                              <div class="col-lg-12 col-md-12">
+                                 <div class="view_all_dt">
+                                    <div class="view_img_left">
+                                       <div class="view__img">	
+                                          <img src="{{host}}{{directory}}{{elemento.foto}}" id="preview" class="rounded-circle" alt="" style="width: 192px; height: 192px;">
+                                       </div>
+                                    </div>
+                                    <div class="view_img_right">
+                                       <h4>Imagen</h4>
+                                       <p>Sube la imagen del usuario aquí. Solo se acepta Imagenes con: 750x422 pixels; .jpg, .jpeg,. gif, or .png.</p>
+                                       <div class="upload__input">
+                                          <div class="input-group">
+                                             <div class="custom-file">
+                                                <input type="file" id="imagen" name="imagen" class="custom-file-input" accept=".jpg, .jpeg, .gif, .png">
+                                                <label class="custom-file-label" for="inputGroupFile04">Selecciona la imagen</label>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="col-lg-4 col-md-4">
+                                 <div class="ui search focus mt-30 lbel25">
+                                    <label>Nombre*</label>
+                                    <div class="ui left icon input swdh19">
+                                       <input class="prompt srch_explore" type="text" placeholder="Nombre" required name="nombre" data-purpose="edit-course-title" maxlength="80" id="nombre" value="{{elemento.nombre}}">															
+                                       <div class="badge_num">80</div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="col-lg-4 col-md-4">
+                                 <div class="ui search focus mt-30 lbel25">
+                                    <label>Apellido Paterno*</label>
+                                    <div class="ui left icon input swdh19">
+                                       <input class="prompt srch_explore" type="text" placeholder="Apellido paterno" required name="apaterno" data-purpose="edit-course-title" maxlength="80" id="apterno" value="{{elemento.apaterno}}">															
+                                       <div class="badge_num">80</div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="col-lg-4 col-md-4">
+                                 <div class="ui search focus mt-30 lbel25">
+                                    <label>Apellido Materno*</label>
+                                    <div class="ui left icon input swdh19">
+                                       <input class="prompt srch_explore" type="text" placeholder="Apellido materno" required name="amaterno" data-purpose="edit-course-title" maxlength="80" id="amaterno" value="{{elemento.amaterno}}">															
+                                       <div class="badge_num">80</div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="col-lg-4 col-md-4">
+                                 <div class="ui search focus mt-30 lbel25">
+                                    <label>Email*</label>
+                                    <div class="ui left icon input swdh19">
+                                       <input class="prompt srch_explore" type="text" placeholder="Email" required name="email" data-purpose="edit-course-title" maxlength="60" id="email" value="{{elemento.email}}">															
+                                       <div class="badge_num">60</div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="col-lg-4 col-md-4">
+                                 <div class="ui search focus mt-30 lbel25">
+                                    <label>Telefono*</label>
+                                    <div class="ui left icon input swdh19">
+                                       <input class="prompt srch_explore" type="text" placeholder="Teléfono" required name="telefono" data-purpose="edit-course-title" maxlength="30" id="telefono" value="{{elemento.telefono}}">															
+                                       <div class="badge_num">30</div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-lg-4 col-md-4">
+                                 <div class="ui search focus mt-30 lbel25">
+                                    <label>Usuario*</label>
+                                    <div class="ui left icon input swdh19">
+                                       <input class="prompt srch_explore" type="text" placeholder="Usuario" required name="usuario" data-purpose="edit-course-title" maxlength="20" id="usuario" value="{{elemento.usuario}}">															
+                                       <div class="badge_num">20</div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="col-lg-4 col-md-4">
+                                 <div class="ui search focus mt-30 lbel25">
+                                    <label>Password*</label>
+                                    <div class="ui left icon input swdh19">
+                                       <input class="prompt srch_explore" type="text" placeholder="Password" required name="password" data-purpose="edit-course-title" maxlength="90" id="password" value="{{elemento.password}}">															
+                                       <div class="badge_num">90</div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-lg-4 col-md-12">
+                                 <div class="mt-30 lbel25">
+                                    <label>Rol*</label>
+                                 </div>
+                                 <select class="ui hj145 dropdown cntry152 prompt srch_explore" id="role" required name="role">
+                                    {% for rol in roles %}
+                                    {% if rol.id == elemento.id_rol %}
+                                    <option value="{{rol.id}}" selected>{{rol.role}}</option>
+                                    {% else %}
+                                    <option value="{{rol.id}}">{{rol.role}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                 </select>
+                              </div>
+                              <div class="col-lg-4 col-md-12">
+                                 <div class="mt-30 lbel25">
+                                    <label>Disponible*</label>
+                                 </div>
+                                 <div class="ui form checkbox_sign cp_458">
+                                    <div class="inline field">
+                                       <div class="ui checkbox mncheck">
+                                          <input type="checkbox" tabindex="0" {{elemento.activo?'checked':''}} class="hidden" id="activo" name="activo">
+                                          <label>Activo</label>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="step-footer step-tab-pager">
+                     <button data-direction="prev" class="btn btn-default steps_btn">Cancelar</button>
+                     <button data-direction="finish" type="submit" class="btn btn-default steps_btn">Editar Usuario</button>
+                  </div>
+                  {% endfor %}
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock %}
