@@ -11,16 +11,16 @@ class Grupos extends \Core\Controller
     {
     }
 
-    public function tablaAction()
+    public function indexAction()
     {      
         try 
         {  
-            $grupos = Grupo::tabla();
+            $grupos = Grupo::index();
             for ($i = 0; $i < count($grupos); $i++)
             {
                 $grupos[$i]['descripcion'] = strip_tags($grupos[$i]['descripcion']);
             }
-            View::renderTemplate('Grupos/tabla.html', [
+            View::renderTemplate('Grupos/index.html', [
                 'grupos' => $grupos
             ]);
         } catch (PDOException $e) {
@@ -42,9 +42,9 @@ class Grupos extends \Core\Controller
     {      
         try 
         {  
-            $elementos = Grupo::elemento($this->route_params['id']);
+            $elementos = Grupo::obtener($this->route_params['id']);
             View::renderTemplate('Grupos/editar.html', [
-                'elementos' => $elementos
+                'obtenidos' => $obtenidos
             ]);
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -55,8 +55,9 @@ class Grupos extends \Core\Controller
     {      
         try 
         {  
-            Grupo::agregar($_POST['grupo'], $_POST['descripcion'], $_POST['fecha'], $_POST['activo']);
-            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/grupos/tabla");
+            Grupo::$ip = $this->getIP();
+            Grupo::agregar($_POST['grupo'], $_POST['descripcion'], $_POST['activo']);
+            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/grupos/index");
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -66,8 +67,9 @@ class Grupos extends \Core\Controller
     {      
         try 
         {  
-            Grupo::actualizar($_POST['id'], $_POST['grupo'], $_POST['descripcion'], $_POST['fecha']);
-            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/grupos/tabla");
+            Grupo::$ip = $this->getIP();
+            Grupo::actualizar($_POST['id'], $_POST['grupo'], $_POST['descripcion']);
+            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/grupos/index");
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -77,8 +79,9 @@ class Grupos extends \Core\Controller
     {      
         try 
         {  
+            Grupo::$ip = $this->getIP();
             Grupo::eliminar($this->route_params['id']);
-            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/grupos/tabla");
+            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/grupos/index");
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
