@@ -3,7 +3,7 @@
 namespace App\Controllers\Admin;
 use App\Config;
 use \Core\View;
-use App\Models\Foro;
+use App\Models\Admin\Foro;
 
 class Foros extends \Core\Controller
 {
