@@ -23,3 +23,29 @@ Stack trace: #0 C:\wamp64\www\eduflix\Core\Router.php(121): Core\Controller->__c
 #1 C:\wamp64\www\eduflix\public\index.php(36): Core\Router->dispatch('admin/usuarios/...')
 #2 {main}
 Thrown in 'C:\wamp64\www\eduflix\Core\Controller.php' on line 66 id_user:1
+[06-Jul-2020 15:39:57 UTC] Uncaught exception: 'Error' with message 'Class 'App\Models\Grupo' not found'
+Stack trace: #0 [internal function]: App\Controllers\Admin\Grupos->tablaAction()
+#1 C:\wamp64\www\eduflix\Core\Controller.php(61): call_user_func_array(Array, Array)
+#2 C:\wamp64\www\eduflix\Core\Router.php(121): Core\Controller->__call('tabla', Array)
+#3 C:\wamp64\www\eduflix\public\index.php(36): Core\Router->dispatch('admin/grupos/ta...')
+#4 {main}
+Thrown in 'C:\wamp64\www\eduflix\App\Controllers\Admin\Grupos.php' on line 18 id_user:1
+[06-Jul-2020 15:40:01 UTC] Uncaught exception: 'Exception' with message 'Method indexAction not found in controller App\Controllers\Admin\Grupos'
+Stack trace: #0 C:\wamp64\www\eduflix\Core\Router.php(121): Core\Controller->__call('index', Array)
+#1 C:\wamp64\www\eduflix\public\index.php(36): Core\Router->dispatch('admin/grupos/')
+#2 {main}
+Thrown in 'C:\wamp64\www\eduflix\Core\Controller.php' on line 66 id_user:1
+[06-Jul-2020 15:40:06 UTC] Uncaught exception: 'Error' with message 'Class 'App\Models\Grupo' not found'
+Stack trace: #0 [internal function]: App\Controllers\Admin\Grupos->tablaAction()
+#1 C:\wamp64\www\eduflix\Core\Controller.php(61): call_user_func_array(Array, Array)
+#2 C:\wamp64\www\eduflix\Core\Router.php(121): Core\Controller->__call('tabla', Array)
+#3 C:\wamp64\www\eduflix\public\index.php(36): Core\Router->dispatch('admin/grupos/ta...')
+#4 {main}
+Thrown in 'C:\wamp64\www\eduflix\App\Controllers\Admin\Grupos.php' on line 18 id_user:1
+[06-Jul-2020 15:40:25 UTC] Uncaught exception: 'Error' with message 'Class 'App\Models\Categoria' not found'
+Stack trace: #0 [internal function]: App\Controllers\Admin\Categorias->tablaAction()
+#1 C:\wamp64\www\eduflix\Core\Controller.php(61): call_user_func_array(Array, Array)
+#2 C:\wamp64\www\eduflix\Core\Router.php(121): Core\Controller->__call('tabla', Array)
+#3 C:\wamp64\www\eduflix\public\index.php(36): Core\Router->dispatch('admin/categoria...')
+#4 {main}
+Thrown in 'C:\wamp64\www\eduflix\App\Controllers\Admin\Categorias.php' on line 18 id_user:1
