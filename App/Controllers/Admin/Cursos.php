@@ -3,7 +3,7 @@
 namespace App\Controllers\Admin;
 use App\Config;
 use \Core\View;
-use App\Models\Curso;
+use App\Models\Admin\Curso;
 
 require_once ('ImageResize.php');
 use libs\ImageResize;
