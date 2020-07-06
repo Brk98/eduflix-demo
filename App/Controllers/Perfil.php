@@ -12,15 +12,11 @@ use libs\ImageResizeException;
 
 class Perfil extends \Core\Controller
 {
-    protected function before()
-    {
-    }
-
     public function editarAction()
     {      
         try 
         {  
-            $perfil = PerfilModel::perfil('1');
+            $perfil = PerfilModel::editar();
             $roles = PerfilModel::roles();
             View::renderTemplate('perfil.html', [
                 'perfil' => $perfil,
@@ -35,6 +31,7 @@ class Perfil extends \Core\Controller
     {      
         try 
         {  
+            PerfilModel::$ip = $this->getIP();
             $dir_subida = "repositorio/usuarios/";
             $fichero_subido = $dir_subida . basename($_POST['id'] . '.jpg');
             $sourcePath = $_FILES['imagen']['tmp_name'];

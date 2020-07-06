@@ -7,10 +7,6 @@ use App\Models\Admin\Categoria;
 
 class Categorias extends \Core\Controller
 {
-    protected function before()
-    {
-    }
-
     public function tablaAction()
     {      
         try 

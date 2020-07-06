@@ -2,16 +2,20 @@
 
 namespace App\Models\Admin;
 
+use App\Models\LoginModel;
 use PDO;
 
 class Foro extends \Core\Model
 {
+    public static $ip;
+
     public static function tabla()
     {    
         try 
         {
             $db = static::getDB();
-            $stmt = $db->query("SELECT foros.id, foros.tema, foros.descripcion, foros_tipos.tipo, foros.activo, foros.fechar FROM foros INNER JOIN foros_tipos ON foros.id_tipo_foro = foros_tipos.id WHERE foros.borrado='0' ORDER BY `foros`.`id` ASC");
+            $stmt = $db->prepare("SELECT foros.id, foros.tema, foros.descripcion, foros_tipos.tipo, foros.activo, foros.fechar FROM foros INNER JOIN foros_tipos ON foros.id_tipo_foro = foros_tipos.id WHERE foros.borrado='0' ORDER BY `foros`.`id` ASC");
+            $stmt->execute([]); 
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $results;
         } catch (PDOException $e) {
@@ -19,12 +23,13 @@ class Foro extends \Core\Model
         }
     }
 
-    public static function elemento($id)
+    public static function obtener($id)
     {    
         try 
         {
             $db = static::getDB();
-            $stmt = $db->query("SELECT foros.id, foros.tema, foros.descripcion, foros.id_tipo_foro, foros_tipos.tipo, foros.activo, foros.fechar FROM foros INNER JOIN foros_tipos ON foros.id_tipo_foro = foros_tipos.id WHERE foros.id='$id' ORDER BY `foros`.`id` ASC");
+            $stmt = $db->prepare("SELECT foros.id, foros.tema, foros.descripcion, foros.id_tipo_foro, foros_tipos.tipo, foros.activo, foros.fechar FROM foros INNER JOIN foros_tipos ON foros.id_tipo_foro = foros_tipos.id WHERE foros.id=? ORDER BY `foros`.`id` ASC");
+            $stmt->execute([$id]); 
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $results;
         } catch (PDOException $e) {
@@ -37,7 +42,8 @@ class Foro extends \Core\Model
         try 
         {
             $db = static::getDB();
-            $stmt = $db->query("SELECT * FROM foros_tipos ORDER BY `foros_tipos`.`id` ASC");
+            $stmt = $db->prepare("SELECT * FROM foros_tipos ORDER BY `foros_tipos`.`id` ASC");
+            $stmt->execute([]); 
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $results;
         } catch (PDOException $e) {
@@ -49,7 +55,8 @@ class Foro extends \Core\Model
     {
         try {
             $db = static::getDB();
-            $stmt = $db->query("INSERT INTO `foros` (`id`, `tema`, `descripcion`, `archivo`, `id_tipo_foro`, `activo`, `borrado`) VALUES (NULL, '$tema', '$descripcion', '$archivo', '$id_tipo_foro', '$activo', '0')");
+            $stmt = $db->prepare("INSERT INTO `foros` (`id`, `tema`, `descripcion`, `archivo`, `id_tipo_foro`, `activo`, `borrado`, `id_usuario`, `ip`) VALUES (NULL, ?, ?, ?, ?, ?, '0', ?, ?)");
+            $stmt->execute([$tema, $descripcion, $archivo, $id_tipo_foro, $activo, $_SESSION['eduflix']['id'], self::$ip]); 
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -59,7 +66,8 @@ class Foro extends \Core\Model
     {
         try {
             $db = static::getDB();
-            $stmt = $db->query("UPDATE `foros` SET `archivo` = '$archivo', `tema` = '$tema', `descripcion` = '$descripcion', `descripcion` = '$descripcion', `id_tipo_foro` = '$id_tipo_foro', `activo` = '$activo' WHERE `foros`.`id` = $id");
+            $stmt = $db->prepare("UPDATE `foros` SET `archivo` = ?, `tema` = ?, `descripcion` = ?, `id_tipo_foro` = ?, `activo` = ?, `id_usuario` = ?, `ip` = ? WHERE `foros`.`id` = ?");
+            $stmt->execute([$archivo, $tema, $descripcion, $id_tipo_foro, $activo, $_SESSION['eduflix']['id'], self::$ip, $id]); 
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -69,17 +77,19 @@ class Foro extends \Core\Model
     {    
         try {
             $db = static::getDB();
-            $stmt = $db->query("UPDATE `foros` SET `borrado` = '1' WHERE `foros`.`id` = '$id'");
+            $stmt = $db->prepare("UPDATE `foros` SET `borrado` = '1', `ip` = ? WHERE `foros`.`id` = ?");
+            $stmt->execute([self::$ip, $id]); 
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
     }
-    public static function ultimoID() 
+    public static function obtenerUltimoID() 
     {  
         try 
         {
             $db = static::getDB();
-            $stmt = $db->query("SELECT MAX(id) AS id FROM foros");
+            $stmt = $db->prepare("SELECT MAX(id) AS id FROM foros");
+            $stmt->execute([]); 
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $results;
         } catch (PDOException $e) {

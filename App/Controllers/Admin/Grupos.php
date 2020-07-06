@@ -7,10 +7,6 @@ use App\Models\Admin\Grupo;
 
 class Grupos extends \Core\Controller
 {
-    protected function before()
-    {
-    }
-
     public function tablaAction()
     {      
         try 
