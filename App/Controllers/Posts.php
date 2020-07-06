@@ -12,6 +12,19 @@ use App\Models\Post;
 class Posts extends \Core\Controller
 {
 
+
+
+      /**
+     * After filter
+     *
+     * @return void
+     */
+    protected function after()
+    {
+        //echo " (after)";
+    }
+
+
     /**
      * Show the index page
      *

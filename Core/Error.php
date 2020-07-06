@@ -2,6 +2,11 @@
 
 namespace Core;
 
+if(!isset($_SESSION)) 
+    { 
+        session_start();
+    } 
+
 /**
  * Error and exception handler
  *
@@ -57,6 +62,7 @@ class Error
             $message .= " with message '" . $exception->getMessage() . "'";
             $message .= "\nStack trace: " . $exception->getTraceAsString();
             $message .= "\nThrown in '" . $exception->getFile() . "' on line " . $exception->getLine();
+            if(isset($_SESSION['eduflix'])){ $message .= " id_user:".$_SESSION['eduflix']['id']; }
 
             error_log($message);
 

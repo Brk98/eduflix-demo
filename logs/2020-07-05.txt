@@ -1,0 +1,70 @@
+
+[05-Jul-2020 05:08:12 UTC] Uncaught exception: 'Exception' with message 'No route matched.'
+Stack trace: #0 C:\wamp64\www\eduflix\public\index.php(38): Core\Router->dispatch('Home/2')
+#1 {main}
+Thrown in 'C:\wamp64\www\eduflix\Core\Router.php' on line 130
+[05-Jul-2020 05:09:02 UTC] Uncaught exception: 'Exception' with message 'No route matched.'
+Stack trace: #0 C:\wamp64\www\eduflix\public\index.php(38): Core\Router->dispatch('Home/2')
+#1 {main}
+Thrown in 'C:\wamp64\www\eduflix\Core\Router.php' on line 130id_user:1
+[05-Jul-2020 05:09:03 UTC] Uncaught exception: 'Exception' with message 'No route matched.'
+Stack trace: #0 C:\wamp64\www\eduflix\public\index.php(38): Core\Router->dispatch('Home/2')
+#1 {main}
+Thrown in 'C:\wamp64\www\eduflix\Core\Router.php' on line 130id_user:1
+[05-Jul-2020 05:09:03 UTC] Uncaught exception: 'Exception' with message 'No route matched.'
+Stack trace: #0 C:\wamp64\www\eduflix\public\index.php(38): Core\Router->dispatch('Home/2')
+#1 {main}
+Thrown in 'C:\wamp64\www\eduflix\Core\Router.php' on line 130id_user:1
+[05-Jul-2020 05:10:01 UTC] Uncaught exception: 'Exception' with message 'No route matched.'
+Stack trace: #0 C:\wamp64\www\eduflix\public\index.php(38): Core\Router->dispatch('Home/2')
+#1 {main}
+Thrown in 'C:\wamp64\www\eduflix\Core\Router.php' on line 130 id_user:1
+[05-Jul-2020 05:10:46 UTC] Uncaught exception: 'ErrorException' with message 'A session had already been started - ignoring session_start()'
+Stack trace: #0 [internal function]: Core\Error::errorHandler(8, 'A session had a...', 'C:\\wamp64\\www\\e...', 9, Array)
+#1 C:\wamp64\www\eduflix\Core\Controller.php(9): session_start()
+#2 C:\wamp64\www\eduflix\vendor\composer\ClassLoader.php(444): include('C:\\wamp64\\www\\e...')
+#3 C:\wamp64\www\eduflix\vendor\composer\ClassLoader.php(322): Composer\Autoload\includeFile('C:\\wamp64\\www\\e...')
+#4 [internal function]: Composer\Autoload\ClassLoader->loadClass('Core\\Controller')
+#5 C:\wamp64\www\eduflix\App\Controllers\Home.php(12): spl_autoload_call('Core\\Controller')
+#6 C:\wamp64\www\eduflix\vendor\composer\ClassLoader.php(444): include('C:\\wamp64\\www\\e...')
+#7 C:\wamp64\www\eduflix\vendor\composer\ClassLoader.php(322): Composer\Autoload\includeFile('C:\\wamp64\\www\\e...')
+#8 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Controllers...')
+#9 [internal function]: spl_autoload_call('App\\Controllers...')
+#10 C:\wamp64\www\eduflix\Core\Router.php(114): class_exists('App\\Controllers...')
+#11 C:\wamp64\www\eduflix\public\index.php(38): Core\Router->dispatch('Home/')
+#12 {main}
+Thrown in 'C:\wamp64\www\eduflix\Core\Controller.php' on line 9 id_user:1
+[05-Jul-2020 05:12:28 UTC] Uncaught exception: 'ErrorException' with message 'A session had already been started - ignoring session_start()'
+Stack trace: #0 [internal function]: Core\Error::errorHandler(8, 'A session had a...', 'C:\\wamp64\\www\\e...', 9, Array)
+#1 C:\wamp64\www\eduflix\Core\Controller.php(9): session_start()
+#2 C:\wamp64\www\eduflix\vendor\composer\ClassLoader.php(444): include('C:\\wamp64\\www\\e...')
+#3 C:\wamp64\www\eduflix\vendor\composer\ClassLoader.php(322): Composer\Autoload\includeFile('C:\\wamp64\\www\\e...')
+#4 [internal function]: Composer\Autoload\ClassLoader->loadClass('Core\\Controller')
+#5 C:\wamp64\www\eduflix\App\Controllers\Home.php(12): spl_autoload_call('Core\\Controller')
+#6 C:\wamp64\www\eduflix\vendor\composer\ClassLoader.php(444): include('C:\\wamp64\\www\\e...')
+#7 C:\wamp64\www\eduflix\vendor\composer\ClassLoader.php(322): Composer\Autoload\includeFile('C:\\wamp64\\www\\e...')
+#8 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Controllers...')
+#9 [internal function]: spl_autoload_call('App\\Controllers...')
+#10 C:\wamp64\www\eduflix\Core\Router.php(114): class_exists('App\\Controllers...')
+#11 C:\wamp64\www\eduflix\public\index.php(38): Core\Router->dispatch('Home/')
+#12 {main}
+Thrown in 'C:\wamp64\www\eduflix\Core\Controller.php' on line 9 id_user:1
+[05-Jul-2020 05:12:29 UTC] Uncaught exception: 'ErrorException' with message 'A session had already been started - ignoring session_start()'
+Stack trace: #0 [internal function]: Core\Error::errorHandler(8, 'A session had a...', 'C:\\wamp64\\www\\e...', 9, Array)
+#1 C:\wamp64\www\eduflix\Core\Controller.php(9): session_start()
+#2 C:\wamp64\www\eduflix\vendor\composer\ClassLoader.php(444): include('C:\\wamp64\\www\\e...')
+#3 C:\wamp64\www\eduflix\vendor\composer\ClassLoader.php(322): Composer\Autoload\includeFile('C:\\wamp64\\www\\e...')
+#4 [internal function]: Composer\Autoload\ClassLoader->loadClass('Core\\Controller')
+#5 C:\wamp64\www\eduflix\App\Controllers\Home.php(12): spl_autoload_call('Core\\Controller')
+#6 C:\wamp64\www\eduflix\vendor\composer\ClassLoader.php(444): include('C:\\wamp64\\www\\e...')
+#7 C:\wamp64\www\eduflix\vendor\composer\ClassLoader.php(322): Composer\Autoload\includeFile('C:\\wamp64\\www\\e...')
+#8 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Controllers...')
+#9 [internal function]: spl_autoload_call('App\\Controllers...')
+#10 C:\wamp64\www\eduflix\Core\Router.php(114): class_exists('App\\Controllers...')
+#11 C:\wamp64\www\eduflix\public\index.php(38): Core\Router->dispatch('Home/')
+#12 {main}
+Thrown in 'C:\wamp64\www\eduflix\Core\Controller.php' on line 9 id_user:1
+[05-Jul-2020 05:13:28 UTC] Uncaught exception: 'Exception' with message 'No route matched.'
+Stack trace: #0 C:\wamp64\www\eduflix\public\index.php(38): Core\Router->dispatch('Login/4')
+#1 {main}
+Thrown in 'C:\wamp64\www\eduflix\Core\Router.php' on line 130

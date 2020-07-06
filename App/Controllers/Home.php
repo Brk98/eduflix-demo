@@ -12,15 +12,7 @@ use \Core\View;
 class Home extends \Core\Controller
 {
 
-    /**
-     * After filter
-     *
-     * @return void
-     */
-    protected function after()
-    {
-        //echo " (after)";
-    }
+  
 
     /**
      * Show the index page
@@ -36,8 +28,8 @@ class Home extends \Core\Controller
         ]);
         */
         View::renderTemplate('Home/index.html', [
-            'name'    => 'Dave',
-            'colours' => ['red', 'green', 'blue']
+            'nombre'    => $_SESSION['eduflix']['nombre'],
+            'email' => $_SESSION['eduflix']['email']
         ]);
     }
 }

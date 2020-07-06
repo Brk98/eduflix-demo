@@ -54,6 +54,7 @@ class View
             $twig->addGlobal('host', Config::HOST);
             $twig->addGlobal('directory', Config::DIRECTORY);
             $twig->addGlobal('assets', Config::ASSETS);
+            $twig->addGlobal('salir', Config::HOST.Config::DIRECTORY.'Login/cerrarSesion');
 
             
         }

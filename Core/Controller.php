@@ -2,16 +2,21 @@
 
 namespace Core;
 
+use PDO;
 use App\Config;
 
-session_start();
+
+if(!isset($_SESSION)) 
+    { 
+        session_start();
+    }
 
 /**
  * Base controller
  *
  * PHP version 7.0
  */
-abstract class Controller
+abstract class Controller extends \Core\Model
 {
 
     /**
@@ -54,6 +59,7 @@ abstract class Controller
         
             if ($this->before() !== false) {       
                 call_user_func_array([$this, $method], $args);
+                $this->log(get_class($this),$method);
                 $this->after();
             }
         } else {
@@ -68,10 +74,10 @@ abstract class Controller
      */
     protected function before()
     {
-      /* if(!isset($_SESSION['eduflix'])){
+       if(!isset($_SESSION['eduflix'])){
         header('Location: '.Config::HOST.Config::DIRECTORY.'Login/');
         exit; 
-       }*/
+       }
         
     }
 
@@ -85,4 +91,48 @@ abstract class Controller
        
         
     }
+
+
+     /**
+     * After filter - called after an action method.
+     *
+     * @return void
+     */
+    public function log($class,$method,$args="")
+    {
+        if(isset($_SESSION['eduflix'])){
+
+        $db = static::getDB();
+        $argumentos = implode(",",$this->route_params).":".$args;
+
+        $stmt = $db->prepare("INSERT INTO log (id_usuario,clase,metodo,argumentos,ip) values (?,?,?,?,?);");
+        $stmt->execute([$_SESSION['eduflix']['id'],$class,$method, $argumentos,$this->getIP()]);
+        
+    }
+
+    }
+
+
+
+    function getIP() 
+    {
+        
+        $tmp = getenv("HTTP_CLIENT_IP");
+        
+        if ( $tmp && !strcasecmp( $tmp, "unknown"))
+            return $tmp;
+    
+        $tmp = getenv("HTTP_X_FORWARDED_FOR");
+        if( $tmp && !strcasecmp( $tmp, "unknown"))
+            return $tmp;
+    
+        
+        $tmp = getenv("REMOTE_ADDR");
+        if($tmp && !strcasecmp($tmp, "unknown"))
+            return $tmp;
+    
+        return("unknown");
+    }
+
+
 }
