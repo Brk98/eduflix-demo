@@ -3,7 +3,7 @@
 namespace App\Controllers\Admin;
 use App\Config;
 use \Core\View;
-use App\Models\Categoria;
+use App\Models\Admin\Categoria;
 
 class Categorias extends \Core\Controller
 {

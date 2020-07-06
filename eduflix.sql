@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 02-07-2020 a las 17:10:44
+-- Tiempo de generación: 06-07-2020 a las 16:08:07
 -- Versión del servidor: 5.7.24
 -- Versión de PHP: 7.0.33
 
@@ -144,7 +144,7 @@ INSERT INTO `foros_tipos` (`id`, `tipo`, `fechar`, `fecham`, `id_usuario`) VALUE
 
 DROP TABLE IF EXISTS `grupos`;
 CREATE TABLE IF NOT EXISTS `grupos` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `grupo` varchar(180) NOT NULL,
   `descripcion` text NOT NULL,
   `activo` tinyint(1) NOT NULL DEFAULT '1',
@@ -152,8 +152,82 @@ CREATE TABLE IF NOT EXISTS `grupos` (
   `fecham` datetime DEFAULT NULL,
   `ip` varchar(20) NOT NULL,
   `id_usuario` int(11) NOT NULL,
-  `borrado` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `borrado` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `grupos`
+--
+
+INSERT INTO `grupos` (`id`, `grupo`, `descripcion`, `activo`, `fechar`, `fecham`, `ip`, `id_usuario`, `borrado`) VALUES
+(1, 'grupo', 'descripcion del grupo', 1, '2020-07-02 16:44:41', NULL, '10.23.13.1', 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `log`
+--
+
+DROP TABLE IF EXISTS `log`;
+CREATE TABLE IF NOT EXISTS `log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_usuario` int(11) NOT NULL,
+  `clase` varchar(180) NOT NULL,
+  `metodo` varchar(180) NOT NULL,
+  `argumentos` varchar(180) DEFAULT NULL,
+  `fechar` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `ip` varchar(160) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=99 DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `log`
+--
+
+INSERT INTO `log` (`id`, `id_usuario`, `clase`, `metodo`, `argumentos`, `fechar`, `ip`) VALUES
+(79, 1, 'App\\Controllers\\Home', 'indexAction', 'index,Home:', '2020-07-06 10:03:24', 'unknown'),
+(78, 1, 'App\\Controllers\\Home', 'indexAction', 'index,Home:', '2020-07-06 10:03:03', 'unknown'),
+(77, 1, 'App\\Controllers\\Home', 'indexAction', 'index,Home:', '2020-07-06 10:02:58', 'unknown'),
+(76, 1, 'App\\Controllers\\Login', 'validateAction', 'Login,validate:ACCESS', '2020-07-06 10:02:58', 'unknown'),
+(75, 1, 'App\\Controllers\\Login', 'cerrarSesionAction', 'Login,cerrarSesion:CLOSE', '2020-07-06 10:00:20', 'unknown'),
+(74, 1, 'App\\Controllers\\Home', 'indexAction', 'index,Home:', '2020-07-06 10:00:15', 'unknown'),
+(73, 1, 'App\\Controllers\\Home', 'indexAction', 'index,Home:', '2020-07-06 10:00:05', 'unknown'),
+(72, 1, 'App\\Controllers\\Login', 'validateAction', 'Login,validate:ACCESS', '2020-07-06 10:00:04', 'unknown'),
+(71, 1, 'App\\Controllers\\Login', 'cerrarSesionAction', 'Login,cerrarSesion:CLOSE', '2020-07-05 00:14:24', 'unknown'),
+(70, 1, 'App\\Controllers\\Home', 'indexAction', 'index,Home:', '2020-07-05 00:14:19', 'unknown'),
+(69, 1, 'App\\Controllers\\Login', 'validateAction', 'Login,validate:ACCESS', '2020-07-05 00:14:19', 'unknown'),
+(68, 1, 'App\\Controllers\\Login', 'cerrarSesionAction', 'Login,cerrarSesion:CLOSE', '2020-07-05 00:14:12', 'unknown'),
+(67, 1, 'App\\Controllers\\Home', 'indexAction', 'index,Home:', '2020-07-05 00:14:03', 'unknown'),
+(66, 1, 'App\\Controllers\\Login', 'validateAction', 'Login,validate:ACCESS', '2020-07-05 00:14:03', 'unknown'),
+(65, 1, 'App\\Controllers\\Login', 'cerrarSesionAction', 'Login,cerrarSesion:CLOSE', '2020-07-05 00:13:12', 'unknown'),
+(64, 1, 'App\\Controllers\\Home', 'indexAction', 'index,Home:', '2020-07-05 00:12:51', 'unknown'),
+(63, 1, 'App\\Controllers\\Home', 'indexAction', 'index,Home:', '2020-07-05 00:12:45', 'unknown'),
+(62, 1, 'App\\Controllers\\Home', 'indexAction', 'index,Home:', '2020-07-05 00:03:30', 'unknown'),
+(61, 1, 'App\\Controllers\\Home', 'indexAction', 'index,Home:', '2020-07-05 00:00:38', 'unknown'),
+(60, 1, 'App\\Controllers\\Login', 'validateAction', 'Login,validate:ACCESS', '2020-07-05 00:00:38', 'unknown'),
+(59, 1, 'App\\Controllers\\Login', 'cerrarSesionAction', 'Login,cerrarSesion:CLOSE', '2020-07-05 00:00:12', 'unknown'),
+(58, 1, 'App\\Controllers\\Home', 'indexAction', 'index,Home:', '2020-07-04 23:59:58', 'unknown'),
+(57, 1, 'App\\Controllers\\Home', 'indexAction', 'index,Home:', '2020-07-04 23:59:55', 'unknown'),
+(80, 1, 'App\\Controllers\\Home', 'indexAction', 'index,Home:', '2020-07-06 10:26:13', 'unknown'),
+(81, 1, 'App\\Controllers\\Admin\\Usuarios', 'tablaAction', 'Admin,usuarios,tabla:', '2020-07-06 10:26:49', 'unknown'),
+(82, 1, 'App\\Controllers\\Admin\\Usuarios', 'nuevoAction', 'Admin,usuarios,nuevo:', '2020-07-06 10:26:55', 'unknown'),
+(83, 1, 'App\\Controllers\\Admin\\Usuarios', 'nuevoAction', 'Admin,usuarios,nuevo:', '2020-07-06 10:27:16', 'unknown'),
+(84, 1, 'App\\Controllers\\Admin\\Usuarios', 'nuevoAction', 'Admin,usuarios,nuevo:', '2020-07-06 10:37:50', 'unknown'),
+(85, 1, 'App\\Controllers\\Admin\\Grupos', 'nuevoAction', 'Admin,grupos,nuevo:', '2020-07-06 10:39:52', 'unknown'),
+(86, 1, 'App\\Controllers\\Admin\\Grupos', 'nuevoAction', 'Admin,grupos,nuevo:', '2020-07-06 10:40:12', 'unknown'),
+(87, 1, 'App\\Controllers\\Admin\\Categorias', 'nuevoAction', 'Admin,categorias,nuevo:', '2020-07-06 10:40:20', 'unknown'),
+(88, 1, 'App\\Controllers\\Admin\\Categorias', 'nuevoAction', 'Admin,categorias,nuevo:', '2020-07-06 10:40:30', 'unknown'),
+(89, 1, 'App\\Controllers\\Admin\\Usuarios', 'tablaAction', 'Admin,usuarios,tabla:', '2020-07-06 10:46:12', 'unknown'),
+(90, 1, 'App\\Controllers\\Admin\\Usuarios', 'nuevoAction', 'Admin,usuarios,nuevo:', '2020-07-06 10:46:15', 'unknown'),
+(91, 1, 'App\\Controllers\\Admin\\Usuarios', 'nuevoAction', 'Admin,usuarios,nuevo:', '2020-07-06 10:47:41', 'unknown'),
+(92, 1, 'App\\Controllers\\Admin\\Usuarios', 'nuevoAction', 'Admin,usuarios,nuevo:', '2020-07-06 10:47:54', 'unknown'),
+(93, 1, 'App\\Controllers\\Admin\\Categorias', 'tablaAction', 'Admin,categorias,tabla:', '2020-07-06 11:01:10', 'unknown'),
+(94, 1, 'App\\Controllers\\Admin\\Categorias', 'nuevoAction', 'Admin,categorias,nuevo:', '2020-07-06 11:01:20', 'unknown'),
+(95, 1, 'App\\Controllers\\Admin\\Categorias', 'nuevoAction', 'Admin,categorias,nuevo:', '2020-07-06 11:01:33', 'unknown'),
+(96, 1, 'App\\Controllers\\Admin\\Categorias', 'tablaAction', 'Admin,categorias,tabla:', '2020-07-06 11:02:10', 'unknown'),
+(97, 1, 'App\\Controllers\\Admin\\Usuarios', 'tablaAction', 'Admin,usuarios,tabla:', '2020-07-06 11:02:31', 'unknown'),
+(98, 1, 'App\\Controllers\\Admin\\Usuarios', 'nuevoAction', 'Admin,usuarios,nuevo:', '2020-07-06 11:02:33', 'unknown');
 
 -- --------------------------------------------------------
 
@@ -225,7 +299,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `activo` tinyint(1) NOT NULL DEFAULT '1',
   `fechar` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `fecham` datetime DEFAULT NULL,
-  `ip` varchar(20) NOT NULL,
+  `ip` varchar(20) DEFAULT NULL,
   `id_usuario` int(11) NOT NULL,
   `borrado` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)

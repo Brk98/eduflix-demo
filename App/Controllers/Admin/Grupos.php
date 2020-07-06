@@ -3,7 +3,7 @@
 namespace App\Controllers\Admin;
 use App\Config;
 use \Core\View;
-use App\Models\Grupo;
+use App\Models\Admin\Grupo;
 
 class Grupos extends \Core\Controller
 {
