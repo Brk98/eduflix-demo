@@ -1,31 +1,62 @@
 <?php
 
-namespace App\Models\Admin;
+namespace App\Models;
 
 use PDO;
 
-/**
- * Post model
- *
- */
 class Grupo extends \Core\Model
 {
+    public static function tabla()
+    {    
+        try 
+        {
+            $db = static::getDB();
+            $stmt = $db->query("SELECT grupos.id, grupos.grupo, grupos.descripcion, grupos.fecha, grupos.activo, usuarios.usuario FROM `grupos` INNER JOIN usuarios ON grupos.id_usuario = usuarios.id WHERE grupos.borrado='0' ORDER BY `grupos`.`id` ASC");
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
 
-    /**
-     * Get all the posts as an associative array
-     *
-     * @return array
-     */
-    public static function getAll()
+    public static function elemento($id)
+    {    
+        try 
+        {
+            $db = static::getDB();
+            $stmt = $db->query("SELECT grupos.id, grupos.grupo, grupos.descripcion, grupos.fecha, grupos.id_usuario FROM `grupos` INNER JOIN usuarios ON grupos.id_usuario = usuarios.id WHERE grupos.id=$id");
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public static function agregar($grupo, $descripcion, $fecha)
     {
         try {
-           
             $db = static::getDB();
-            $stmt = $db->query('SELECT id, grupo, descripcion,activo,fechar FROM grupos WHERE borrado = 0 ORDER BY grupo');
-            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $stmt = $db->query("INSERT INTO `grupos` (`id`, `grupo`, `descripcion`, `fecha`, `activo`, `fechar`, `fecham`, `ip`, `id_usuario`, `borrado`) VALUES (NULL, '$grupo', '$descripcion', '$fecha','1', current_timestamp(), '', '', '1', '0')");
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
 
-            return $results;
-            
+    public static function actualizar($id, $grupo, $descripcion, $fecha)
+    {
+        try {
+            $db = static::getDB();
+            $stmt = $db->query("UPDATE `grupos` SET `grupo` = '$grupo', `descripcion` = '$descripcion', `fecha` = '$fecha' WHERE `grupos`.`id` = $id");
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public static function eliminar($id)
+    {    
+        try {
+            $db = static::getDB();
+            $stmt = $db->query("UPDATE `grupos` SET `borrado` = '1' WHERE `grupos`.`id` = '$id'");
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
