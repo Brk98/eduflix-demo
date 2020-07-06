@@ -7,12 +7,20 @@ use App\Models\Admin\Categoria;
 
 class Categorias extends \Core\Controller
 {
+
     public function tablaAction()
+
+    protected function before()
+    {
+    }
+
+    public function indexAction()
+
     {      
         try 
         {  
-            $categorias = Categoria::tabla();
-            View::renderTemplate('Categorias/tabla.html', [
+            $categorias = Categoria::index();
+            View::renderTemplate('Categorias/index.html', [
                 'categorias' => $categorias
             ]);
         } catch (PDOException $e) {
@@ -47,8 +55,9 @@ class Categorias extends \Core\Controller
     {      
         try 
         {  
+            Categoria::$ip = $this->getIP();
             Categoria::agregar($_POST['categoria'], $_POST['activo']);
-            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/categorias/tabla");
+            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/categorias/index");
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -58,8 +67,9 @@ class Categorias extends \Core\Controller
     {      
         try 
         {  
+            Categoria::$ip = $this->getIP();
             Categoria::actualizar($_POST['id'], $_POST['categoria']);
-            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/categorias/tabla");
+            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/categorias/index");
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -69,8 +79,9 @@ class Categorias extends \Core\Controller
     {      
         try 
         {  
-            Conferencia::eliminar($this->route_params['id']);
-            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/categorias/tabla");
+            Categoria::$ip = $this->getIP();
+            Categoria::eliminar($this->route_params['id']);
+            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/categorias/index");
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
