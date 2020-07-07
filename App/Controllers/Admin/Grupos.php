@@ -42,7 +42,7 @@ class Grupos extends \Core\Controller
     {      
         try 
         {  
-            $elementos = Grupo::obtener($this->route_params['id']);
+            $obtenidos = Grupo::obtener($this->route_params['id']);
             View::renderTemplate('Grupos/editar.html', [
                 'obtenidos' => $obtenidos
             ]);
