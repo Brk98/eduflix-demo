@@ -46,8 +46,10 @@ class Grupos extends \Core\Controller
     {      
         try 
         {  
-            $elementos = Grupo::obtener($this->route_params['id']);
-            View::renderTemplate('Admin/Grupos/editar.html', [
+
+            $obtenidos = Grupo::obtener($this->route_params['id']);
+            View::renderTemplate('Grupos/editar.html', [
+
                 'obtenidos' => $obtenidos
             ]);
         } catch (PDOException $e) {
