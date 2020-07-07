@@ -2,16 +2,22 @@
 
 namespace App\Models\Admin;
 
+use App\Models\LoginModel;
+
 use PDO;
 
 class Grupo extends \Core\Model
 {
-    public static function tabla()
+
+    public static $ip;
+
+    public static function index()
     {    
         try 
         {
             $db = static::getDB();
-            $stmt = $db->query("SELECT grupos.id, grupos.grupo, grupos.descripcion, grupos.fecha, grupos.activo, usuarios.usuario FROM `grupos` INNER JOIN usuarios ON grupos.id_usuario = usuarios.id WHERE grupos.borrado='0' ORDER BY `grupos`.`id` ASC");
+            $stmt = $db->prepare("SELECT grupos.id, grupos.grupo, grupos.descripcion, grupos.activo, usuarios.usuario FROM `grupos` INNER JOIN usuarios ON grupos.id_usuario = usuarios.id WHERE grupos.borrado='0' ORDER BY `grupos`.`id` ASC");
+            $stmt->execute([]);
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $results;
         } catch (PDOException $e) {
@@ -19,12 +25,13 @@ class Grupo extends \Core\Model
         }
     }
 
-    public static function elemento($id)
+    public static function obtener($id)
     {    
         try 
         {
             $db = static::getDB();
-            $stmt = $db->query("SELECT grupos.id, grupos.grupo, grupos.descripcion, grupos.fecha, grupos.id_usuario FROM `grupos` INNER JOIN usuarios ON grupos.id_usuario = usuarios.id WHERE grupos.id=$id");
+            $stmt = $db->prepare("SELECT grupos.id, grupos.grupo, grupos.descripcion, grupos.id_usuario FROM `grupos` INNER JOIN usuarios ON grupos.id_usuario = usuarios.id WHERE grupos.id=?");
+            $stmt->execute([$id]);
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $results;
         } catch (PDOException $e) {
@@ -32,21 +39,24 @@ class Grupo extends \Core\Model
         }
     }
 
-    public static function agregar($grupo, $descripcion, $fecha)
+    public static function agregar($grupo, $descripcion)
     {
         try {
             $db = static::getDB();
-            $stmt = $db->query("INSERT INTO `grupos` (`id`, `grupo`, `descripcion`, `fecha`, `activo`, `fechar`, `fecham`, `ip`, `id_usuario`, `borrado`) VALUES (NULL, '$grupo', '$descripcion', '$fecha','1', current_timestamp(), '', '', '1', '0')");
+            $stmt = $db->prepare("INSERT INTO `grupos` (`id`, `grupo`, `descripcion`, `activo`, `fechar`, `fecham`, `ip`, `id_usuario`, `borrado`) 
+            VALUES (NULL,?,?,'1', current_timestamp(), '',?, ?, '0')");
+            $stmt->execute([$grupo,$descripcion, $_SESSION['eduflix']['id'], self::$ip]);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
     }
 
-    public static function actualizar($id, $grupo, $descripcion, $fecha)
+    public static function actualizar($id, $grupo, $descripcion)
     {
         try {
             $db = static::getDB();
-            $stmt = $db->query("UPDATE `grupos` SET `grupo` = '$grupo', `descripcion` = '$descripcion', `fecha` = '$fecha' WHERE `grupos`.`id` = $id");
+            $stmt = $db->prepare("UPDATE `grupos` SET `grupo` = '?', `descripcion` = '?', `id_usuario` = ?, `ip` = ? WHERE `grupos`.`id` = ?");
+            $stmt->execute([$grupo,$descripcion, $_SESSION['eduflix']['id'], self::$ip, $id]);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -56,7 +66,8 @@ class Grupo extends \Core\Model
     {    
         try {
             $db = static::getDB();
-            $stmt = $db->query("UPDATE `grupos` SET `borrado` = '1' WHERE `grupos`.`id` = '$id'");
+            $stmt = $db->prepare("UPDATE `grupos` SET `borrado` = '1', `id_usuario` = ?, `ip` = ? WHERE `grupos`.`id` = '?'");
+            $stmt->execute([$_SESSION['eduflix']['id'], self::$ip, $id]);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
