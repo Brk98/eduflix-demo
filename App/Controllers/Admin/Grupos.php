@@ -24,7 +24,7 @@ class Grupos extends \Core\Controller
             {
                 $grupos[$i]['descripcion'] = strip_tags($grupos[$i]['descripcion']);
             }
-            View::renderTemplate('Grupos/index.html', [
+            View::renderTemplate('Admin/Grupos/index.html', [
                 'grupos' => $grupos
             ]);
         } catch (PDOException $e) {
@@ -36,7 +36,7 @@ class Grupos extends \Core\Controller
     {      
         try 
         {  
-            View::renderTemplate('Grupos/nuevo.html', []);
+            View::renderTemplate('Admin/Grupos/nuevo.html', []);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -47,7 +47,7 @@ class Grupos extends \Core\Controller
         try 
         {  
             $elementos = Grupo::obtener($this->route_params['id']);
-            View::renderTemplate('Grupos/editar.html', [
+            View::renderTemplate('Admin/Grupos/editar.html', [
                 'obtenidos' => $obtenidos
             ]);
         } catch (PDOException $e) {
