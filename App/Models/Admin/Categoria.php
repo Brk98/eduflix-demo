@@ -16,8 +16,8 @@ class Categoria extends \Core\Model
         try 
         {
             $db = static::getDB();
-            $stmt = $db->prepare("SELECT categorias.id, categorias.categoria, categorias.activo, usuarios.usuario FROM `categorias` INNER JOIN usuarios ON categorias.id_usuario = usuarios.id WHERE categorias.borrado='0' ORDER BY `categorias`.`id` ASC");
-            $stmt->execute([]);
+            $stmt = $db->prepare("SELECT *,(SELECT usuario FROM usuarios WHERE id= id_usuario) AS usuario FROM `categorias`  WHERE borrado=? ORDER BY `id` ASC");
+            $stmt->execute(['0']);
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $results;
         } catch (PDOException $e) {
@@ -30,8 +30,8 @@ class Categoria extends \Core\Model
         try 
         {
             $db = static::getDB();
-            $stmt = $db->prepare("SELECT categorias.id, categorias.categoria, categorias.activo, usuarios.usuario FROM `categorias` INNER JOIN usuarios ON categorias.id_usuario = usuarios.id WHERE categorias.id=?");
-            $stmt = execute([$id]);
+            $stmt = $db->prepare("SELECT * FROM `categorias` WHERE id=?");
+            $stmt->execute([$id]);
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $results;
         } catch (PDOException $e) {
@@ -43,19 +43,20 @@ class Categoria extends \Core\Model
     {
         try {
             $db = static::getDB();
-            $stmt = $db->prepare("INSERT INTO `categorias` (`id`, `categoria`, `padre`, `activo`, `fechar`, `fecham`, `ip`, `id_usuario`, `borrado`) VALUES (NULL,? '0',current_timestamp(), current_timestamp(), ?, '?', '0')");
-            $stmt->execute([$categoria, $_SESSION['eduflix']['id'], self::$ip]);
+            $stmt = $db->prepare("INSERT INTO `categorias` (`id`, `categoria`, `padre`, `activo`,`ip`, `id_usuario`) 
+            VALUES (NULL,?, '0','1',?, ?)");
+            $stmt->execute([$categoria, self::$ip, $_SESSION['eduflix']['id']]);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
     }
 
-    public static function actualizar($id, $categoria)
+    public static function actualizar($id, $categoria, $activo)
     {
         try {
             $db = static::getDB();
-            $stmt = $db->prepare("UPDATE `categorias` SET `categoria` = '?', `fecham` = current_timestamp(), `id_usuario` = ?, `ip` = ? WHERE `categorias`.`id` = ?");
-            $stmt->execute([$categoria, $_SESSION['eduflix']['id'], self::$ip, $id]);
+            $stmt = $db->prepare("UPDATE `categorias` SET `categoria` = ?, `activo` = ?, `fecham` = current_timestamp(), `id_usuario` = ?, `ip` = ? WHERE `id` = ?");
+            $stmt->execute([$categoria, $activo, $_SESSION['eduflix']['id'], self::$ip, $id]);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -65,7 +66,7 @@ class Categoria extends \Core\Model
     {    
         try {
             $db = static::getDB();
-            $stmt = $db->prepare("UPDATE `categorias` SET `borrado` = '1' WHERE `categorias`.`id` = '?");
+            $stmt = $db->prepare("UPDATE `categorias` SET `borrado` = '1' WHERE `id` = ?");
             $stmt->execute([$id]);
         } catch (PDOException $e) {
             echo $e->getMessage();

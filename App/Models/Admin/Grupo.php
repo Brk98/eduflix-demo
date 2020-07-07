@@ -16,8 +16,8 @@ class Grupo extends \Core\Model
         try 
         {
             $db = static::getDB();
-            $stmt = $db->prepare("SELECT grupos.id, grupos.grupo, grupos.descripcion, grupos.activo, usuarios.usuario FROM `grupos` INNER JOIN usuarios ON grupos.id_usuario = usuarios.id WHERE grupos.borrado='0' ORDER BY `grupos`.`id` ASC");
-            $stmt->execute([]);
+            $stmt = $db->prepare("SELECT *, (SELECT usuario FROM usuarios WHERE id= id_usuario) AS usuario FROM `grupos` WHERE borrado=? ORDER BY `grupos`.`id` ASC");
+            $stmt->execute(['0']);
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $results;
         } catch (PDOException $e) {
@@ -30,7 +30,7 @@ class Grupo extends \Core\Model
         try 
         {
             $db = static::getDB();
-            $stmt = $db->prepare("SELECT grupos.id, grupos.grupo, grupos.descripcion, grupos.id_usuario FROM `grupos` INNER JOIN usuarios ON grupos.id_usuario = usuarios.id WHERE grupos.id=?");
+            $stmt = $db->prepare("SELECT * FROM `grupos` WHERE id=?");
             $stmt->execute([$id]);
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $results;
@@ -43,9 +43,9 @@ class Grupo extends \Core\Model
     {
         try {
             $db = static::getDB();
-            $stmt = $db->prepare("INSERT INTO `grupos` (`id`, `grupo`, `descripcion`, `activo`, `fechar`, `fecham`, `ip`, `id_usuario`, `borrado`) 
-            VALUES (NULL,?,?,'1', current_timestamp(), '',?, ?, '0')");
-            $stmt->execute([$grupo,$descripcion, $_SESSION['eduflix']['id'], self::$ip]);
+            $stmt = $db->prepare("INSERT INTO `grupos` (`id`, `grupo`, `descripcion`, `activo`, `ip`, `id_usuario`) 
+            VALUES (NULL,?,?,'1',?, ?)");
+            $stmt->execute([$grupo,$descripcion, self::$ip, $_SESSION['eduflix']['id']]);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -55,8 +55,8 @@ class Grupo extends \Core\Model
     {
         try {
             $db = static::getDB();
-            $stmt = $db->prepare("UPDATE `grupos` SET `grupo` = '?', `descripcion` = '?', `id_usuario` = ?, `ip` = ? WHERE `grupos`.`id` = ?");
-            $stmt->execute([$grupo,$descripcion, $_SESSION['eduflix']['id'], self::$ip, $id]);
+            $stmt = $db->prepare("UPDATE `grupos` SET `grupo` = ?, `descripcion` = ?, `fecham` = current_timestamp() ,`id_usuario` = ?, `ip` = ? WHERE `id` = ?");
+            $stmt->execute([$grupo, $descripcion ,$_SESSION['eduflix']['id'], self::$ip, $id]);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -66,8 +66,8 @@ class Grupo extends \Core\Model
     {    
         try {
             $db = static::getDB();
-            $stmt = $db->prepare("UPDATE `grupos` SET `borrado` = '1', `id_usuario` = ?, `ip` = ? WHERE `grupos`.`id` = '?'");
-            $stmt->execute([$_SESSION['eduflix']['id'], self::$ip, $id]);
+            $stmt = $db->prepare("UPDATE `grupos` SET `borrado` = ?, `id_usuario` = ?, `ip` = ? WHERE `id` = ?");
+            $stmt->execute(['1',$_SESSION['eduflix']['id'], self::$ip, $id]);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }

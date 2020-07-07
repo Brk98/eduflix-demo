@@ -8,12 +8,7 @@ use App\Models\Admin\Grupo;
 class Grupos extends \Core\Controller
 {
 
-    
-
-    protected function before()
-    {
-    }
-
+   
     public function indexAction()
 
     {      
@@ -46,7 +41,7 @@ class Grupos extends \Core\Controller
     {      
         try 
         {  
-            $elementos = Grupo::obtener($this->route_params['id']);
+            $obtenidos = Grupo::obtener($this->route_params['id']);
             View::renderTemplate('Admin/Grupos/editar.html', [
                 'obtenidos' => $obtenidos
             ]);

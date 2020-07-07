@@ -8,11 +8,6 @@ use App\Models\Admin\Categoria;
 class Categorias extends \Core\Controller
 {
 
-    public function tablaAction()
-
-    protected function before()
-    {
-    }
 
     public function indexAction()
 
@@ -20,7 +15,7 @@ class Categorias extends \Core\Controller
         try 
         {  
             $categorias = Categoria::index();
-            View::renderTemplate('Categorias/index.html', [
+            View::renderTemplate('Admin/Categorias/index.html', [
                 'categorias' => $categorias
             ]);
         } catch (PDOException $e) {
@@ -32,7 +27,7 @@ class Categorias extends \Core\Controller
     {      
         try 
         {  
-            View::renderTemplate('Categorias/nuevo.html', []);
+            View::renderTemplate('Admin/Categorias/nuevo.html', []);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -42,9 +37,9 @@ class Categorias extends \Core\Controller
     {      
         try 
         {  
-            $elementos = Categoria::elemento($this->route_params['id']);
-            View::renderTemplate('Categorias/editar.html', [
-                'elementos' => $elementos
+            $obtenidos = Categoria::obtener($this->route_params['id']);
+            View::renderTemplate('Admin/Categorias/editar.html', [
+                'obtenidos' => $obtenidos
             ]);
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -68,7 +63,8 @@ class Categorias extends \Core\Controller
         try 
         {  
             Categoria::$ip = $this->getIP();
-            Categoria::actualizar($_POST['id'], $_POST['categoria']);
+            $activo = (isset($_POST['activo'] )) ? 1:0;
+            Categoria::actualizar($_POST['id'], $_POST['categoria'], $activo);
             header( "Location: ".Config::HOST.Config::DIRECTORY."admin/categorias/index");
         } catch (PDOException $e) {
             echo $e->getMessage();
