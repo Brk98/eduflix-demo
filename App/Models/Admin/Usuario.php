@@ -66,7 +66,7 @@ class Usuario extends \Core\Model
     {
         try {
             $db = static::getDB();
-            $stmt = $db->prepare("UPDATE `usuarios` SET `foto` = ?, `nombre` = ?, `apaterno` = ?, `amaterno` = ?, `email` = ?, `telefono` = ?, `usuario` = ?, `password` = ?, `id_rol` = ?, `activo` = ?, `id_usuario` = ?, `ip` = ? WHERE `usuarios`.`id` = ?");
+            $stmt = $db->prepare("UPDATE `usuarios` SET `foto` = ?, `nombre` = ?, `apaterno` = ?, `amaterno` = ?, `email` = ?, `telefono` = ?, `usuario` = ?, `password` = ?, `id_rol` = ?, `activo` = ?, `id_usuario` = ?, `ip` = ?, `fecham` = current_timestamp() WHERE `usuarios`.`id` = ?");
             $stmt->execute([$foto, $nombre, $apaterno, $amaterno, $email, $telefono, $usuario, $password, $role, $activo, $_SESSION['eduflix']['id'], self::$ip, $id]); 
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -77,7 +77,7 @@ class Usuario extends \Core\Model
     {    
         try {
             $db = static::getDB();
-            $stmt = $db->prepare("UPDATE `usuarios` SET `borrado` = '1', `id_usuario` = ?, `ip` = ? WHERE `usuarios`.`id` = ?");
+            $stmt = $db->prepare("UPDATE `usuarios` SET `borrado` = '1', `id_usuario` = ?, `ip` = ?, `fecham` = current_timestamp() WHERE `usuarios`.`id` = ?");
             $stmt->execute([$_SESSION['eduflix']['id'], self::$ip, $id]); 
         } catch (PDOException $e) {
             echo $e->getMessage();

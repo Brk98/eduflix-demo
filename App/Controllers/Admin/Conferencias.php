@@ -7,6 +7,10 @@ use App\Models\Admin\Conferencia;
 
 class Conferencias extends \Core\Controller
 {
+    public function indexAction()
+    {
+        $this->tablaAction();
+    }
 
     public function tablaAction()
     {      
@@ -15,7 +19,7 @@ class Conferencias extends \Core\Controller
             $conferencias = Conferencia::tabla();
             for ($i = 0; $i < count($conferencias); $i++)
                 $conferencias[$i]['descripcion'] = strip_tags($conferencias[$i]['descripcion']);
-            View::renderTemplate('Conferencias/tabla.html', [
+            View::renderTemplate('Admin/Conferencias/tabla.html', [
                 'conferencias' => $conferencias
             ]);
         } catch (PDOException $e) {
@@ -27,7 +31,7 @@ class Conferencias extends \Core\Controller
     {      
         try 
         {  
-            View::renderTemplate('Conferencias/nuevo.html', []);
+            View::renderTemplate('Admin/Conferencias/nuevo.html', []);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -38,7 +42,7 @@ class Conferencias extends \Core\Controller
         try 
         {  
             $elementos = Conferencia::obtener($this->route_params['id']);
-            View::renderTemplate('Conferencias/editar.html', [
+            View::renderTemplate('Admin/Conferencias/editar.html', [
                 'elementos' => $elementos
             ]);
         } catch (PDOException $e) {
@@ -52,7 +56,7 @@ class Conferencias extends \Core\Controller
         {  
             Conferencia::$ip = $this->getIP();
             Conferencia::agregar($_POST['conferencia'], $_POST['descripcion'], $_POST['fecha'], $_POST['horario'], $_POST['duracion']);
-            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/conferencias/tabla");
+            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/conferencias/");
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -64,7 +68,7 @@ class Conferencias extends \Core\Controller
         {  
             Conferencia::$ip = $this->getIP();
             Conferencia::actualizar($_POST['id'], $_POST['conferencia'], $_POST['descripcion'], $_POST['fecha'], $_POST['horario'], $_POST['duracion']);
-            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/conferencias/tabla");
+            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/conferencias/");
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -76,7 +80,7 @@ class Conferencias extends \Core\Controller
         {  
             Conferencia::$ip = $this->getIP();
             Conferencia::eliminar($this->route_params['id']);
-            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/conferencias/tabla");
+            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/conferencias/");
         } catch (PDOException $e) {
             echo $e->getMessage();
         }

@@ -12,12 +12,17 @@ use libs\ImageResizeException;
 
 class Cursos extends \Core\Controller
 {
+    public function indexAction()
+    {
+        $this->tablaAction();
+    }
+
     public function tablaAction()
     {      
         try 
         {  
             $cursos = Curso::tabla();
-            View::renderTemplate('Cursos/tabla.html', [
+            View::renderTemplate('Admin/Cursos/tabla.html', [
                 'cursos' => $cursos
             ]);
         } catch (PDOException $e) {
@@ -30,7 +35,7 @@ class Cursos extends \Core\Controller
         try 
         {  
             $categorias = Curso::categorias();
-            View::renderTemplate('Cursos/nuevo.html', [
+            View::renderTemplate('Admin/Cursos/nuevo.html', [
                 'categorias' => $categorias
             ]);
         } catch (PDOException $e) {
@@ -44,7 +49,7 @@ class Cursos extends \Core\Controller
         {  
             $elementos = Curso::obtener($this->route_params['id']);
             $categorias = Curso::categorias();
-            View::renderTemplate('Cursos/editar.html', [
+            View::renderTemplate('Admin/Cursos/editar.html', [
                 'elementos' => $elementos,
                 'categorias' => $categorias
             ]);
@@ -68,13 +73,13 @@ class Cursos extends \Core\Controller
 
             if(move_uploaded_file($sourcePath,$fichero_subido)) {
                 $image = new ImageResize($fichero_subido);
-                $image->crop(108, 119, true, ImageResize::CROPCENTER);
+                $image->crop(480, 270, true, ImageResize::CROPCENTER);
                 $foto = $dir_subida.uniqid().'.jpg';
                 unlink($fichero_subido);
                 $image->save($fichero_subido);
             }
             Curso::actualizar($id, $fichero_subido, $_POST['codigo'], $_POST['curso'], $_POST['descripcion'], $_POST['id_categoria'], isset($_POST['activo']));
-            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/cursos/tabla");
+            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/cursos/");
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -90,14 +95,14 @@ class Cursos extends \Core\Controller
             $sourcePath = $_FILES['imagen']['tmp_name'];
             if(move_uploaded_file($sourcePath,$fichero_subido)) {
                 $image = new ImageResize($fichero_subido);
-                $image->crop(108, 119, true, ImageResize::CROPCENTER);
+                $image->crop(480, 270, true, ImageResize::CROPCENTER);
                 $foto = $dir_subida.uniqid().'.jpg';
                 unlink($fichero_subido);
                 $image->save($fichero_subido);
             }
 
             Curso::actualizar($_POST['id'], $fichero_subido, $_POST['codigo'], $_POST['curso'], $_POST['descripcion'], $_POST['id_categoria'], isset($_POST['activo']));
-            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/cursos/tabla");
+            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/cursos/");
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -109,7 +114,7 @@ class Cursos extends \Core\Controller
         {  
             Curso::$ip = $this->getIP();
             Curso::eliminar($this->route_params['id']);
-            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/cursos/tabla");
+            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/cursos/");
         } catch (PDOException $e) {
             echo $e->getMessage();
         }

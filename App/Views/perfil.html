@@ -90,7 +90,7 @@
                                  <div class="ui search focus mt-30 lbel25">
                                     <label>Usuario*</label>
                                     <div class="ui left icon input swdh19">
-                                       <input class="prompt srch_explore" type="text" placeholder="Usuario" required name="usuario" data-purpose="edit-course-title" maxlength="20" id="usuario" value="{{perfil.usuario}}">															
+                                       <input class="prompt srch_explore" type="text" disabled placeholder="Usuario" required name="usuario" data-purpose="edit-course-title" maxlength="20" id="usuario" value="{{perfil.usuario}}">															
                                        <div class="badge_num">20</div>
                                     </div>
                                  </div>
@@ -99,37 +99,8 @@
                                  <div class="ui search focus mt-30 lbel25">
                                     <label>Password*</label>
                                     <div class="ui left icon input swdh19">
-                                       <input class="prompt srch_explore" type="text" placeholder="Password" required name="password" data-purpose="edit-course-title" maxlength="90" id="password" value="{{perfil.password}}">															
+                                       <input class="prompt srch_explore" type="password" placeholder="Password" required name="password" data-purpose="edit-course-title" maxlength="90" id="password" value="{{perfil.password}}">															
                                        <div class="badge_num">90</div>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="row">
-                              <div class="col-lg-4 col-md-12">
-                                 <div class="mt-30 lbel25">
-                                    <label>Rol*</label>
-                                 </div>
-                                 <select class="ui hj145 dropdown cntry152 prompt srch_explore" id="role" required name="role">
-                                    {% for rol in roles %}
-                                    {% if rol.id == perfil.id_rol %}
-                                    <option value="{{rol.id}}" selected>{{rol.role}}</option>
-                                    {% else %}
-                                    <option value="{{rol.id}}">{{rol.role}}</option>
-                                    {% endif %}
-                                    {% endfor %}
-                                 </select>
-                              </div>
-                              <div class="col-lg-4 col-md-12">
-                                 <div class="mt-30 lbel25">
-                                    <label>Disponible*</label>
-                                 </div>
-                                 <div class="ui form checkbox_sign cp_458">
-                                    <div class="inline field">
-                                       <div class="ui checkbox mncheck">
-                                          <input type="checkbox" tabindex="0" {{perfil.activo?'checked':''}} class="hidden" id="activo" name="activo">
-                                          <label>Activo</label>
-                                       </div>
                                     </div>
                                  </div>
                               </div>

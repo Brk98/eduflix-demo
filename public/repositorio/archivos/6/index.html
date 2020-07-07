@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+  <h2>Login</h2>
+  <form action="/ejecucion.php" class="needs-validation" novalidate>
+    <div class="form-group">
+      <label for="uname">Usuario:</label>
+      <input type="text" class="form-control" id="uname" placeholder="Usuario" name="User" required>
+      <div class="invalid-feedback">Obligatorio</div>
+    </div>
+    <div class="form-group">
+      <label for="pwd">Contraseña:</label>
+      <input type="password" class="form-control" id="pwd" placeholder="Contraseña" name="Password" required>
+      <div class="invalid-feedback">Obligatorio</div>
+    </div>
+    <div class="form-group form-check">
+      <label class="form-check-label">
+        <input class="form-check-input" type="checkbox" required> Estoy de acuerdo con los <a href="#">ToS</a>
+        <div class="valid-feedback">Ha aceptado los ToS.</div>
+        <div class="invalid-feedback">Debe aceptar los ToS.</div>
+      </label>
+    </div>
+    <button type="submit" class="btn btn-primary">Entrar</button>
+    <input type="hidden" name="tipo" value="login">
+  </form>
+</div>
+<script>
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    var forms = document.getElementsByClassName('needs-validation');
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>
+</body>
+</html>
