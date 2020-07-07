@@ -5,25 +5,23 @@
    <div class="container">
       <div class="row">
          <div class="col-lg-12">
-            <h2 class="st_title"><i class="uil uil-analysis"></i> Editar Foro</h2>
+            <h2 class="st_title"><i class="uil uil-user"></i>Nuevo Archivo</h2>
          </div>
       </div>
       <div class="row">
          <div class="col-12">
             <div id="add-course-tab" class="step-app">
-               <form method="POST" action="{{host}}{{directory}}admin/foros/actualizar" enctype="multipart/form-data">
-                  {% for elemento in elementos %}
-                  <input type="text" id="id" name="id" value="{{elemento.id}}" style="display:none" />
+               <form method="POST" action="{{host}}{{directory}}archivos/agregar" enctype="multipart/form-data">
                   <div class="tab-from-content">
                      <div class="course__form">
                         <div class="general_info10">
                            <div class="row">
                               <div class="col-lg-12 col-md-12">
                                  <div class="ui search focus mt-30 lbel25">
-                                    <label>Tema del Foro*</label>
+                                    <label>Nombre*</label>
                                     <div class="ui left icon input swdh19">
-                                       <input class="prompt srch_explore" required id="tema" name="tema" type="text" placeholder="Tema del foro" name="subtitle" data-purpose="edit-course-title" maxlength="180" value="{{elemento.tema}}">
-                                       <div class="badge_num2">140</div>
+                                       <input class="prompt srch_explore" type="text" placeholder="Nombre" required name="nombre" data-purpose="edit-course-title" maxlength="180" id="nombre" value="">
+                                       <div class="badge_num2">180</div>
                                     </div>
                                  </div>
                               </div>
@@ -34,7 +32,7 @@
                                        <div class="textarea_dt">
                                           <div class="ui form swdh339">
                                              <div class="field">
-                                                <textarea rows="5" required id="descripcion" name="descripcion" id="id_course_description" placeholder="Descripción del foro">{{elemento.descripcion}}</textarea>
+                                                <textarea rows="5" required id="descripcion" name="descripcion" placeholder="Descripción del foro"></textarea>
                                              </div>
                                           </div>
                                        </div>
@@ -48,35 +46,22 @@
                                  <div class="upload__input">
                                     <div class="input-group">
                                        <div class="custom-file">
-                                          <input type="file" id="archivo" name="archivo" class="custom-file-input">
+                                          <input type="file" id="archivo" name="archivo" required class="custom-file-input">
                                           <label class="custom-file-label" for="inputGroupFile04">Selecciona el archivo</label>
                                        </div>
                                     </div>
                                  </div>
                               </div>
+                           <div class="row">
                               <div class="col-lg-4 col-md-12">
                                  <div class="mt-30 lbel25">
-                                    <label>Tipo*</label>
-                                 </div>
-                                 <select class="ui hj145 dropdown cntry152 prompt srch_explore" required id="id_tipo_foro" name="id_tipo_foro">
-                                    {% for tipo in tipos %}
-                                    {% if tipo.id == elemento.id_tipo_foro %}
-                                    <option value="{{tipo.id}}" selected>{{tipo.tipo}}</option>
-                                    {% else %}
-                                    <option value="{{tipo.id}}">{{tipo.tipo}}</option>
-                                    {% endif %}
-                                    {% endfor %}
-                                 </select>
-                              </div>
-                              <div class="col-lg-4 col-md-12">
-                                 <div class="mt-30 lbel25">
-                                    <label>Disponible*</label>
+                                    <label>Privado*</label>
                                  </div>
                                  <div class="ui form checkbox_sign cp_458">
                                     <div class="inline field">
                                        <div class="ui checkbox mncheck">
-                                          <input type="checkbox" tabindex="0" class="hidden" id="activo" name="activo" {{elemento.activo?'checked':''}}>
-                                          <label>Activo</label>
+                                          <input type="checkbox" tabindex="0" value="1" class="hidden" checked="" id="privado" name="privado">
+                                          <label>Privado</label>
                                        </div>
                                     </div>
                                  </div>
@@ -86,14 +71,13 @@
                      </div>
                   </div>
                   <div class="step-footer step-tab-pager">
-                     <button data-direction="prev" class="btn btn-default steps_btn">Cancelar</button>
-                     <button data-direction="finish" type="submit" class="btn btn-default steps_btn">Editar Foro</button>
+                     <button data-direction="prev" onclick="window.location='{{host}}{{directory}}archivos/';return false;" class="btn btn-default steps_btn">Cancelar</button>
+                     <button data-direction="finish" type="submit" class="btn btn-default steps_btn">Subir Archivo</button>
                   </div>
-                  {% endfor %}
                </form>
             </div>
          </div>
       </div>
    </div>
-</div>
+</div>	
 {% endblock %}

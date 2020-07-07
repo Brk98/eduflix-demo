@@ -77,8 +77,8 @@
                   </div>
                </div>
                <div class="step-footer step-tab-pager">
-                  <button data-direction="prev" class="btn btn-default steps_btn">Cancelar</button>
-                  <button data-direction="finish" type="submit" class="btn btn-default steps_btn">Editar Conferencia</button>
+                  <button data-direction="prev" onclick="window.location='{{host}}{{directory}}admin/conferencias/';return false;" class="btn btn-default steps_btn">Cancelar</button>
+                  <button data-direction="finish" type="submit" class="btn btn-default steps_btn">Guardar</button>
                </div>
                {% endfor %}
             </div>

@@ -66,7 +66,7 @@ class Foro extends \Core\Model
     {
         try {
             $db = static::getDB();
-            $stmt = $db->prepare("UPDATE `foros` SET `archivo` = ?, `tema` = ?, `descripcion` = ?, `id_tipo_foro` = ?, `activo` = ?, `id_usuario` = ?, `ip` = ? WHERE `foros`.`id` = ?");
+            $stmt = $db->prepare("UPDATE `foros` SET `archivo` = ?, `tema` = ?, `descripcion` = ?, `id_tipo_foro` = ?, `activo` = ?, `id_usuario` = ?, `ip` = ?, `fecham` = current_timestamp() WHERE `foros`.`id` = ?");
             $stmt->execute([$archivo, $tema, $descripcion, $id_tipo_foro, $activo, $_SESSION['eduflix']['id'], self::$ip, $id]); 
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -77,7 +77,7 @@ class Foro extends \Core\Model
     {    
         try {
             $db = static::getDB();
-            $stmt = $db->prepare("UPDATE `foros` SET `borrado` = '1', `ip` = ? WHERE `foros`.`id` = ?");
+            $stmt = $db->prepare("UPDATE `foros` SET `borrado` = '1', `ip` = ?, `fecham` = current_timestamp() WHERE `foros`.`id` = ?");
             $stmt->execute([self::$ip, $id]); 
         } catch (PDOException $e) {
             echo $e->getMessage();

@@ -12,6 +12,12 @@ use libs\ImageResizeException;
 
 class Perfil extends \Core\Controller
 {
+    public function indexAction()
+    {
+        $this->editarAction();
+    }
+
+    
     public function editarAction()
     {      
         try 
@@ -43,7 +49,7 @@ class Perfil extends \Core\Controller
                 $image->save($fichero_subido);
             }
 
-            PerfilModel::actualizar($_POST['id'], $fichero_subido, $_POST['nombre'], $_POST['apaterno'], $_POST['amaterno'], $_POST['email'], $_POST['telefono'], $_POST['usuario'], $_POST['password'], $_POST['role'], isset($_POST['activo']));
+            PerfilModel::actualizar($_POST['id'], $fichero_subido, $_POST['nombre'], $_POST['apaterno'], $_POST['amaterno'], $_POST['email'], $_POST['telefono'], $_POST['password'], isset($_POST['activo']));
             header( "Location: ".Config::HOST.Config::DIRECTORY."perfil/editar");
         } catch (PDOException $e) {
             echo $e->getMessage();

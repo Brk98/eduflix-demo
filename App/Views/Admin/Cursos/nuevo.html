@@ -5,16 +5,14 @@
    <div class="container">
       <div class="row">
          <div class="col-lg-12">
-            <h2 class="st_title"><i class="uil uil-analysis"></i> Editar Curso</h2>
+            <h2 class="st_title"><i class="uil uil-analysis"></i> Crear Nuevo Curso</h2>
          </div>
       </div>
       <div class="row">
          <div class="col-12">
             <div id="add-course-tab" class="step-app">
-               <form method="POST" action="{{host}}{{directory}}admin/cursos/actualizar" enctype="multipart/form-data">
+               <form method="POST" action="{{host}}{{directory}}admin/cursos/agregar" enctype="multipart/form-data">
                   <div class="tab-from-content">
-                     {% for elemento in elementos %}
-                     <input type="text" id="id" name="id" value="{{elemento.id}}" style="display:none" />
                      <div class="course__form">
                         <div class="general_info10">
                            <div class="row">
@@ -22,7 +20,7 @@
                                  <div class="view_all_dt">
                                     <div class="view_img_left">
                                        <div class="view__img">	
-                                          <img src="{{host}}{{directory}}{{elemento.imagen}}" id="preview" class="rounded-circle" alt="" style="width: 192px; height: 192px;">
+                                          <img id="preview" src="{{host}}{{directory}}repositorio/cursos/default.jpg" class="rounded-circle" alt="" style="width: 192px; height: 192px;">
                                        </div>
                                     </div>
                                     <div class="view_img_right">
@@ -43,7 +41,7 @@
                                  <div class="ui search focus mt-30 lbel25">
                                     <label>Codigo Curso*</label>
                                     <div class="ui left icon input swdh19">
-                                       <input class="prompt srch_explore" type="text" placeholder="Codigo." required name="codigo" id="codigo" data-purpose="edit-course-title" maxlength="30" id="main[title]" value="{{elemento.codigo}}">
+                                       <input class="prompt srch_explore" type="text" required id="codigo" name="codigo" placeholder="Codigo." name="title" data-purpose="edit-course-title" maxlength="30" value="">															
                                        <div class="badge_num">30</div>
                                     </div>
                                  </div>
@@ -52,7 +50,7 @@
                                  <div class="ui search focus mt-30 lbel25">
                                     <label>Titulo Curso*</label>
                                     <div class="ui left icon input swdh19">
-                                       <input class="prompt srch_explore" type="text" required placeholder="Titulo del curso." name="curso" data-purpose="edit-course-title" maxlength="180" id="curso" value="{{elemento.curso}}">															
+                                       <input class="prompt srch_explore" required id="curso" name="curso" type="text" placeholder="Titulo del curso." name="subtitle" data-purpose="edit-course-title" maxlength="180" id="sub[title]" value="">															
                                        <div class="badge_num2">180</div>
                                     </div>
                                  </div>
@@ -64,7 +62,7 @@
                                        <div class="textarea_dt">
                                           <div class="ui form swdh339">
                                              <div class="field">
-                                                <textarea rows="5" required name="descripcion" id="descripcion" placeholder="Descripción del curso">{{elemento.descripcion}}</textarea>
+                                                <textarea rows="5" required id="descripcion" name="descripcion" id="id_course_description" placeholder="Descripción del curso"></textarea>
                                              </div>
                                           </div>
                                        </div>
@@ -75,13 +73,9 @@
                                  <div class="mt-30 lbel25">
                                     <label>Categoría*</label>
                                  </div>
-                                 <select class="ui hj145 dropdown cntry152 prompt srch_explore" id="id_categoria" required name="id_categoria" value="{{elemento.id_categoria}}">
+                                 <select class="ui hj145 dropdown cntry152 prompt srch_explore" required id="id_categoria" name="id_categoria">
                                     {% for categoria in categorias %}
-                                    {% if categoria.id == elemento.id_categoria %}
-                                    <option value="{{categoria.id}}" selected>{{categoria.categoria}}</option>
-                                    {% else %}
                                     <option value="{{categoria.id}}">{{categoria.categoria}}</option>
-                                    {% endif %}
                                     {% endfor %}
                                  </select>
                               </div>
@@ -92,7 +86,7 @@
                                  <div class="ui form checkbox_sign cp_458">
                                     <div class="inline field">
                                        <div class="ui checkbox mncheck">
-                                          <input type="checkbox" {{elemento.activo?'checked':''}} tabindex="0" id="activo" name="activo" class="hidden">
+                                          <input type="checkbox" tabindex="0" class="hidden" checked="" id="activo" name="activo">
                                           <label>Activo</label>
                                        </div>
                                     </div>
@@ -103,10 +97,9 @@
                      </div>
                   </div>
                   <div class="step-footer step-tab-pager">
-                     <button data-direction="prev" class="btn btn-default steps_btn">Cancelar</button>
-                     <button data-direction="finish" class="btn btn-default steps_btn">Editar Curso</button>
+                     <button data-direction="prev" onclick="window.location='{{host}}{{directory}}admin/cursos/';return false;" class="btn btn-default steps_btn">Cancelar</button>
+                     <button data-direction="finish" type="submit" class="btn btn-default steps_btn">Crear Curso</button>
                   </div>
-                  {% endfor %}
                </form>
             </div>
          </div>

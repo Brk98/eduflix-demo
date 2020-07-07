@@ -7,6 +7,11 @@ use App\Models\Admin\Foro;
 
 class Foros extends \Core\Controller
 {
+    public function indexAction()
+    {
+        $this->tablaAction();
+    }
+
     public function tablaAction()
     {      
         try 
@@ -14,7 +19,7 @@ class Foros extends \Core\Controller
             $foros = Foro::tabla();
             for ($i = 0; $i < count($foros); $i++)
                 $foros[$i]['descripcion'] = strip_tags($foros[$i]['descripcion']);
-            View::renderTemplate('Foros/tabla.html', [
+            View::renderTemplate('Admin/Foros/tabla.html', [
                 'foros' => $foros
             ]);
         } catch (PDOException $e) {
@@ -28,7 +33,7 @@ class Foros extends \Core\Controller
         {  
             $foros = Foro::tabla();
             $tipos = Foro::tipo();
-            View::renderTemplate('Foros/nuevo.html', [
+            View::renderTemplate('Admin/Foros/nuevo.html', [
                 'foros' => $foros,
                 'tipos' => $tipos
             ]);
@@ -44,7 +49,7 @@ class Foros extends \Core\Controller
             $foros = Foro::tabla();
             $tipos = Foro::tipo();
             $elementos = Foro::obtener($this->route_params['id']);
-            View::renderTemplate('Foros/editar.html', [
+            View::renderTemplate('Admin/Foros/editar.html', [
                 'elementos' => $elementos,
                 'foros' => $foros,
                 'tipos' => $tipos
@@ -67,7 +72,7 @@ class Foros extends \Core\Controller
             $fichero_subido = $dir_subida .$id."/".basename($_FILES['archivo']['name']);
             move_uploaded_file($_FILES['archivo']['tmp_name'], $fichero_subido);
             Foro::actualizar($id, $fichero_subido, $_POST['tema'], $_POST['descripcion'], $_POST['id_tipo_foro'], isset($_POST['activo']));
-            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/foros/tabla");
+            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/foros/");
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -83,7 +88,7 @@ class Foros extends \Core\Controller
             move_uploaded_file($_FILES['archivo']['tmp_name'], $fichero_subido);
 
             Foro::actualizar($_POST['id'], $fichero_subido, $_POST['tema'], $_POST['descripcion'], $_POST['id_tipo_foro'], isset($_POST['activo']));
-            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/foros/tabla");
+            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/foros/");
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -95,7 +100,7 @@ class Foros extends \Core\Controller
         {  
             Foro::$ip = $this->getIP();
             Foro::eliminar($this->route_params['id']);
-            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/foros/tabla");
+            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/foros/");
         } catch (PDOException $e) {
             echo $e->getMessage();
         }

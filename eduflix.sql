@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 06-07-2020 a las 16:08:07
+-- Tiempo de generación: 06-07-2020 a las 21:07:35
 -- Versión del servidor: 5.7.24
 -- Versión de PHP: 7.0.33
 
@@ -21,6 +21,27 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `eduflix`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `archivos`
+--
+
+DROP TABLE IF EXISTS `archivos`;
+CREATE TABLE IF NOT EXISTS `archivos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(180) NOT NULL,
+  `descripcion` varchar(180) NOT NULL,
+  `archivo` varchar(160) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `privado` tinyint(1) NOT NULL DEFAULT '1',
+  `fechar` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `fecham` datetime DEFAULT NULL,
+  `ip` varchar(60) NOT NULL,
+  `borrado` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -179,7 +200,7 @@ CREATE TABLE IF NOT EXISTS `log` (
   `fechar` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `ip` varchar(160) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=99 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=160 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `log`
@@ -227,7 +248,91 @@ INSERT INTO `log` (`id`, `id_usuario`, `clase`, `metodo`, `argumentos`, `fechar`
 (95, 1, 'App\\Controllers\\Admin\\Categorias', 'nuevoAction', 'Admin,categorias,nuevo:', '2020-07-06 11:01:33', 'unknown'),
 (96, 1, 'App\\Controllers\\Admin\\Categorias', 'tablaAction', 'Admin,categorias,tabla:', '2020-07-06 11:02:10', 'unknown'),
 (97, 1, 'App\\Controllers\\Admin\\Usuarios', 'tablaAction', 'Admin,usuarios,tabla:', '2020-07-06 11:02:31', 'unknown'),
-(98, 1, 'App\\Controllers\\Admin\\Usuarios', 'nuevoAction', 'Admin,usuarios,nuevo:', '2020-07-06 11:02:33', 'unknown');
+(98, 1, 'App\\Controllers\\Admin\\Usuarios', 'nuevoAction', 'Admin,usuarios,nuevo:', '2020-07-06 11:02:33', 'unknown'),
+(99, 1, 'App\\Controllers\\Login', 'indexAction', 'index,Login:', '2020-07-06 13:09:48', 'unknown'),
+(100, 1, 'App\\Controllers\\Login', 'validateAction', 'Login,validate:ACCESS', '2020-07-06 13:09:58', 'unknown'),
+(101, 1, 'App\\Controllers\\Home', 'indexAction', 'index,Home:', '2020-07-06 13:09:59', 'unknown'),
+(102, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:13:01', 'unknown'),
+(103, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:17:09', 'unknown'),
+(104, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:18:34', 'unknown'),
+(105, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:20:02', 'unknown'),
+(106, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:20:22', 'unknown'),
+(107, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:20:41', 'unknown'),
+(108, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:20:58', 'unknown'),
+(109, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:21:22', 'unknown'),
+(110, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:21:30', 'unknown'),
+(111, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:22:06', 'unknown'),
+(112, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:23:35', 'unknown'),
+(113, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:23:55', 'unknown'),
+(114, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:24:10', 'unknown'),
+(115, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:24:24', 'unknown'),
+(116, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:25:29', 'unknown'),
+(117, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:26:05', 'unknown'),
+(118, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:26:15', 'unknown'),
+(119, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:26:28', 'unknown'),
+(120, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:27:16', 'unknown'),
+(121, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:28:36', 'unknown'),
+(122, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:29:49', 'unknown'),
+(123, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:31:55', 'unknown'),
+(124, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:32:59', 'unknown'),
+(125, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:33:20', 'unknown'),
+(126, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:34:06', 'unknown'),
+(127, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:36:44', 'unknown'),
+(128, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:37:29', 'unknown'),
+(129, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:39:57', 'unknown'),
+(130, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:40:58', 'unknown'),
+(131, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:43:55', 'unknown'),
+(132, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:44:32', 'unknown'),
+(133, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:46:47', 'unknown'),
+(134, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:48:30', 'unknown'),
+(135, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:49:25', 'unknown'),
+(136, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:51:15', 'unknown'),
+(137, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:52:37', 'unknown'),
+(138, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 13:53:33', 'unknown'),
+(139, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 14:05:36', 'unknown'),
+(140, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 14:35:34', 'unknown'),
+(141, 1, 'App\\Controllers\\Admin\\Cursos', 'tablaAction', 'Admin,cursos,tabla:', '2020-07-06 14:35:43', 'unknown'),
+(142, 1, 'App\\Controllers\\Admin\\Cursos', 'tablaAction', 'Admin,cursos,tabla:', '2020-07-06 14:35:47', 'unknown'),
+(143, 1, 'App\\Controllers\\Admin\\Cursos', 'nuevoAction', 'Admin,cursos,nuevo:', '2020-07-06 14:35:49', 'unknown'),
+(144, 1, 'App\\Controllers\\Admin\\Usuarios', 'nuevoAction', 'Admin,usuarios,nuevo:', '2020-07-06 14:36:33', 'unknown'),
+(145, 1, 'App\\Controllers\\Admin\\Usuarios', 'nuevoAction', 'Admin,usuarios,nuevo:', '2020-07-06 14:37:10', 'unknown'),
+(146, 1, 'App\\Controllers\\Admin\\Usuarios', 'agregarAction', 'Admin,usuarios,agregar:', '2020-07-06 14:37:24', 'unknown'),
+(147, 1, 'App\\Controllers\\Admin\\Usuarios', 'tablaAction', 'Admin,usuarios,tabla:', '2020-07-06 14:37:24', 'unknown'),
+(148, 1, 'App\\Controllers\\Admin\\Usuarios', 'editarAction', 'Admin,usuarios,3,editar:', '2020-07-06 14:37:44', 'unknown'),
+(149, 1, 'App\\Controllers\\Admin\\Usuarios', 'tablaAction', 'Admin,usuarios,tabla:', '2020-07-06 14:37:54', 'unknown'),
+(150, 1, 'App\\Controllers\\Admin\\Usuarios', 'editarAction', 'Admin,usuarios,3,editar:', '2020-07-06 14:38:23', 'unknown'),
+(151, 1, 'App\\Controllers\\Admin\\Usuarios', 'actualizarAction', 'Admin,usuarios,actualizar:', '2020-07-06 14:38:44', 'unknown'),
+(152, 1, 'App\\Controllers\\Admin\\Usuarios', 'tablaAction', 'Admin,usuarios,tabla:', '2020-07-06 14:38:45', 'unknown'),
+(153, 1, 'App\\Controllers\\Admin\\Usuarios', 'nuevoAction', 'Admin,usuarios,nuevo:', '2020-07-06 14:41:08', 'unknown'),
+(154, 1, 'App\\Controllers\\Admin\\Usuarios', 'tablaAction', 'Admin,usuarios,tabla:', '2020-07-06 14:41:16', 'unknown'),
+(155, 1, 'App\\Controllers\\Admin\\Cursos', 'tablaAction', 'Admin,cursos,tabla:', '2020-07-06 14:41:21', 'unknown'),
+(156, 1, 'App\\Controllers\\Admin\\Cursos', 'nuevoAction', 'Admin,cursos,nuevo:', '2020-07-06 14:41:24', 'unknown'),
+(157, 1, 'App\\Controllers\\Admin\\Cursos', 'tablaAction', 'Admin,cursos,tabla:', '2020-07-06 14:48:06', 'unknown'),
+(158, 1, 'App\\Controllers\\Admin\\Cursos', 'tablaAction', 'Admin,cursos,tabla:', '2020-07-06 15:38:47', 'unknown'),
+(159, 1, 'App\\Controllers\\Admin\\Dashboard', 'indexAction', 'index,Admin,dashboard:', '2020-07-06 15:40:25', 'unknown');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `mensajes`
+--
+
+DROP TABLE IF EXISTS `mensajes`;
+CREATE TABLE IF NOT EXISTS `mensajes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `asunto` varchar(180) NOT NULL,
+  `descripcion` text NOT NULL,
+  `archivo` varchar(180) DEFAULT NULL,
+  `id_usuario_envia` int(11) NOT NULL,
+  `id_usuario_recibe` int(11) NOT NULL,
+  `padre` int(11) NOT NULL DEFAULT '0',
+  `fechar` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `fecham` int(11) DEFAULT NULL,
+  `ip` varchar(60) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `borrado` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -303,14 +408,16 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `id_usuario` int(11) NOT NULL,
   `borrado` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
 INSERT INTO `usuarios` (`id`, `nombre`, `apaterno`, `amaterno`, `email`, `telefono`, `usuario`, `password`, `id_rol`, `foto`, `activo`, `fechar`, `fecham`, `ip`, `id_usuario`, `borrado`) VALUES
-(1, 'Carlos', 'Ruiz', 'García', 'carlos.ruiz@gesdes.com', '5562270812', 'carlos.ruiz', '98020442', 1, 'repositorio/usuarios/default.jpg', 1, '2020-07-02 12:10:19', NULL, '', 1, 0);
+(1, 'Carlos', 'Ruiz', 'García', 'carlos.ruiz@gesdes.com', '5562270812', 'carlos.ruiz', '98020442', 1, 'repositorio/usuarios/default.jpg', 1, '2020-07-02 12:10:19', NULL, '', 1, 0),
+(2, 'Edgar Alejandro', 'Sanchez', 'Trejo', 'jose.ruiz@redanahuac.mx', '5562270813', 'admin', '98020442', 1, '', 1, '2020-07-06 14:36:52', NULL, 'unknown', 1, 0),
+(3, 'Edgar Alejandro', 'Sanchez', 'Trejo', 'jose.ruiz@redanahuac.mx', '5562270813', 'admin', '98020442', 1, 'repositorio/usuarios/3.jpg', 1, '2020-07-06 14:37:23', NULL, 'unknown', 1, 0);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -52,7 +52,7 @@ class Conferencia extends \Core\Model
     {
         try {
             $db = static::getDB();
-            $stmt = $db->prepare("UPDATE `conferencias` SET `conferencia` = ?, `descripcion` = ?, `fecha` = ?, `horario` = ?, `duracion` = ?, `id_usuario` = ?, `ip` = ? WHERE `conferencias`.`id` = ?");
+            $stmt = $db->prepare("UPDATE `conferencias` SET `conferencia` = ?, `descripcion` = ?, `fecha` = ?, `horario` = ?, `duracion` = ?, `id_usuario` = ?, `ip` = ?, `fecham` = current_timestamp() WHERE `conferencias`.`id` = ?");
             $stmt->execute([$conferencia, $descripcion, $fecha, $horario, $duracion, $_SESSION['eduflix']['id'], self::$ip, $id]); 
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -63,7 +63,7 @@ class Conferencia extends \Core\Model
     {    
         try {
             $db = static::getDB();
-            $stmt = $db->prepare("UPDATE `conferencias` SET `borrado` = '1', `id_usuario` = ?, `ip` = ? WHERE `conferencias`.`id` = ?");
+            $stmt = $db->prepare("UPDATE `conferencias` SET `borrado` = '1', `id_usuario` = ?, `ip` = ?, `fecham` = current_timestamp() WHERE `conferencias`.`id` = ?");
             $stmt->execute([$_SESSION['eduflix']['id'], self::$ip, $id]); 
         } catch (PDOException $e) {
             echo $e->getMessage();

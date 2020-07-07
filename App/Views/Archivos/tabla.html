@@ -1,0 +1,80 @@
+{% extends "master.html" %}
+{% block body %}
+<div class="wrapper">
+<div class="sa4d25">
+<div class="container-fluid">
+   <div class="row">
+      <div class="col-lg-12">
+         <h2 class="st_title"><i class="uil uil-user"></i>Mis archivos</h2>
+      </div>
+      <div class="col-md-12">
+         <div class="card_dash1">
+            <div class="card_dash_left1">
+               <i class="uil uil-book-alt"></i>
+               <h1>Subir Archivos</h1>
+            </div>
+            <div class="card_dash_right1">
+               <button class="create_btn_dash" onclick="window.location.href = '{{host}}{{directory}}archivos/nuevo';">Subir</button>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="row">
+      <div class="col-md-12">
+         <div class="my_courses_tabs mp-30">
+            <div class="table-responsive ">
+               <table class="table ucp-table display" id="tabla">
+                  <thead class="thead-s">
+                     <tr>
+                        <th scope="col">No.</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Descripcion</th>
+                        <th scope="col">Privado</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Modificación</th>
+                        <th scope="col">Actions</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     {% for archivo in archivos %}
+                     <tr>
+                        <td>{{archivo.id}}</td>
+                        <td><a href="#">{{archivo.nombre}}</a></td>
+                        <td>{{archivo.descripcion}}</a></td>
+                        <td>{{archivo.privado?'Si':'No'}}</td>
+                        <td>{{archivo.fechar}}</td>
+                        <td>{{archivo.fecham}}</td>
+                        <td>
+                           <a href="{{host}}{{directory}}archivos/{{archivo.id}}/descargar" title="Download" class="gray-s"><i class="uil uil-download-alt"></i></a>
+                           <a href="{{host}}{{directory}}archivos/{{archivo.id}}/editar" title="Edit" class="gray-s"><i class="uil uil-edit-alt"></i></a>
+                           <a href="" data-toggle="modal" data-target="#modal{{archivo.id}}" title="Delete" class="gray-s"><i class="uil uil-trash-alt"></i></a>
+                           <div class="modal fade" id="modal{{archivo.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog" role="document">
+                                 <div class="modal-content">
+                                    <div class="modal-header">
+                                       <h5 class="modal-title" id="exampleModalLabel">Confirmar eliminación</h5>
+                                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                       <span aria-hidden="true">&times;</span>
+                                       </button>
+                                    </div>
+                                    <div class="modal-body">
+                                       Eliminar {{archivo.nombre}}
+                                    </div>
+                                    <div class="modal-footer">
+                                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                       <a href="{{host}}{{directory}}archivos/{{archivo.id}}/eliminar"><button type="button" class="btn btn-primary">Aceptar</button></a>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     {% endfor %}
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock %}

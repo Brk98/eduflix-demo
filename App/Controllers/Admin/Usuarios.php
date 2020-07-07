@@ -12,12 +12,17 @@ use libs\ImageResizeException;
 
 class Usuarios extends \Core\Controller
 {
+    public function indexAction()
+    {
+        $this->tablaAction();
+    }
+
     public function tablaAction()
     {      
         try 
         {  
             $usuarios = Usuario::tabla();
-            View::renderTemplate('Usuarios/tabla.html', [
+            View::renderTemplate('Admin/Usuarios/tabla.html', [
                 'usuarios' => $usuarios
             ]);
         } catch (PDOException $e) {
@@ -30,7 +35,7 @@ class Usuarios extends \Core\Controller
         try 
         {  
             $roles = Usuario::roles();
-            View::renderTemplate('Usuarios/nuevo.html', [
+            View::renderTemplate('Admin/Usuarios/nuevo.html', [
                 'roles' => $roles
             ]);
         } catch (PDOException $e) {
@@ -44,7 +49,7 @@ class Usuarios extends \Core\Controller
         {  
             $roles = Usuario::roles();
             $elementos = Usuario::obtener($this->route_params['id']);
-            View::renderTemplate('Usuarios/editar.html', [
+            View::renderTemplate('Admin/Usuarios/editar.html', [
                 'elementos' => $elementos,
                 'roles' => $roles
             ]);
@@ -75,7 +80,7 @@ class Usuarios extends \Core\Controller
             }
 
             Usuario::actualizar($id, $fichero_subido, $_POST['nombre'], $_POST['apaterno'], $_POST['amaterno'], $_POST['email'], $_POST['telefono'], $_POST['usuario'], $_POST['password'], $_POST['role'], isset($_POST['activo']));
-            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/usuarios/tabla");
+            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/usuarios/");
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -98,7 +103,7 @@ class Usuarios extends \Core\Controller
             }
 
             Usuario::actualizar($_POST['id'], $fichero_subido, $_POST['nombre'], $_POST['apaterno'], $_POST['amaterno'], $_POST['email'], $_POST['telefono'], $_POST['usuario'], $_POST['password'], $_POST['role'], isset($_POST['activo']));
-            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/usuarios/tabla");
+            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/usuarios/");
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -110,7 +115,7 @@ class Usuarios extends \Core\Controller
         {  
             Usuario::$ip = $this->getIP();
             Usuario::eliminar($this->route_params['id']);
-            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/usuarios/tabla");
+            header( "Location: ".Config::HOST.Config::DIRECTORY."admin/usuarios/");
         } catch (PDOException $e) {
             echo $e->getMessage();
         }

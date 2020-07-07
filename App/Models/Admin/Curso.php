@@ -66,7 +66,7 @@ class Curso extends \Core\Model
     {
         try {
             $db = static::getDB();
-            $stmt = $db->prepare("UPDATE `cursos` SET `imagen` = ?, `codigo` = ?, `curso` = ?, `descripcion` = ?, `id_categoria` = ?, `activo` = ?, `id_usuario` = ? , `ip` = ? WHERE `cursos`.`id` = ?");
+            $stmt = $db->prepare("UPDATE `cursos` SET `imagen` = ?, `codigo` = ?, `curso` = ?, `descripcion` = ?, `id_categoria` = ?, `activo` = ?, `id_usuario` = ? , `ip` = ?, `fecham` = current_timestamp() WHERE `cursos`.`id` = ?");
             $stmt->execute([$imagen, $codigo, $curso, $descripcion, $id_categoria, $activo,$_SESSION['eduflix']['id'], self::$ip, $id]); 
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -77,7 +77,7 @@ class Curso extends \Core\Model
     {    
         try {
             $db = static::getDB();
-            $stmt = $db->prepare("UPDATE `cursos` SET `borrado` = '1', `id_usuario` = ?, `ip` = ? WHERE `cursos`.`id` = ?");
+            $stmt = $db->prepare("UPDATE `cursos` SET `borrado` = '1', `id_usuario` = ?, `ip` = ?, `fecham` = current_timestamp() WHERE `cursos`.`id` = ?");
             $stmt->execute([$_SESSION['eduflix']['id'], self::$ip, $id]); 
         } catch (PDOException $e) {
             echo $e->getMessage();
