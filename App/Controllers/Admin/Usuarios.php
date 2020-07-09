@@ -48,7 +48,8 @@ class Usuarios extends \Core\Controller
         try 
         {  
             $roles = Usuario::roles();
-            $elementos = Usuario::obtener($this->route_params['id']);
+            Usuario::$id = $this->route_params['id'];
+            $elementos = Usuario::obtener();
             View::renderTemplate('Admin/Usuarios/editar.html', [
                 'elementos' => $elementos,
                 'roles' => $roles
@@ -63,7 +64,16 @@ class Usuarios extends \Core\Controller
         try 
         {
             Usuario::$ip = $this->getIP();
-            Usuario::agregar('', $_POST['nombre'], $_POST['apaterno'], $_POST['amaterno'], $_POST['email'], $_POST['telefono'], $_POST['usuario'], $_POST['password'], $_POST['role'], isset($_POST['activo']));
+            Usuario::$nombre = $_POST['nombre'];
+            Usuario::$apaterno = $_POST['apaterno'];
+            Usuario::$amaterno = $_POST['amaterno'];
+            Usuario::$email = $_POST['email'];
+            Usuario::$telefono = $_POST['telefono'];
+            Usuario::$usuario = $_POST['usuario'];
+            Usuario::$password = $_POST['password'];
+            Usuario::$role = $_POST['role'];
+            Usuario::$activo = isset($_POST['activo']);
+            Usuario::agregar();
             $id = Usuario::obtenerUltimoID();
             $id = $id[0]['id'];
             $dir_subida = "repositorio/usuarios/";
@@ -79,7 +89,18 @@ class Usuarios extends \Core\Controller
                 $image->save($fichero_subido);
             }
 
-            Usuario::actualizar($id, $fichero_subido, $_POST['nombre'], $_POST['apaterno'], $_POST['amaterno'], $_POST['email'], $_POST['telefono'], $_POST['usuario'], $_POST['password'], $_POST['role'], isset($_POST['activo']));
+            Usuario::$id = $id;
+            Usuario::$foto = $fichero_subido;
+            Usuario::$nombre = $_POST['nombre'];
+            Usuario::$apaterno = $_POST['apaterno'];
+            Usuario::$amaterno = $_POST['amaterno'];
+            Usuario::$email = $_POST['email'];
+            Usuario::$telefono = $_POST['telefono'];
+            Usuario::$usuario = $_POST['usuario'];
+            Usuario::$password = $_POST['password'];
+            Usuario::$role = $_POST['role'];
+            Usuario::$activo = isset($_POST['activo']);
+            Usuario::actualizar();
             header( "Location: ".Config::HOST.Config::DIRECTORY."admin/usuarios/");
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -102,7 +123,18 @@ class Usuarios extends \Core\Controller
                 $image->save($fichero_subido);
             }
 
-            Usuario::actualizar($_POST['id'], $fichero_subido, $_POST['nombre'], $_POST['apaterno'], $_POST['amaterno'], $_POST['email'], $_POST['telefono'], $_POST['usuario'], $_POST['password'], $_POST['role'], isset($_POST['activo']));
+            Usuario::$id = Usuario::obtenerUltimoID()[0]['id'];
+            Usuario::$foto = $fichero_subido;
+            Usuario::$nombre = $_POST['nombre'];
+            Usuario::$apaterno = $_POST['apaterno'];
+            Usuario::$amaterno = $_POST['amaterno'];
+            Usuario::$email = $_POST['email'];
+            Usuario::$telefono = $_POST['telefono'];
+            Usuario::$usuario = $_POST['usuario'];
+            Usuario::$password = $_POST['password'];
+            Usuario::$role = $_POST['role'];
+            Usuario::$activo = isset($_POST['activo']);
+            Usuario::actualizar();
             header( "Location: ".Config::HOST.Config::DIRECTORY."admin/usuarios/");
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -114,7 +146,8 @@ class Usuarios extends \Core\Controller
         try 
         {  
             Usuario::$ip = $this->getIP();
-            Usuario::eliminar($this->route_params['id']);
+            Usuario::$id = $this->route_params['id'];
+            Usuario::eliminar();
             header( "Location: ".Config::HOST.Config::DIRECTORY."admin/usuarios/");
         } catch (PDOException $e) {
             echo $e->getMessage();

@@ -1,0 +1,119 @@
+{% extends "master.html" %}
+{% block body %}
+<div class="wrapper">
+   <div class="sa4d25">
+      <div class="container-fluid">			
+         {% for elemento in elementos %}
+         <div class="row">
+            <div class="col-lg-12">	
+               <h2 class="st_title"><i class="uil uil-file-alt"></i> {{elemento.grupo}}</h2>
+            </div>					
+         </div>				
+         <div class="row">	
+            <div class="col-md-7">
+                    <div class="fcrse_1">
+                           <div class="hs_content" style="width: 100% !important;">
+                              <div class="eps_dots eps_dots10 more_dropdown">
+                                 <a href="#"><i class="uil uil-ellipsis-v"></i></a>
+                                 <div class="dropdown-content">
+                                    <span><i class="uil uil-share-alt"></i>Conferencias</span>
+                                    <span><i class="uil uil-clock-three"></i>Grupos</span>
+                                    <span><i class="uil uil-ban"></i>Foros</span>
+                                    <span><i class="uil uil-windsock"></i>Calificaciones</span>
+                                 </div>																											
+                              </div>
+                              <div class="vdtodt">
+                                 <span class="vdt14"><b>Generación:</b> {{elemento.generacion}}</span>
+                              </div>
+                              <a href="" class="crse14s title900">{{elemento.grupo}}</a>
+                              <a href="#" class="crse-cate">{{elemento.descripcion}}</a>
+                           </div>
+                        </div>
+                        
+            </div>
+            
+            <div class="col-lg-12 col-md-12">
+            <div class="my_courses_tabs">
+            <ul class="nav nav-pills my_crse_nav" id="pills-tab" role="tablist">
+                     <li class="nav-item">
+                        <a class="nav-link active " id="pills-my-courses-tab" href="{{host}}{{directory}}admin/grupos/{{elemento.id}}/usuarios" role="tab" aria-controls="pills-my-courses" aria-selected="true"><i class="uil uil-user"></i>Usuarios</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" id="pills-upcoming-courses-tab" href="{{host}}{{directory}}admin/grupos/{{elemento.id}}/conferencias" role="tab" aria-controls="pills-upcoming-courses" aria-selected="false"><i class="uil uil-kayak"></i>Conferencias</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" id="pills-discount-tab" href="{{host}}{{directory}}admin/grupos/{{elemento.id}}/foros" role="tab" aria-controls="pills-discount" aria-selected="false"><i class="uil uil-megaphone"></i>Foros</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" id="pills-promotions-tab" href="{{host}}{{directory}}admin/grupos/{{elemento.id}}/archivos" role="tab" aria-controls="pills-promotions" aria-selected="false"><i class="uil uil-file"></i>Archivos</a>
+                     </li>
+                  </ul>
+                  </div>
+            </div>
+            <div class="col-lg-12 col-md-12">
+            
+            <div class="card_dash1">
+         <div class="card_dash_left1">
+            <i class="uil uil-user-check"></i>
+            <h1>Inscribir Usuarios</h1>
+         </div>
+         <div class="card_dash_right1">
+            <button class="create_btn_dash" onclick="window.location.href = '{{host}}{{directory}}admin/grupos/{{elemento.id}}/inscribirUsuario';">Asignar Usuarios</button>
+         </div>
+      </div>
+               <div class="table-responsive mt-30">
+                  <table class="table ucp-table earning__table" id="tabla">
+                     <thead class="thead-s">
+                        <tr>
+                           <th scope="col">No</th>
+                           <th scope="col">Usuario</th>
+                           <th scope="col">Nombre</th>
+                           <th scope="col">Email</th>
+                           <th scope="col">Teléfono</th>	
+                           <th scope="col">Rol</th>		
+                           <th scope="col">Acciones</th>									
+                        </tr>
+                     </thead>
+                     <tbody>
+                        {% for usuario in usuarios %}
+                        <tr>										
+                           <td>{{usuario.id}}</td>	
+                           <td>{{usuario.usuario}}</td>	
+                           <td>{{usuario.nombre}} {{usuario.apaterno}} {{usuario.amaterno}}</td>	
+                           <td>{{usuario.email}}</td>	
+                           <td>{{usuario.telefono}}</td>									
+                           <td>{{usuario.role}}</td>	
+                           <td>
+                           <a href="" data-toggle="modal" data-target="#modal{{usuario.id}}" title="Agregar" class="gray-s"><i class="uil uil-trash-alt"></i></a>
+                           <div class="modal fade" id="modal{{usuario.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog" role="document">
+                                 <div class="modal-content">
+                                    <div class="modal-header">
+                                       <h5 class="modal-title" id="exampleModalLabel">Eliminar inscripción</h5>
+                                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                       <span aria-hidden="true">&times;</span>
+                                       </button>
+                                    </div>
+                                    <div class="modal-body">
+                                       Eliminar inscripción del usuario <b>{{usuario.nombre}} {{usuario.apaterno}} {{usuario.amaterno}}</b> al grupo <b>{{elemento.grupo}}</b>
+                                    </div>
+                                    <div class="modal-footer">
+                                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                       <a href="{{host}}{{directory}}admin/grupos/{{elemento.id}}/eliminarUsuario?id={{usuario.id}}"><button type="button" class="btn btn-primary">Aceptar</button></a>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           </td>	
+                        </tr>
+                        {% endfor %}
+                     </tbody>				
+                  </table>
+               </div>
+         
+            </div>
+         </div>
+         {% endfor %}
+      </div>
+   </div>
+{% endblock %}

@@ -8,14 +8,23 @@ use PDO;
 class Curso extends \Core\Model
 {
     public static $ip;
+    public static $id;
+    public static $codigo;
+    public static $curso;
+    public static $descripcion;
+    public static $id_categoria;
+    public static $id_grupo;
+    public static $activo;
+    public static $imagen;
+    public static $id_usuario;
 
     public static function tabla()
     {    
         try 
         {
             $db = static::getDB();
-            $stmt = $db->prepare("SELECT cursos.id, cursos.codigo, cursos.curso, categorias.categoria, cursos.activo, cursos.fechar FROM cursos INNER JOIN categorias ON cursos.id_categoria = categorias.id WHERE cursos.borrado='0' ORDER BY `cursos`.`id` ASC");
-            $stmt->execute([]); 
+            $stmt = $db->prepare("SELECT *, (SELECT categoria FROM categorias WHERE id=id_categoria) AS categoria FROM cursos WHERE borrado=?");
+            $stmt->execute([0]); 
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $results;
         } catch (PDOException $e) {
@@ -23,18 +32,57 @@ class Curso extends \Core\Model
         }
     }
 
-    public static function obtener($id)
+    public static function obtener()
     {    
         try 
         {
             $db = static::getDB();
-            $stmt = $db->prepare("SELECT cursos.id, cursos.codigo, cursos.curso, cursos.descripcion, cursos.imagen, cursos.id_categoria, categorias.categoria, cursos.activo, cursos.fechar FROM cursos INNER JOIN categorias ON cursos.id_categoria = categorias.id WHERE cursos.id=? ORDER BY `cursos`.`id` ASC");
-            $stmt->execute([$id]); 
+            $stmt = $db->prepare("SELECT *, (SELECT categoria FROM categorias WHERE id=id_categoria), DATE_FORMAT(fechar, \"%M %d %Y\") AS fecha FROM cursos WHERE borrado=? AND id = ?");
+            $stmt->execute([0, self::$id]); 
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $results;
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
+    }
+
+    public static function obtenerUsuarios() {
+        try 
+        {
+            $db = static::getDB();
+            $stmt = $db->prepare("SELECT usuarios.*, (SELECT role FROM roles WHERE id = usuarios.id_rol) AS role, (SELECT grupo FROM grupos WHERE id = grupos_usuarios.id_usuario) AS grupo, (SELECT generacion FROM generaciones WHERE id = grupos_usuarios.id_grupo) AS generacion FROM usuarios, grupos, grupos_usuarios, cursos_grupos WHERE grupos_usuarios.id_grupo = cursos_grupos.id_grupo AND grupos.id = cursos_grupos.id_grupo AND grupos.borrado = ? AND grupos_usuarios.id_usuario = usuarios.id AND usuarios.borrado = ? AND cursos_grupos.id_curso = ?");
+            $stmt->execute([0, 0, self::$id]); 
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }        
+    }
+
+    public static function obtenerGrupos() {
+        try 
+        {
+            $db = static::getDB();
+            $stmt = $db->prepare("SELECT grupos.*, (SELECT generacion FROM generaciones WHERE id = grupos.id_generacion) AS generacion FROM grupos, cursos, cursos_grupos WHERE grupos.id = cursos_grupos.id_grupo AND cursos_grupos.id_curso = cursos.id AND cursos.id = ? AND cursos_grupos.borrado = ?");
+            $stmt->execute([self::$id, 0]); 
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }        
+    }
+
+    public static function obtenerTodosGrupos() {
+        try 
+        {
+            $db = static::getDB();
+            $stmt = $db->prepare("SELECT grupos.*, (SELECT generacion FROM generaciones WHERE id = grupos.id_generacion) AS generacion FROM grupos WHERE grupos.borrado = ?");
+            $stmt->execute([0]); 
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }        
     }
 
     public static function categorias()
@@ -42,7 +90,7 @@ class Curso extends \Core\Model
         try 
         {
             $db = static::getDB();
-            $stmt = $db->prepare("SELECT * FROM categorias WHERE categorias.borrado='0' ORDER BY `categorias`.`id` ASC");
+            $stmt = $db->prepare("SELECT * FROM categorias WHERE borrado='0'");
             $stmt->execute([]); 
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $results;
@@ -51,38 +99,78 @@ class Curso extends \Core\Model
         }
     }
 
-    public static function agregar($codigo, $curso, $descripcion, $id_categoria, $activo)
+    public static function agregar()
     {
         try {
             $db = static::getDB();
-            $stmt = $db->prepare("INSERT INTO `cursos` (`id`, `codigo`, `curso`, `descripcion`, `id_categoria`, `activo`, `imagen`, `borrado`, `ip`, `id_usuario`) VALUES (NULL, ?, ?, ?, ?, ?, '', '0', ?, ?)");
-            $stmt->execute([$codigo, $curso, $descripcion, $id_categoria, $activo, self::$ip, $_SESSION['eduflix']['id']]); 
+            $stmt = $db->prepare("INSERT INTO `cursos` (`codigo`, `curso`, `descripcion`, `id_categoria`, `activo`, `ip`, `id_usuario`) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([self::$codigo, self::$curso, self::$descripcion, self::$id_categoria, self::$activo, self::$ip, $_SESSION['eduflix']['id']]); 
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
     }
 
-    public static function actualizar($id, $imagen, $codigo, $curso, $descripcion, $id_categoria, $activo)
+    public static function actualizar()
     {
         try {
             $db = static::getDB();
             $stmt = $db->prepare("UPDATE `cursos` SET `imagen` = ?, `codigo` = ?, `curso` = ?, `descripcion` = ?, `id_categoria` = ?, `activo` = ?, `id_usuario` = ? , `ip` = ?, `fecham` = current_timestamp() WHERE `cursos`.`id` = ?");
-            $stmt->execute([$imagen, $codigo, $curso, $descripcion, $id_categoria, $activo,$_SESSION['eduflix']['id'], self::$ip, $id]); 
+            $stmt->execute([self::$imagen, self::$codigo, self::$curso, self::$descripcion, self::$id_categoria, self::$activo, $_SESSION['eduflix']['id'], self::$ip, self::$id]); 
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
     }
 
-    public static function eliminar($id)
+    public static function eliminar()
     {    
         try {
             $db = static::getDB();
-            $stmt = $db->prepare("UPDATE `cursos` SET `borrado` = '1', `id_usuario` = ?, `ip` = ?, `fecham` = current_timestamp() WHERE `cursos`.`id` = ?");
-            $stmt->execute([$_SESSION['eduflix']['id'], self::$ip, $id]); 
+            $stmt = $db->prepare("UPDATE `cursos` SET `borrado` = ?, `id_usuario` = ?, `ip` = ?, `fecham` = current_timestamp() WHERE `cursos`.`id` = ?");
+            $stmt->execute([1, $_SESSION['eduflix']['id'], self::$ip, self::$id]); 
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
     }
+
+    public static function agregarGrupo()
+    {    
+        try {
+            $db = static::getDB();
+            $stmt = $db->prepare("SELECT * FROM cursos_grupos WHERE id_grupo = ?");
+            $stmt->execute([self::$id_grupo]); 
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            // Verifica si existe
+            if (count($results) == 1)
+            {
+                // Si existe pero está deshabilitado lo habilita
+                if ($results[0]['borrado'] == 1)
+                {
+                    $stmt = $db->prepare("UPDATE cursos_grupos SET borrado = ? WHERE id_grupo = ?");
+                    $stmt->execute([0, self::$id, self::$id_grupo]); 
+                }
+            } 
+            else 
+            {
+                // Si no existe lo crea
+                $stmt = $db->prepare("INSERT cursos_grupos (id_curso, id_grupo, id_usuario, ip) VALUES (?, ?, ?, ?)");
+                $stmt->execute([self::$id, self::$id_grupo, $_SESSION['eduflix']['id'], self::$ip]); 
+            }
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public static function eliminarGrupo()
+    {    
+        try {
+            $db = static::getDB();
+            $stmt = $db->prepare("UPDATE `cursos_grupos` SET `borrado` = ?, `id_usuario` = ?, `ip` = ?, `fecham` = current_timestamp() WHERE `cursos_grupos`.`id_curso` = ? AND `cursos_grupos`.`id_grupo` = ?");
+            $stmt->execute([1, $_SESSION['eduflix']['id'], self::$ip, self::$id, self::$id_grupo]); 
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
     public static function obtenerUltimoID() 
     {  
         try 

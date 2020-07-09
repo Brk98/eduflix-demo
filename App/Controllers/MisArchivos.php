@@ -3,9 +3,9 @@
 namespace App\Controllers;
 use App\Config;
 use \Core\View;
-use App\Models\Archivo;
+use App\Models\MisArchivosModel;
 
-class Archivos extends \Core\Controller
+class MisArchivos extends \Core\Controller
 {
     public function indexAction()
     {
@@ -16,10 +16,10 @@ class Archivos extends \Core\Controller
     {      
         try 
         {  
-            $archivos = Archivo::tabla();
+            $archivos = MisArchivosModel::tabla();
             for ($i = 0; $i < count($archivos); $i++)
                 $archivos[$i]['descripcion'] = strip_tags($archivos[$i]['descripcion']);
-            View::renderTemplate('Archivos/tabla.html', [
+            View::renderTemplate('MisArchivos/tabla.html', [
                 'archivos' => $archivos
             ]);
         } catch (PDOException $e) {
@@ -31,7 +31,7 @@ class Archivos extends \Core\Controller
     {      
         try 
         {  
-            View::renderTemplate('Archivos/nuevo.html', []);
+            View::renderTemplate('MisArchivos/nuevo.html', []);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -41,8 +41,9 @@ class Archivos extends \Core\Controller
     {      
         try 
         {  
-            $elementos = Archivo::obtener($this->route_params['id']);
-            View::renderTemplate('Archivos/editar.html', [
+            MisArchivosModel::$id = $this->route_params['id'];
+            $elementos = MisArchivosModel::obtener();
+            View::renderTemplate('MisArchivos/editar.html', [
                 'elementos' => $elementos
             ]);
         } catch (PDOException $e) {
@@ -54,16 +55,25 @@ class Archivos extends \Core\Controller
     {      
         try 
         {
-            Archivo::$ip = $this->getIP();
-            Archivo::agregar($_POST['nombre'], $_POST['descripcion'], $_FILES['archivo']['name'], isset($_POST['privado']));
-            $id = Archivo::obtenerUltimoID();
+            MisArchivosModel::$ip = $this->getIP();
+            MisArchivosModel::$nombre = $_POST['nombre'];
+            MisArchivosModel::$descripcion = $_POST['descripcion'];
+            MisArchivosModel::$archivo = $_FILES['archivo']['name'];
+            MisArchivosModel::$privado = isset($_POST['privado']);
+            MisArchivosModel::agregar();
+            $id = MisArchivosModel::obtenerUltimoID();
             $id = $id[0]['id'];
             $dir_subida = "repositorio/archivos/";
             mkdir($dir_subida.$id."/");
             $fichero_subido = $dir_subida .$id."/".basename($_FILES['archivo']['name']);
             move_uploaded_file($_FILES['archivo']['tmp_name'], $fichero_subido);
-            Archivo::actualizar($id, $_POST['nombre'], $_POST['descripcion'], $_FILES['archivo']['name'], isset($_POST['privado']));
-            header( "Location: ".Config::HOST.Config::DIRECTORY."archivos/");
+            MisArchivosModel::$id = $id;
+            MisArchivosModel::$nombre = $_POST['nombre'];
+            MisArchivosModel::$descripcion = $_POST['descripcion'];
+            MisArchivosModel::$archivo = $_FILES['archivo']['name'];
+            MisArchivosModel::$privado = isset($_POST['privado']);
+            MisArchivosModel::actualizar();
+            header( "Location: ".Config::HOST.Config::DIRECTORY."MisArchivos/");
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -73,12 +83,17 @@ class Archivos extends \Core\Controller
     {      
         try 
         {  
-            Archivo::$ip = $this->getIP();
+            MisArchivosModel::$ip = $this->getIP();
             $dir_subida = "repositorio/archivos/";
             $fichero_subido = $dir_subida .$_POST['id']."/".basename($_FILES['archivo']['name']);
             move_uploaded_file($_FILES['archivo']['tmp_name'], $fichero_subido);
-            Archivo::actualizar($_POST['id'], $_POST['nombre'], $_POST['descripcion'], $_FILES['archivo']['name'], isset($_POST['privado']));
-            header( "Location: ".Config::HOST.Config::DIRECTORY."archivos/");
+            MisArchivosModel::$id = $_POST['id'];
+            MisArchivosModel::$nombre = $_POST['nombre'];
+            MisArchivosModel::$descripcion = $_POST['descripcion'];
+            MisArchivosModel::$archivo = $_FILES['archivo']['name'];
+            MisArchivosModel::$privado = isset($_POST['privado']);
+            MisArchivosModel::actualizar();
+            header( "Location: ".Config::HOST.Config::DIRECTORY."MisArchivos/");
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -88,9 +103,10 @@ class Archivos extends \Core\Controller
     {      
         try 
         {  
-            Archivo::$ip = $this->getIP();
-            Archivo::eliminar($this->route_params['id']);
-            header( "Location: ".Config::HOST.Config::DIRECTORY."archivos/");
+            MisArchivosModel::$ip = $this->getIP();
+            MisArchivosModel::$id = $this->route_params['id'];
+            MisArchivosModel::eliminar();
+            header( "Location: ".Config::HOST.Config::DIRECTORY."MisArchivos/");
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -100,7 +116,8 @@ class Archivos extends \Core\Controller
     {      
         try 
         {
-            $archivo = Archivo::obtener($this->route_params['id']);
+            MisArchivosModel::$id = $this->route_params['id'];
+            $archivo = MisArchivosModel::obtener();
             $url = Config::HOST.Config::DIRECTORY.'repositorio/archivos/'.$archivo['0']['id'].'/'.rawurlencode($archivo['0']['archivo']);
             header('Content-Type: application/octet-stream');
             header("Content-Transfer-Encoding: Binary"); 

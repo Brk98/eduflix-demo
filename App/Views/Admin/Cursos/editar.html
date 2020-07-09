@@ -80,7 +80,7 @@
                                     {% if categoria.id == elemento.id_categoria %}
                                     <option value="{{categoria.id}}" selected>{{categoria.categoria}}</option>
                                     {% else %}
-                                    <option value="{{categoria.id}}">{{categoria.categoria}}</option>
+                                    <option value="{{categoria.id}}">{{elemento.categoria}}</option>
                                     {% endif %}
                                     {% endfor %}
                                  </select>

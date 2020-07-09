@@ -1,0 +1,116 @@
+{% extends "master.html" %}
+{% block body %}
+<div class="wrapper">
+   <div class="sa4d25">
+      <div class="container-fluid">			
+         {% for elemento in elementos %}
+         <div class="row">
+            <div class="col-lg-12">	
+               <h2 class="st_title"><i class="uil uil-file-alt"></i> {{elemento.codigo}} - {{elemento.curso}}</h2>
+            </div>					
+         </div>				
+         <div class="row">	
+            <div class="col-md-7">
+                    <div class="fcrse_1">
+                           <a href="" class="hf_img">
+                              <img src="{{host}}{{directory}}{{elemento.imagen}}" alt="">
+                              <div class="course-overlay">
+                                 <div class="badge_seller">{{elemento.categoria}}</div>
+                                 <div class="crse_reviews">
+                                    <i class="uil uil-star"></i>4.5
+                                 </div>
+                                 <span class="play_btn1"><i class="uil uil-play"></i></span>
+                                 <div class="crse_timer">
+                                    25 horas
+                                 </div>
+                              </div>
+                           </a>
+                           <div class="hs_content">
+                              <div class="eps_dots eps_dots10 more_dropdown">
+                                 <a href="#"><i class="uil uil-ellipsis-v"></i></a>
+                                 <div class="dropdown-content">
+                                    <span><i class="uil uil-share-alt"></i>Conferencias</span>
+                                    <span><i class="uil uil-clock-three"></i>Grupos</span>
+                                    <span><i class="uil uil-ban"></i>Foros</span>
+                                    <span><i class="uil uil-windsock"></i>Calificaciones</span>
+                                 </div>																											
+                              </div>
+                              <div class="vdtodt">
+                                 <span class="vdt14">{{elemento.fecha}}</span>
+                                 
+                              </div>
+                              <a href="course_detail_view.html" class="crse14s title900">{{elemento.curso}}</a>
+                              <a href="#" class="crse-cate">{{elemento.descripcion}}</a>
+                           </div>
+                        </div>
+                        
+            </div>
+            
+            <div class="col-lg-12 col-md-12">
+            <div class="my_courses_tabs">
+            <ul class="nav nav-pills my_crse_nav" id="pills-tab" role="tablist">
+                     <li class="nav-item">
+                        <a class="nav-link" id="pills-my-purchases-tab" href="{{host}}{{directory}}admin/cursos/{{elemento.id}}/grupos" role="tab" aria-controls="pills-my-purchases" aria-selected="false"><i class="uil uil-folder"></i>Grupos</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link active" id="pills-my-courses-tab" href="{{host}}{{directory}}admin/cursos/{{elemento.id}}/usuarios" role="tab" aria-controls="pills-my-courses" aria-selected="true"><i class="uil uil-user"></i>Usuarios</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" id="pills-upcoming-courses-tab" href="{{host}}{{directory}}admin/cursos/{{elemento.id}}/conferencias" role="tab" aria-controls="pills-upcoming-courses" aria-selected="false"><i class="uil uil-kayak"></i>Conferencias</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" id="pills-discount-tab" href="{{host}}{{directory}}admin/cursos/{{elemento.id}}/foros" role="tab" aria-controls="pills-discount" aria-selected="false"><i class="uil uil-megaphone"></i>Foros</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" id="pills-promotions-tab" href="{{host}}{{directory}}admin/cursos/{{elemento.id}}/archivos" role="tab" aria-controls="pills-promotions" aria-selected="false"><i class="uil uil-file"></i>Archivos</a>
+                     </li>
+                  </ul>
+                  </div>
+            </div>
+            <div class="col-lg-12 col-md-12">
+            
+            <div class="card_dash1">
+         <div class="card_dash_left1">
+            <i class="uil uil-user-check"></i>
+            <h1>Inscribir Usuarios</h1>
+         </div>
+      </div>
+            
+            
+               <div class="table-responsive mt-30">
+                  <table class="table ucp-table earning__table" id="tabla">
+                     <thead class="thead-s">
+                        <tr>
+                           <th scope="col">No</th>
+                           <th scope="col">usuario</th>
+                           <th scope="col">Nombre</th>
+                           <th scope="col">Apellidos</th>
+                           <th scope="col">Correo</th>		
+                           <th scope="col">Grupo</th>	
+                           <th scope="col">Generacion</th>		
+                           <th scope="col">Rol</th>											
+                        </tr>
+                     </thead>
+                     <tbody>
+                        {% for usuario in usuarios %}
+                        <tr>										
+                           <td>{{usuario.id}}</td>	
+                           <td>{{usuario.usuario}}</td>	
+                           <td>{{usuario.nombre}}</td>	
+                           <td>{{usuario.apaterno}} {{usuario.amaterno}}</td>	
+                           <td>{{usuario.email}}</td>	
+                           <td>{{usuario.grupo}}</td>	
+                           <td>{{usuario.generacion}}</td>	
+                           <td>{{usuario.role}}</td>											
+                        </tr>
+                        {% endfor %}
+                     </tbody>				
+                  </table>
+               </div>
+         
+            </div>
+         </div>
+         {% endfor %}
+      </div>
+   </div>
+{% endblock %}

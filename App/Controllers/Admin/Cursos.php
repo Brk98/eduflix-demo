@@ -29,6 +29,37 @@ class Cursos extends \Core\Controller
             echo $e->getMessage();
         }
     }
+
+    public function inscribirGrupoAction()
+    {     
+        Curso::$id = $this->route_params['id'];
+        $grupos = Curso::obtenerTodosGrupos();
+        $cursos = Curso::obtener();
+        for ($i = 0; $i < count($grupos); $i++)
+            $grupos[$i]['descripcion'] = html_entity_decode(strip_tags($grupos[$i]['descripcion']));
+        View::renderTemplate('Admin/Cursos/inscribirGrupo.html', [
+            'grupos' => $grupos,
+            'cursos' => $cursos
+        ]);
+    }
+
+    public function agregarGrupoAction()
+    {     
+        Curso::$ip = $this->getIP();
+        Curso::$id = $this->route_params['id'];
+        Curso::$id_grupo = $_GET['id'];
+        Curso::agregarGrupo();
+        header( "Location: ".Config::HOST.Config::DIRECTORY."admin/cursos/".Curso::$id."/grupos");
+    }
+
+    public function eliminarGrupoAction()
+    {     
+        Curso::$ip = $this->getIP();
+        Curso::$id = $this->route_params['id'];
+        Curso::$id_grupo = $_GET['id'];
+        Curso::eliminarGrupo();
+        header( "Location: ".Config::HOST.Config::DIRECTORY."admin/cursos/".Curso::$id."/grupos");
+    }
     
     public function nuevoAction()
     {      
@@ -47,11 +78,51 @@ class Cursos extends \Core\Controller
     {      
         try 
         {  
-            $elementos = Curso::obtener($this->route_params['id']);
+            Curso::$ip = $this->getIP();
+            Curso::$id = $this->route_params['id'];
+            $elementos = Curso::obtener();
             $categorias = Curso::categorias();
             View::renderTemplate('Admin/Cursos/editar.html', [
                 'elementos' => $elementos,
                 'categorias' => $categorias
+            ]);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+       
+    public function usuariosAction()
+    {      
+        try 
+        {  
+            Curso::$id = $this->route_params['id'];
+            $elementos = Curso::obtener();
+            $usuarios = Curso::obtenerUsuarios();
+            for ($i = 0; $i < count($elementos); $i++)
+                $elementos[$i]['descripcion'] = html_entity_decode(strip_tags($elementos[$i]['descripcion']));
+            View::renderTemplate('Admin/Cursos/usuarios.html', [
+                'elementos' => $elementos,
+                'usuarios' => $usuarios
+            ]);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+       
+    public function gruposAction()
+    {      
+        try 
+        {  
+            Curso::$id = $this->route_params['id'];
+            $elementos = Curso::obtener();
+            $grupos = Curso::obtenerGrupos();
+            for ($i = 0; $i < count($elementos); $i++)
+                $elementos[$i]['descripcion'] = html_entity_decode(strip_tags($elementos[$i]['descripcion']));
+            for ($i = 0; $i < count($grupos); $i++)
+                $grupos[$i]['descripcion'] = html_entity_decode(strip_tags($grupos[$i]['descripcion']));
+            View::renderTemplate('Admin/Cursos/grupos.html', [
+                'elementos' => $elementos,
+                'grupos' => $grupos
             ]);
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -63,14 +134,17 @@ class Cursos extends \Core\Controller
         try 
         {  
             Curso::$ip = $this->getIP();
-            Curso::agregar($_POST['codigo'], $_POST['curso'], $_POST['descripcion'], $_POST['id_categoria'], isset($_POST['activo']));
+            Curso::$codigo = $_POST['codigo'];
+            Curso::$curso = $_POST['curso'];
+            Curso::$descripcion = $_POST['descripcion'];
+            Curso::$id_categoria = $_POST['id_categoria'];
+            Curso::$activo = isset($_POST['activo']);
+            Curso::agregar();
             $id = Curso::obtenerUltimoID();
             $id = $id[0]['id'];
             $dir_subida = "repositorio/cursos/";
             $fichero_subido = $dir_subida . basename($id . '.jpg');
-
             $sourcePath = $_FILES['imagen']['tmp_name'];
-
             if(move_uploaded_file($sourcePath,$fichero_subido)) {
                 $image = new ImageResize($fichero_subido);
                 $image->crop(480, 270, true, ImageResize::CROPCENTER);
@@ -78,7 +152,15 @@ class Cursos extends \Core\Controller
                 unlink($fichero_subido);
                 $image->save($fichero_subido);
             }
-            Curso::actualizar($id, $fichero_subido, $_POST['codigo'], $_POST['curso'], $_POST['descripcion'], $_POST['id_categoria'], isset($_POST['activo']));
+            Curso::$ip = $this->getIP();
+            Curso::$id = $id;
+            Curso::$imagen = $fichero_subido;
+            Curso::$codigo = $_POST['codigo'];
+            Curso::$curso = $_POST['curso'];
+            Curso::$descripcion = $_POST['descripcion'];
+            Curso::$id_categoria = $_POST['id_categoria'];
+            Curso::$activo = isset($_POST['activo']);
+            Curso::actualizar();
             header( "Location: ".Config::HOST.Config::DIRECTORY."admin/cursos/");
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -101,7 +183,16 @@ class Cursos extends \Core\Controller
                 $image->save($fichero_subido);
             }
 
-            Curso::actualizar($_POST['id'], $fichero_subido, $_POST['codigo'], $_POST['curso'], $_POST['descripcion'], $_POST['id_categoria'], isset($_POST['activo']));
+            Curso::$ip = $this->getIP();
+            Curso::$id = $_POST['id'];
+            Curso::$imagen = $fichero_subido;
+            Curso::$codigo = $_POST['codigo'];
+            Curso::$curso = $_POST['curso'];
+            Curso::$descripcion = $_POST['descripcion'];
+            Curso::$id_categoria = $_POST['id_categoria'];
+            Curso::$activo = isset($_POST['activo']);
+            
+            Curso::actualizar();
             header( "Location: ".Config::HOST.Config::DIRECTORY."admin/cursos/");
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -113,7 +204,8 @@ class Cursos extends \Core\Controller
         try 
         {  
             Curso::$ip = $this->getIP();
-            Curso::eliminar($this->route_params['id']);
+            Curso::$id = $this->route_params['id'];
+            Curso::eliminar();
             header( "Location: ".Config::HOST.Config::DIRECTORY."admin/cursos/");
         } catch (PDOException $e) {
             echo $e->getMessage();

@@ -5,22 +5,20 @@ namespace App\Models\Admin;
 use App\Models\LoginModel;
 use PDO;
 
-class Conferencia extends \Core\Model
+class Generacion extends \Core\Model
 {
     public static $ip;
     public static $id;
-    public static $conferencia;
+    public static $generacion;
     public static $descripcion;
-    public static $fecha;
-    public static $horario;
-    public static $duracion;
+    public static $activo;
 
     public static function tabla()
     {    
         try 
         {
             $db = static::getDB();
-            $stmt = $db->prepare("SELECT *, (SELECT usuario FROM usuarios WHERE id=id_usuario) AS usuario FROM conferencias WHERE borrado='?'");
+            $stmt = $db->prepare("SELECT *, (SELECT usuario FROM usuarios WHERE id=id_usuario) AS usuario FROM generaciones WHERE borrado='?'");
             $stmt->execute([0]); 
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $results;
@@ -34,7 +32,7 @@ class Conferencia extends \Core\Model
         try 
         {
             $db = static::getDB();
-            $stmt = $db->prepare("SELECT *, (SELECT usuario FROM usuarios WHERE id=id_usuario) AS usuario FROM conferencias WHERE id=?");
+            $stmt = $db->prepare("SELECT *, (SELECT usuario FROM usuarios WHERE id=id_usuario) AS usuario FROM generaciones WHERE id=?");
             $stmt->execute([self::$id]); 
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $results;
@@ -47,8 +45,8 @@ class Conferencia extends \Core\Model
     {
         try {
             $db = static::getDB();
-            $stmt = $db->prepare("INSERT INTO conferencias (conferencia, descripcion, fecha, horario, duracion, id_usuario, ip) VALUES (?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([self::$conferencia, self::$descripcion, self::$fecha, self::$horario,self:: $duracion, $_SESSION['eduflix']['id'], self::$ip]); 
+            $stmt = $db->prepare("INSERT INTO generaciones (generacion, descripcion, activo, id_usuario, ip) VALUES (?, ?, ?, ?, ?)");
+            $stmt->execute([self::$generacion, self::$descripcion, self::$activo, $_SESSION['eduflix']['id'], self::$ip]); 
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -58,8 +56,8 @@ class Conferencia extends \Core\Model
     {
         try {
             $db = static::getDB();
-            $stmt = $db->prepare("UPDATE conferencias SET conferencia = ?, descripcion = ?, fecha = ?, horario = ?, duracion = ?, id_usuario = ?, ip = ?, fecham = current_timestamp() WHERE id = ?");
-            $stmt->execute([self::$conferencia, self::$descripcion, self::$fecha, self::$horario, self::$duracion, $_SESSION['eduflix']['id'], self::$ip, self::$id]); 
+            $stmt = $db->prepare("UPDATE generaciones SET generacion = ?, descripcion = ?, activo = ?, id_usuario = ?, ip = ?, fecham = current_timestamp() WHERE id = ?");
+            $stmt->execute([self::$generacion, self::$descripcion, self::$activo, $_SESSION['eduflix']['id'], self::$ip, self::$id]); 
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -69,7 +67,7 @@ class Conferencia extends \Core\Model
     {    
         try {
             $db = static::getDB();
-            $stmt = $db->prepare("UPDATE conferencias SET borrado = ?, id_usuario = ?, ip = ?, fecham = current_timestamp() WHERE id = ?");
+            $stmt = $db->prepare("UPDATE generaciones SET borrado = ?, id_usuario = ?, ip = ?, fecham = current_timestamp() WHERE id = ?");
             $stmt->execute([1, $_SESSION['eduflix']['id'], self::$ip, self::$id]); 
         } catch (PDOException $e) {
             echo $e->getMessage();

@@ -41,7 +41,8 @@ class Conferencias extends \Core\Controller
     {      
         try 
         {  
-            $elementos = Conferencia::obtener($this->route_params['id']);
+            Conferencia::$id = $this->route_params['id'];
+            $elementos = Conferencia::obtener();
             View::renderTemplate('Admin/Conferencias/editar.html', [
                 'elementos' => $elementos
             ]);
@@ -55,7 +56,12 @@ class Conferencias extends \Core\Controller
         try 
         {  
             Conferencia::$ip = $this->getIP();
-            Conferencia::agregar($_POST['conferencia'], $_POST['descripcion'], $_POST['fecha'], $_POST['horario'], $_POST['duracion']);
+            Conferencia::$conferencia = $_POST['conferencia'];
+            Conferencia::$descripcion = $_POST['descripcion'];
+            Conferencia::$fecha = $_POST['fecha'];
+            Conferencia::$horario = $_POST['horario'];
+            Conferencia::$duracion = $_POST['duracion'];
+            Conferencia::agregar();
             header( "Location: ".Config::HOST.Config::DIRECTORY."admin/conferencias/");
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -67,7 +73,13 @@ class Conferencias extends \Core\Controller
         try 
         {  
             Conferencia::$ip = $this->getIP();
-            Conferencia::actualizar($_POST['id'], $_POST['conferencia'], $_POST['descripcion'], $_POST['fecha'], $_POST['horario'], $_POST['duracion']);
+            Conferencia::$id = $_POST['id'];
+            Conferencia::$conferencia = $_POST['conferencia'];
+            Conferencia::$descripcion = $_POST['descripcion'];
+            Conferencia::$fecha = $_POST['fecha'];
+            Conferencia::$horario = $_POST['horario'];
+            Conferencia::$duracion = $_POST['duracion'];
+            Conferencia::actualizar();
             header( "Location: ".Config::HOST.Config::DIRECTORY."admin/conferencias/");
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -79,7 +91,8 @@ class Conferencias extends \Core\Controller
         try 
         {  
             Conferencia::$ip = $this->getIP();
-            Conferencia::eliminar($this->route_params['id']);
+            Conferencia::$id = $this->route_params['id'];
+            Conferencia::eliminar();
             header( "Location: ".Config::HOST.Config::DIRECTORY."admin/conferencias/");
         } catch (PDOException $e) {
             echo $e->getMessage();

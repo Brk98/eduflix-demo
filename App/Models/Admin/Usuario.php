@@ -8,13 +8,24 @@ use PDO;
 class Usuario extends \Core\Model
 {
     public static $ip;
+    public static $id;
+    public static $foto;
+    public static $nombre;
+    public static $apaterno;
+    public static $amaterno;
+    public static $email;
+    public static $telefono;
+    public static $usuario;
+    public static $password;
+    public static $role;
+    public static $activo;
 
     public static function tabla()
     {    
         try 
         {
             $db = static::getDB();
-            $stmt = $db->prepare("SELECT usuarios.id, usuarios.usuario, usuarios.nombre, usuarios.apaterno, usuarios.amaterno, usuarios.email, usuarios.telefono, usuarios.fechar, roles.role FROM usuarios INNER JOIN roles ON usuarios.id_rol = roles.id WHERE usuarios.borrado='0'");
+            $stmt = $db->prepare("SELECT *, (SELECT role FROM roles WHERE id = id_rol) AS role FROM usuarios WHERE borrado='0'");
             $stmt->execute([]); 
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $results;
@@ -23,13 +34,13 @@ class Usuario extends \Core\Model
         }
     }
 
-    public static function obtener($id)
+    public static function obtener()
     {    
         try 
         {
             $db = static::getDB();
-            $stmt = $db->prepare("SELECT usuarios.id, usuarios.foto, usuarios.usuario, usuarios.password, usuarios.nombre, usuarios.apaterno, usuarios.amaterno, usuarios.activo, usuarios.email, usuarios.telefono, usuarios.fechar, usuarios.id_rol, roles.role FROM usuarios INNER JOIN roles ON usuarios.id_rol = roles.id WHERE usuarios.id=?");
-            $stmt->execute([$id]); 
+            $stmt = $db->prepare("SELECT *, (SELECT role FROM roles WHERE id = id_rol) AS role FROM usuarios WHERE borrado='0' AND id=?");
+            $stmt->execute([self::$id]); 
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $results;
         } catch (PDOException $e) {
@@ -51,34 +62,34 @@ class Usuario extends \Core\Model
         }
     }
 
-    public static function agregar($foto, $nombre, $apaterno, $amaterno, $email, $telefono, $usuario, $password, $role, $activo)
+    public static function agregar()
     {
         try {
             $db = static::getDB();
-            $stmt = $db->prepare("INSERT INTO `usuarios` (`id`, `foto`, `nombre`, `apaterno`, `amaterno`, `email`, `telefono`, `usuario`, `password`, `id_rol`, `activo`, `borrado`,  `id_usuario`,  `ip`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '0', ?, ?)");
-            $stmt->execute([$foto, $nombre, $apaterno, $amaterno, $email, $telefono, $usuario, $password, $role, $activo, $_SESSION['eduflix']['id'], self::$ip]); 
+            $stmt = $db->prepare("INSERT INTO `usuarios` (`id`, `nombre`, `apaterno`, `amaterno`, `email`, `telefono`, `usuario`, `password`, `id_rol`, `activo`, `id_usuario`,  `ip`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([self::$nombre, self::$apaterno, self::$amaterno, self::$email, self::$telefono, self::$usuario, self::$password, self::$role, self::$activo, $_SESSION['eduflix']['id'], self::$ip]); 
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
     }
 
-    public static function actualizar($id, $foto, $nombre, $apaterno, $amaterno, $email, $telefono, $usuario, $password, $role, $activo)
+    public static function actualizar()
     {
         try {
             $db = static::getDB();
-            $stmt = $db->prepare("UPDATE `usuarios` SET `foto` = ?, `nombre` = ?, `apaterno` = ?, `amaterno` = ?, `email` = ?, `telefono` = ?, `usuario` = ?, `password` = ?, `id_rol` = ?, `activo` = ?, `id_usuario` = ?, `ip` = ?, `fecham` = current_timestamp() WHERE `usuarios`.`id` = ?");
-            $stmt->execute([$foto, $nombre, $apaterno, $amaterno, $email, $telefono, $usuario, $password, $role, $activo, $_SESSION['eduflix']['id'], self::$ip, $id]); 
+            $stmt = $db->prepare("UPDATE `usuarios` SET `foto` = ?, `nombre` = ?, `apaterno` = ?, `amaterno` = ?, `email` = ?, `telefono` = ?, `usuario` = ?, `password` = ?, `id_rol` = ?, `activo` = ?, `id_usuario` = ?, `ip` = ?, `fecham` = current_timestamp() WHERE `id` = ?");
+            $stmt->execute([self::$foto, self::$nombre, self::$apaterno, self::$amaterno, self::$email, self::$telefono, self::$usuario, self::$password, self::$role, self::$activo, $_SESSION['eduflix']['id'], self::$ip, self::$id]); 
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
     }
 
-    public static function eliminar($id)
+    public static function eliminar()
     {    
         try {
             $db = static::getDB();
-            $stmt = $db->prepare("UPDATE `usuarios` SET `borrado` = '1', `id_usuario` = ?, `ip` = ?, `fecham` = current_timestamp() WHERE `usuarios`.`id` = ?");
-            $stmt->execute([$_SESSION['eduflix']['id'], self::$ip, $id]); 
+            $stmt = $db->prepare("UPDATE `usuarios` SET `borrado` = '1', `id_usuario` = ?, `ip` = ?, `fecham` = current_timestamp() WHERE `id` = ?");
+            $stmt->execute([$_SESSION['eduflix']['id'], self::$ip, self::$id]); 
         } catch (PDOException $e) {
             echo $e->getMessage();
         }

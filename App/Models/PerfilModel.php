@@ -7,6 +7,16 @@ use PDO;
 class PerfilModel extends \Core\Model
 {
     public static $ip;
+    public static $id;
+    public static $foto;
+    public static $nombre;
+    public static $apaterno;
+    public static $amaterno;
+    public static $email;
+    public static $telefono;
+    public static $password;
+    public static $activo;
+    
 
     public static function editar()
     {    
@@ -36,12 +46,12 @@ class PerfilModel extends \Core\Model
         }
     }
 
-    public static function actualizar($id, $foto, $nombre, $apaterno, $amaterno, $email, $telefono, $password, $activo)
+    public static function actualizar()
     {
         try {
             $db = static::getDB();
             $stmt = $db->prepare("UPDATE `usuarios` SET `foto` = ?, `nombre` = ?, `apaterno` = ?, `amaterno` = ?, `email` = ?, `telefono` = ?, `password` = ?, `activo` = ?, `ip` = ?, `fecham` = current_timestamp() WHERE `usuarios`.`id` = ?");
-            $stmt->execute([$foto, $nombre, $apaterno, $amaterno, $email, $telefono, $password, $activo, self::$ip, $id]); 
+            $stmt->execute([self::$foto, self::$nombre, self::$apaterno, self::$amaterno, self::$email, self::$telefono, self::$password, self::$activo, self::$ip, self::$id]); 
         } catch (PDOException $e) {
             echo $e->getMessage();
         }

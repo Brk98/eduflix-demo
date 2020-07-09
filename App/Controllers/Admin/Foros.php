@@ -31,10 +31,8 @@ class Foros extends \Core\Controller
     {      
         try 
         {  
-            $foros = Foro::tabla();
             $tipos = Foro::tipo();
             View::renderTemplate('Admin/Foros/nuevo.html', [
-                'foros' => $foros,
                 'tipos' => $tipos
             ]);
         } catch (PDOException $e) {
@@ -48,7 +46,8 @@ class Foros extends \Core\Controller
         {  
             $foros = Foro::tabla();
             $tipos = Foro::tipo();
-            $elementos = Foro::obtener($this->route_params['id']);
+            Foro::$id = $this->route_params['id'];
+            $elementos = Foro::obtener();
             View::renderTemplate('Admin/Foros/editar.html', [
                 'elementos' => $elementos,
                 'foros' => $foros,
@@ -64,14 +63,26 @@ class Foros extends \Core\Controller
         try 
         {  
             Foro::$ip = $this->getIP();
-            Foro::agregar($_POST['tema'], $_POST['descripcion'], '', $_POST['id_tipo_foro'], isset($_POST['activo']));
+            Foro::$tema = $_POST['tema'];
+            Foro::$descripcion = $_POST['descripcion'];
+            Foro::$id_tipo_foro = $_POST['id_tipo_foro'];
+            Foro::$activo = isset($_POST['activo']);
+            Foro::agregar();
             $id = Foro::obtenerUltimoID();
             $id = $id[0]['id'];
             $dir_subida = "repositorio/foros/";
             mkdir($dir_subida.$id."/");
             $fichero_subido = $dir_subida .$id."/".basename($_FILES['archivo']['name']);
             move_uploaded_file($_FILES['archivo']['tmp_name'], $fichero_subido);
-            Foro::actualizar($id, $fichero_subido, $_POST['tema'], $_POST['descripcion'], $_POST['id_tipo_foro'], isset($_POST['activo']));
+
+            Foro::$ip = $id;
+            Foro::$archivo = $fichero_subido;
+            Foro::$tema = $_POST['tema'];
+            Foro::$descripcion = $_POST['descripcion'];
+            Foro::$id_tipo_foro = $_POST['id_tipo_foro'];
+            Foro::$activo = isset($_POST['activo']);
+
+            Foro::actualizar();
             header( "Location: ".Config::HOST.Config::DIRECTORY."admin/foros/");
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -87,7 +98,15 @@ class Foros extends \Core\Controller
             $fichero_subido = $dir_subida .$_POST['id']."/".basename($_FILES['archivo']['name']);
             move_uploaded_file($_FILES['archivo']['tmp_name'], $fichero_subido);
 
-            Foro::actualizar($_POST['id'], $fichero_subido, $_POST['tema'], $_POST['descripcion'], $_POST['id_tipo_foro'], isset($_POST['activo']));
+
+            Foro::$id = $_POST['id'];
+            Foro::$archivo = $fichero_subido;
+            Foro::$tema = $_POST['tema'];
+            Foro::$descripcion = $_POST['descripcion'];
+            Foro::$id_tipo_foro = $_POST['id_tipo_foro'];
+            Foro::$activo = isset($_POST['activo']);
+
+            Foro::actualizar();
             header( "Location: ".Config::HOST.Config::DIRECTORY."admin/foros/");
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -99,7 +118,8 @@ class Foros extends \Core\Controller
         try 
         {  
             Foro::$ip = $this->getIP();
-            Foro::eliminar($this->route_params['id']);
+            Foro::$id = $this->route_params['id'];
+            Foro::eliminar();
             header( "Location: ".Config::HOST.Config::DIRECTORY."admin/foros/");
         } catch (PDOException $e) {
             echo $e->getMessage();

@@ -1,0 +1,55 @@
+{% extends "master.html" %}
+{% block body %}
+<div class="wrapper">				
+   <div class="sa4d25">
+      <div class="container-fluid">			
+         <div class="row">
+            <div class="col-lg-9 col-md-8">
+               <div class="_14d25 mb-20">						
+                  <div class="row">
+                     <div class="col-md-12">
+                        <h4 class="mhs_title">{{ncursos}} Cursos</h4>
+                        {% for curso in cursos %}
+                        <div class="fcrse_1 mt-30">
+                           <a href="course_detail_view.html" class="hf_img">
+                              <img src="{{host}}{{directory}}{{curso.imagen}}" alt="">
+                              <div class="course-overlay">
+                                 <div class="badge_seller">{{curso.categoria}}</div>
+                                 <div class="crse_reviews">
+                                    <i class="uil uil-star"></i>4.5
+                                 </div>
+                                 <span class="play_btn1"><i class="uil uil-play"></i></span>
+                                 <div class="crse_timer">
+                                    25 horas
+                                 </div>
+                              </div>
+                           </a>
+                           <div class="hs_content">
+                              <div class="eps_dots eps_dots10 more_dropdown">
+                                 <a href="#"><i class="uil uil-ellipsis-v"></i></a>
+                                 <div class="dropdown-content">
+                                    <span><i class="uil uil-share-alt"></i>Conferencias</span>
+                                    <span><i class="uil uil-clock-three"></i>Grupos</span>
+                                    <span><i class="uil uil-ban"></i>Foros</span>
+                                    <span><i class="uil uil-windsock"></i>Calificaciones</span>
+                                 </div>																											
+                              </div>
+                              <div class="vdtodt">
+                                 <span class="vdt14">{{curso.fecha}}</span>
+                              </div>
+                              <a href="{{host}}{{directory}}miscursos/{{curso.id}}/curso" class="crse14s title900">{{curso.curso}}</a>
+                              <a href="#" class="crse-cate">{{curso.descripcion}}</a>
+                              <div class="auth1lnkprce">
+                                 <p class="cr1fot">Prof. <a href="#">{{curso.profesor}}</a></p>
+                              </div>
+                           </div>
+                        </div>
+                        {% endfor %}
+                     </div>									
+                  </div>																		
+               </div>							
+            </div>				
+         </div>
+      </div>
+   </div>
+{% endblock %}

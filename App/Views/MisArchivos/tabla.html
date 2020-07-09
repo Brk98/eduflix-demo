@@ -14,7 +14,7 @@
                <h1>Subir Archivos</h1>
             </div>
             <div class="card_dash_right1">
-               <button class="create_btn_dash" onclick="window.location.href = '{{host}}{{directory}}archivos/nuevo';">Subir</button>
+               <button class="create_btn_dash" onclick="window.location.href = '{{host}}{{directory}}misarchivos/nuevo';">Subir</button>
             </div>
          </div>
       </div>
@@ -45,8 +45,8 @@
                         <td>{{archivo.fechar}}</td>
                         <td>{{archivo.fecham}}</td>
                         <td>
-                           <a href="{{host}}{{directory}}archivos/{{archivo.id}}/descargar" title="Download" class="gray-s"><i class="uil uil-download-alt"></i></a>
-                           <a href="{{host}}{{directory}}archivos/{{archivo.id}}/editar" title="Edit" class="gray-s"><i class="uil uil-edit-alt"></i></a>
+                           <a href="{{host}}{{directory}}misarchivos/{{archivo.id}}/descargar" title="Download" class="gray-s"><i class="uil uil-download-alt"></i></a>
+                           <a href="{{host}}{{directory}}misarchivos/{{archivo.id}}/editar" title="Edit" class="gray-s"><i class="uil uil-edit-alt"></i></a>
                            <a href="" data-toggle="modal" data-target="#modal{{archivo.id}}" title="Delete" class="gray-s"><i class="uil uil-trash-alt"></i></a>
                            <div class="modal fade" id="modal{{archivo.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                               <div class="modal-dialog" role="document">
@@ -62,7 +62,7 @@
                                     </div>
                                     <div class="modal-footer">
                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                       <a href="{{host}}{{directory}}archivos/{{archivo.id}}/eliminar"><button type="button" class="btn btn-primary">Aceptar</button></a>
+                                       <a href="{{host}}{{directory}}misarchivos/{{archivo.id}}/eliminar"><button type="button" class="btn btn-primary">Aceptar</button></a>
                                     </div>
                                  </div>
                               </div>

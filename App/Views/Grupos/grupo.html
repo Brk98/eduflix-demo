@@ -1,0 +1,65 @@
+{% extends "master.html" %}
+{% block body %}
+{% for grupo in grupos %}
+<div class="wrapper">
+<div class="sa4d25">
+   <div class="container">
+      <div class="row">
+         <div class="col-lg-12">
+            <h2 class="st_title"><i class="uil uil-book-alt"></i>Información del Grupo</h2>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-12">
+            <div id="add-course-tab" class="step-app">
+               <div class="tab-from-content">
+                  <div class="course__form">
+                        <div class="col-lg-12 col-md-12">
+                           <div class="mt-30 lbel25">
+                              <h2>Nombre del grupo: {{grupo.grupo}}</h2>
+                              <h3>Descripción</h3>
+                              <p>{{grupo.descripcion}}</p>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="row" style="margin-left: 32px; margin-right: 32px;">
+                        <div class="col-lg-12 col-md-12">
+                           <div class="mt-30 lbel25">
+                              <h2>Usuarios en este grupo</h2>
+                              <br/>
+                           </div>
+                           <table class="table ucp-table display" id="tabla">
+                              <thead class="thead-s">
+                                 <tr>
+                                    <th scope="col">Imagen</th>
+                                    <th scope="col">Usuario</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Rol</th>
+                                    <th scope="col">Activo</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                              {% for usuario in usuarios %}
+                                 <tr>
+                                 <td><img src="{{host}}{{directory}}{{usuario.foto}}" style="display: block; margin: 0 auto;"></td>
+                                 <td><a href="#">{{usuario.usuario}}</a></td>
+                                 <td>{{usuario.nombre}} {{usuario.apaterno}} {{usuario.amaterno}}</td>
+                                 <td>{{usuario.email}}</td>
+                                 <td>{{usuario.role}}</td>
+                                 <td>{{usuario.activo?'Si':'No'}}</td>
+                                 </tr>
+                                 {% endfor %}
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endfor %}
+{% endblock %}

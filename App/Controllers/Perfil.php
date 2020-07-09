@@ -49,7 +49,16 @@ class Perfil extends \Core\Controller
                 $image->save($fichero_subido);
             }
 
-            PerfilModel::actualizar($_POST['id'], $fichero_subido, $_POST['nombre'], $_POST['apaterno'], $_POST['amaterno'], $_POST['email'], $_POST['telefono'], $_POST['password'], isset($_POST['activo']));
+            PerfilModel::$id = $_POST['id'];
+            PerfilModel::$foto = $fichero_subido;
+            PerfilModel::$nombre = $_POST['nombre'];
+            PerfilModel::$apaterno = $_POST['apaterno'];
+            PerfilModel::$amaterno = $_POST['amaterno'];
+            PerfilModel::$email = $_POST['email'];
+            PerfilModel::$telefono = $_POST['telefono'];
+            PerfilModel::$password = $_POST['password'];
+            PerfilModel::$activo = isset($_POST['activo']);
+            PerfilModel::actualizar();
             header( "Location: ".Config::HOST.Config::DIRECTORY."perfil/editar");
         } catch (PDOException $e) {
             echo $e->getMessage();
