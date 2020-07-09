@@ -63,8 +63,8 @@ class Curso extends \Core\Model
         try 
         {
             $db = static::getDB();
-            $stmt = $db->prepare("SELECT grupos.*, (SELECT generacion FROM generaciones WHERE id = grupos.id_generacion) AS generacion FROM grupos, cursos, cursos_grupos WHERE grupos.id = cursos_grupos.id_grupo AND cursos_grupos.id_curso = cursos.id AND cursos.id = ? AND cursos_grupos.borrado = ?");
-            $stmt->execute([self::$id, 0]); 
+            $stmt = $db->prepare("SELECT grupos.*, (SELECT generacion FROM generaciones WHERE id = grupos.id_generacion) AS generacion FROM grupos, cursos, cursos_grupos WHERE grupos.borrado = ? AND grupos.id = cursos_grupos.id_grupo AND cursos_grupos.borrado = ? AND cursos_grupos.id_curso = cursos.id AND cursos.borrado = ? AND cursos.id = ? AND cursos_grupos.borrado = ?");
+            $stmt->execute([0, 0, 0, self::$id, 0]); 
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $results;
         } catch (PDOException $e) {
@@ -146,7 +146,7 @@ class Curso extends \Core\Model
                 if ($results[0]['borrado'] == 1)
                 {
                     $stmt = $db->prepare("UPDATE cursos_grupos SET borrado = ? WHERE id_grupo = ?");
-                    $stmt->execute([0, self::$id, self::$id_grupo]); 
+                    $stmt->execute([0, self::$id_grupo]); 
                 }
             } 
             else 
