@@ -38,8 +38,8 @@
                            <td>{{usuario.email}}</td>		
                            <td>{{usuario.role}}</td>											
                            <td>
-                           {% if usuario.id_grupo != NULL %}
-                           <i class="uil uil-check gray-s"></i>
+                           {% if usuario.inscrito %}
+                           <i class="uil uil-check-circle gray-s"></i>
                            {% else %}
                            <a href="" data-toggle="modal" data-target="#modal{{usuario.id}}" title="Agregar" class="gray-s"><i class="uil uil-plus-circle"></i></a>
                            <div class="modal fade" id="modal{{usuario.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

@@ -33,7 +33,16 @@ class Grupos extends \Core\Controller
         $usuarios = Grupo::obtenerTodosUsuarios();
         $grupos = Grupo::obtener();
         for ($i = 0; $i < count($grupos); $i++)
+        {
             $grupos[$i]['descripcion'] = html_entity_decode(strip_tags($grupos[$i]['descripcion']));
+        }
+        for ($i = 0; $i < count($usuarios); $i++)
+        {
+            if (Grupo::verificarInscrito($usuarios[$i]['id']))
+                $usuarios[$i]['inscrito'] = 1;   
+            else
+                $usuarios[$i]['inscrito'] = 0;   
+        }
         View::renderTemplate('Admin/Grupos/inscribirUsuario.html', [
             'usuarios' => $usuarios,
             'grupos' => $grupos

@@ -72,12 +72,25 @@ class Curso extends \Core\Model
         }        
     }
 
+    public static function verificarInscrito($id_grupo) {
+        try 
+        {
+            $db = static::getDB();
+            $stmt = $db->prepare("SELECT * FROM cursos_grupos WHERE borrado = '0' AND id_grupo = ? AND id_curso = ?");
+            $stmt->execute([$id_grupo, self::$id]); 
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }        
+    }
+
     public static function obtenerTodosGrupos() {
         try 
         {
             $db = static::getDB();
-            $stmt = $db->prepare("SELECT grupos.*, (SELECT generacion FROM generaciones WHERE id = grupos.id_generacion) AS generacion, (SELECT id_curso FROM cursos_grupos WHERE id_grupo = grupos.id AND cursos_grupos.borrado = ?) AS id_curso FROM grupos WHERE grupos.borrado = ?");
-            $stmt->execute([0, 0]); 
+            $stmt = $db->prepare("SELECT grupos.*, (SELECT generacion FROM generaciones WHERE id=grupos.id_generacion) AS generacion FROM grupos WHERE grupos.borrado = ?");
+            $stmt->execute([0]); 
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $results;
         } catch (PDOException $e) {
@@ -136,25 +149,8 @@ class Curso extends \Core\Model
     {    
         try {
             $db = static::getDB();
-            $stmt = $db->prepare("SELECT * FROM cursos_grupos WHERE id_grupo = ?");
-            $stmt->execute([self::$id_grupo]); 
-            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            // Verifica si existe
-            if (count($results) == 1)
-            {
-                // Si existe pero está deshabilitado lo habilita
-                if ($results[0]['borrado'] == 1)
-                {
-                    $stmt = $db->prepare("UPDATE cursos_grupos SET borrado = ?, id_curso = ? WHERE id_grupo = ?");
-                    $stmt->execute([0, self::$id, self::$id_grupo]); 
-                }
-            } 
-            else 
-            {
-                // Si no existe lo crea
-                $stmt = $db->prepare("INSERT cursos_grupos (id_curso, id_grupo, id_usuario, ip) VALUES (?, ?, ?, ?)");
-                $stmt->execute([self::$id, self::$id_grupo, $_SESSION['eduflix']['id'], self::$ip]); 
-            }
+            $stmt = $db->prepare("INSERT cursos_grupos (id_curso, id_grupo, id_usuario, ip) VALUES (?, ?, ?, ?)");
+            $stmt->execute([self::$id, self::$id_grupo, $_SESSION['eduflix']['id'], self::$ip]); 
         } catch (PDOException $e) {
             echo $e->getMessage();
         }

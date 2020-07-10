@@ -35,8 +35,13 @@ class Cursos extends \Core\Controller
         Curso::$id = $this->route_params['id'];
         $grupos = Curso::obtenerTodosGrupos();
         $cursos = Curso::obtener();
-        for ($i = 0; $i < count($grupos); $i++)
+        for ($i = 0; $i < count($grupos); $i++){
             $grupos[$i]['descripcion'] = html_entity_decode(strip_tags($grupos[$i]['descripcion']));
+            if (Curso::verificarInscrito($grupos[$i]['id']))
+                $grupos[$i]['inscrito'] = 1;   
+            else
+                $grupos[$i]['inscrito'] = 0;   
+        }
         View::renderTemplate('Admin/Cursos/inscribirGrupo.html', [
             'grupos' => $grupos,
             'cursos' => $cursos

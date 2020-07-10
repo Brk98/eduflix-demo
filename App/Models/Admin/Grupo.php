@@ -73,25 +73,8 @@ class Grupo extends \Core\Model
     {    
         try {
             $db = static::getDB();
-            $stmt = $db->prepare("SELECT * FROM grupos_usuarios WHERE id_usuario = ?");
-            $stmt->execute([self::$id_usuario]); 
-            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            // Verifica si existe
-            if (count($results) == 1)
-            {
-                // Si existe pero está deshabilitado lo habilita
-                if ($results[0]['borrado'] == 1)
-                {
-                    $stmt = $db->prepare("UPDATE grupos_usuarios SET borrado = ?, id_grupo = ? WHERE id_usuario = ?");
-                    $stmt->execute([0, self::$id, self::$id_usuario]); 
-                }
-            } 
-            else 
-            {
-                // Si no existe lo crea
-                $stmt = $db->prepare("INSERT grupos_usuarios (id_grupo, id_usuario, ip) VALUES (?, ?, ?)");
-                $stmt->execute([self::$id, self::$id_usuario, self::$ip]); 
-            }
+            $stmt = $db->prepare("INSERT grupos_usuarios (id_grupo, id_usuario, ip) VALUES (?, ?, ?)");
+            $stmt->execute([self::$id, self::$id_usuario, self::$ip]); 
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -114,8 +97,34 @@ class Grupo extends \Core\Model
         try 
         {
             $db = static::getDB();
-            $stmt = $db->prepare("SELECT usuarios.*, (SELECT role FROM roles WHERE id = usuarios.id_rol) AS role, (SELECT id_grupo FROM grupos_usuarios WHERE id_usuario = usuarios.id AND grupos_usuarios.borrado = ?) AS id_grupo FROM usuarios WHERE usuarios.borrado = ?");
-            $stmt->execute([0, 0]); 
+            $stmt = $db->prepare("SELECT usuarios.*, (SELECT role FROM roles WHERE roles.id = usuarios.id_rol) AS role FROM usuarios WHERE usuarios.borrado = ?");
+            $stmt->execute([0]); 
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }        
+    }
+
+    public static function obtenerGrupoUsuario() {
+        try 
+        {
+            $db = static::getDB();
+            $stmt = $db->prepare("SELECT * FROM grupos_usuarios WHERE borrado = '0' AND id_grupo = ? AND id_usuario = ?");
+            $stmt->execute([self::$id, self::$id_usuario]); 
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }        
+    }
+
+    public static function verificarInscrito($id_usuario) {
+        try 
+        {
+            $db = static::getDB();
+            $stmt = $db->prepare("SELECT * FROM grupos_usuarios WHERE borrado = '0' AND id_usuario = ? AND id_grupo = ?");
+            $stmt->execute([$id_usuario, self::$id]); 
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $results;
         } catch (PDOException $e) {
