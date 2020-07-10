@@ -57,46 +57,6 @@
 	<script src="https://cdn.ckeditor.com/4.14.1/standard-all/ckeditor.js"></script>
 	<script src="{{assets}}js/custom.js"></script>	
 	<script src="{{assets}}js/night-mode.js"></script>	
-	<script>
-		$(document).ready(function(){
-		var busqueda = $('#busqueda'),
-		titulo = $('p');
-		$(titulo).each(function(){
-			var p = $(this);
-			//si presionamos la tecla
-			$(busqueda).keyup(function(){
-				//cambiamos a minusculas
-				this.value = this.value.toLowerCase();
-				//
-				var clase = $('.search i');
-				if($(busqueda).val() != ''){
-					$(clase).attr('class', 'uil uil-search-alt icon icon8');
-				}else{
-					$(clase).attr('class', 'uil uil-times');
-				}
-				if($(clase).hasClass('uil uil-search-alt icon icon8')){
-					$(clase).click(function(){
-						//borramos el contenido del input
-						$(busqueda).val('');
-						//mostramos todas las listas
-						$(li).parent().show();
-						//volvemos a añadir la clase para mostrar la lupa
-						$(clase).attr('class', 'uil uil-times');
-					});
-				}
-				//ocultamos toda la lista
-				$(li).parent().hide();
-				//valor del h3
-				var txt = $(this).val();
-				//si hay coincidencias en la búsqueda cambiando a minusculas
-				if($(li).text().toLowerCase().indexOf(txt) > -1){
-					//mostramos las listas que coincidan
-					$(li).parent().show();
-				}
-			});
-		});
-	});
-	</script>
 	{% endblock %}
 	
 	
