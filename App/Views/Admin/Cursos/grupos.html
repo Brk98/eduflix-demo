@@ -94,7 +94,7 @@
                         {% for grupo in grupos %}
                         <tr>										
                            <td>{{grupo.id}}</td>	
-                           <td><a href="{{host}}{{directory}}admin/grupos/{{elemento.id}}/usuarios">{{grupo.grupo}}</a></td>	
+                           <td><a href="{{host}}{{directory}}admin/grupos/{{grupo.id}}/usuarios">{{grupo.grupo}}</a></td>	
                            <td>{{grupo.descripcion}}</td>	
                            <td>{{grupo.generacion}}</td>	
                            <td>{{grupo.activo?'Si':'No'}}</td>									

@@ -17,12 +17,16 @@ class MisCursos extends \Core\Controller
         try 
         {  
             $cursos = MisCursosModel::tabla();
+            $grupo = MisCursosModel::obtenerGrupo();
+            MisCursosModel::$id_grupo = $grupo[0]['id'];
+            $profesores = MisCursosModel::obtenerProfesores();
             $ncursos = count($cursos);
             for ($i = 0; $i < $ncursos; $i++)
                 $cursos[$i]['descripcion'] = html_entity_decode(strip_tags($cursos[$i]['descripcion']));
             View::renderTemplate('Cursos/tabla.html', [
                 'cursos' => $cursos,
-                'ncursos' => $ncursos
+                'ncursos' => $ncursos,
+                'profesores' => $profesores
             ]);
         } catch (PDOException $e) {
             echo $e->getMessage();

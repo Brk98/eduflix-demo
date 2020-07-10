@@ -50,8 +50,8 @@ class Curso extends \Core\Model
         try 
         {
             $db = static::getDB();
-            $stmt = $db->prepare("SELECT usuarios.*, (SELECT role FROM roles WHERE id = usuarios.id_rol) AS role, (SELECT grupo FROM grupos WHERE id = grupos_usuarios.id_usuario) AS grupo, (SELECT generacion FROM generaciones WHERE id = grupos_usuarios.id_grupo) AS generacion FROM usuarios, grupos, grupos_usuarios, cursos_grupos WHERE grupos_usuarios.id_grupo = cursos_grupos.id_grupo AND grupos.id = cursos_grupos.id_grupo AND grupos.borrado = ? AND grupos_usuarios.id_usuario = usuarios.id AND usuarios.borrado = ? AND cursos_grupos.id_curso = ?");
-            $stmt->execute([0, 0, self::$id]); 
+            $stmt = $db->prepare("SELECT usuarios.*, (SELECT grupo FROM grupos WHERE id = grupos_usuarios.id_grupo) AS grupo, (SELECT role FROM roles WHERE id = usuarios.id_rol) AS role FROM usuarios, grupos_usuarios, cursos_grupos WHERE usuarios.borrado = ? AND grupos_usuarios.borrado = ? AND cursos_grupos.borrado = ? AND usuarios.id = grupos_usuarios.id_usuario AND grupos_usuarios.id_grupo AND grupos_usuarios.id_grupo = cursos_grupos.id_grupo AND cursos_grupos.id_curso = ?");
+            $stmt->execute([0, 0, 0, self::$id]); 
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $results;
         } catch (PDOException $e) {
@@ -76,8 +76,8 @@ class Curso extends \Core\Model
         try 
         {
             $db = static::getDB();
-            $stmt = $db->prepare("SELECT grupos.*, (SELECT generacion FROM generaciones WHERE id = grupos.id_generacion) AS generacion FROM grupos WHERE grupos.borrado = ?");
-            $stmt->execute([0]); 
+            $stmt = $db->prepare("SELECT grupos.*, (SELECT generacion FROM generaciones WHERE id = grupos.id_generacion) AS generacion, (SELECT id_curso FROM cursos_grupos WHERE id_grupo = grupos.id AND cursos_grupos.borrado = ?) AS id_curso FROM grupos WHERE grupos.borrado = ?");
+            $stmt->execute([0, 0]); 
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $results;
         } catch (PDOException $e) {
@@ -145,8 +145,8 @@ class Curso extends \Core\Model
                 // Si existe pero está deshabilitado lo habilita
                 if ($results[0]['borrado'] == 1)
                 {
-                    $stmt = $db->prepare("UPDATE cursos_grupos SET borrado = ? WHERE id_grupo = ?");
-                    $stmt->execute([0, self::$id_grupo]); 
+                    $stmt = $db->prepare("UPDATE cursos_grupos SET borrado = ?, id_curso = ? WHERE id_grupo = ?");
+                    $stmt->execute([0, self::$id, self::$id_grupo]); 
                 }
             } 
             else 

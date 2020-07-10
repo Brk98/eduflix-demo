@@ -38,7 +38,10 @@
                            <td>{{usuario.email}}</td>		
                            <td>{{usuario.role}}</td>											
                            <td>
-                              <a href="" data-toggle="modal" data-target="#modal{{usuario.id}}" title="Agregar" class="gray-s"><i class="uil uil-plus-circle"></i></a>
+                           {% if usuario.id_grupo != NULL %}
+                           <i class="uil uil-check gray-s"></i>
+                           {% else %}
+                           <a href="" data-toggle="modal" data-target="#modal{{usuario.id}}" title="Agregar" class="gray-s"><i class="uil uil-plus-circle"></i></a>
                            <div class="modal fade" id="modal{{usuario.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                               <div class="modal-dialog" role="document">
                                  <div class="modal-content">
@@ -58,6 +61,7 @@
                                  </div>
                               </div>
                            </div>
+                           {% endif %}
                            </td>	
                         </tr>
                         {% endfor %}

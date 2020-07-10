@@ -40,7 +40,13 @@
                               <a href="{{host}}{{directory}}miscursos/{{curso.id}}/curso" class="crse14s title900">{{curso.curso}}</a>
                               <a href="#" class="crse-cate">{{curso.descripcion}}</a>
                               <div class="auth1lnkprce">
-                                 <p class="cr1fot">Prof. <a href="#">{{curso.profesor}}</a></p>
+                                 <p class="cr1fot">Profs. 
+                                    {% for profesor in profesores %}
+                                    <a href="#">
+                                       {{profesor.nombre}}
+                                    </a>
+                                    {% endfor %}
+                                 </p>
                               </div>
                            </div>
                         </div>

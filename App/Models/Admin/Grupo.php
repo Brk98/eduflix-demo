@@ -8,7 +8,6 @@ use PDO;
 
 class Grupo extends \Core\Model
 {
-
     public static $ip;
     public static $id;
     public static $grupo;
@@ -83,7 +82,7 @@ class Grupo extends \Core\Model
                 // Si existe pero está deshabilitado lo habilita
                 if ($results[0]['borrado'] == 1)
                 {
-                    $stmt = $db->prepare("UPDATE grupos_usuarios SET borrado = ? WHERE id_usuario = ?");
+                    $stmt = $db->prepare("UPDATE grupos_usuarios SET borrado = ?, id_grupo = ? WHERE id_usuario = ?");
                     $stmt->execute([0, self::$id, self::$id_usuario]); 
                 }
             } 
@@ -115,8 +114,8 @@ class Grupo extends \Core\Model
         try 
         {
             $db = static::getDB();
-            $stmt = $db->prepare("SELECT usuarios.*, (SELECT role FROM roles WHERE id = usuarios.id_rol) AS role FROM usuarios WHERE usuarios.borrado = '0'");
-            $stmt->execute([0, 0, self::$id]); 
+            $stmt = $db->prepare("SELECT usuarios.*, (SELECT role FROM roles WHERE id = usuarios.id_rol) AS role, (SELECT id_grupo FROM grupos_usuarios WHERE id_usuario = usuarios.id AND grupos_usuarios.borrado = ?) AS id_grupo FROM usuarios WHERE usuarios.borrado = ?");
+            $stmt->execute([0, 0]); 
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $results;
         } catch (PDOException $e) {

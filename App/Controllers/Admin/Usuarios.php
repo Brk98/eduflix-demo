@@ -123,7 +123,7 @@ class Usuarios extends \Core\Controller
                 $image->save($fichero_subido);
             }
 
-            Usuario::$id = Usuario::obtenerUltimoID()[0]['id'];
+            Usuario::$id = $_POST['id'];
             Usuario::$foto = $fichero_subido;
             Usuario::$nombre = $_POST['nombre'];
             Usuario::$apaterno = $_POST['apaterno'];

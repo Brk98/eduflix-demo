@@ -38,6 +38,9 @@
                            <td>{{grupo.generacion}}</td>	
                            <td>{{grupo.activo?'Si':'No'}}</td>									
                            <td>
+                           {% if grupo.id_curso != NULL %}
+                           <i class="uil uil-check gray-s"></i>
+                           {% else %}
                            <a href="" data-toggle="modal" data-target="#modal{{grupo.id}}" title="Agregar" class="gray-s"><i class="uil uil-plus-circle"></i></a>
                            <div class="modal fade" id="modal{{grupo.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                               <div class="modal-dialog" role="document">
@@ -58,6 +61,7 @@
                                  </div>
                               </div>
                            </div>
+                           {% endif %}
                            </td>	
                         </tr>
                         {% endfor %}

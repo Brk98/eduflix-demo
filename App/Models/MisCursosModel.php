@@ -8,6 +8,7 @@ use PDO;
 class MisCursosModel extends \Core\Model
 {
     public static $id;
+    public static $id_grupo;
     
     public static function tabla()
     {    
@@ -30,6 +31,34 @@ class MisCursosModel extends \Core\Model
             $db = static::getDB();
             $stmt = $db->prepare("SELECT *, (SELECT categoria FROM categorias WHERE id=id_categoria) AS categoria FROM cursos WHERE id=?");
             $stmt->execute([self::$id]); 
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public static function obtenerGrupo()
+    {    
+        try 
+        {
+            $db = static::getDB();
+            $stmt = $db->prepare("SELECT grupos.* FROM grupos, grupos_usuarios WHERE grupos.borrado = ? AND grupos_usuarios.borrado = ? AND grupos.id = grupos_usuarios.id_grupo AND grupos_usuarios.id_usuario = ?");
+            $stmt->execute([0, 0, $_SESSION['eduflix']['id']]); 
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public static function obtenerProfesores()
+    {    
+        try 
+        {
+            $db = static::getDB();
+            $stmt = $db->prepare("SELECT usuarios.* FROM usuarios, grupos_usuarios WHERE id_rol = 2 AND usuarios.id = grupos_usuarios.id_usuario AND grupos_usuarios.id_grupo = ?");
+            $stmt->execute([self::$id_grupo]); 
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $results;
         } catch (PDOException $e) {
