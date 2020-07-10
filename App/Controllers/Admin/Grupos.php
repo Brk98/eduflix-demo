@@ -20,7 +20,7 @@ class Grupos extends \Core\Controller
             for ($i = 0; $i < count($grupos); $i++)
                 $grupos[$i]['descripcion'] = strip_tags($grupos[$i]['descripcion']);
             View::renderTemplate('Admin/Grupos/tabla.html', [
-                'grupos' => $grupos
+                'grupos' => $grupos,
             ]);
         } catch (PDOException $e) {
             echo $e->getMessage();
