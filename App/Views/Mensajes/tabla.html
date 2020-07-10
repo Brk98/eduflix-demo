@@ -1,0 +1,80 @@
+{% extends "master.html" %}
+{% block body %}
+<!-- Body Start -->
+<div class="wrapper">
+    <div class="sa4d25">
+        <div class="container-fluid">       
+            <div class="row">
+                <div class="col-lg-12"> 
+                    <h2 class="st_title"><i class="uil uil-envelope-upload"></i>Mensajes Enviados</h2>
+                </div>    
+                 <div class="col-md-12">
+                <div class="card_dash1">
+                    <div class="card_dash_left1">
+                        <i class="uil uil-envelope-upload"></i>
+                        <h1>Mensajes Enviados</h1>
+                    </div>
+                    <div class="card_dash_right1">
+                        <button class="create_btn_dash" onclick="window.location.href = '{{host}}{{directory}}/mensajes/nuevo';">Redactar</button>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="my_courses_tabs mp-30">
+                            <table class="table ucp-table display table-striped" id="tabla">
+                                <div class="table-responsive ">
+                                <thead class="thead-s">
+                                    <tr>
+                                        <th scope="col">No.</th>
+                                        <th scope="col">Asunto</th>
+                                        <th scope="col">Destinatario</th>
+                                        <th scope="col">Fecha de envío</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for mensaje in mensajes %}
+                                        <tr>
+                                            <td>{{mensaje.id}}</td>
+                                            <td><a href="#">{{mensaje.asunto}}</a></td>
+                                            <td>{{mensaje.usuario}}</td>
+                                            <td>{{mensaje.fechar}}</td>
+                                            <td>
+                                                <a href="{{host}}{{directory}}mensajes/{{mensaje.id}}/editar" title="Responder" class="gray-s"><i class="uil uil-envelope-edit"></i></a>
+                                                <!-- <a href="" data-toggle="modal" data-target="#modal{{mensaje.id}}" title="Delete" class="gray-s"><i class="uil uil-trash-alt"></i></a> -->
+
+                                                <div class="modal fade" id="modal{{mensaje.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                      <div class="modal-content">
+                                                        <div class="modal-header">
+                                                          <h5 class="modal-title" id="exampleModalLabel">Confirmar eliminación</h5>
+                                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                          </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                          Eliminar {{mensaje.mensaje}}
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                                          <a href="{{host}}{{directory}}mensajes/{{mensaje.id}}/eliminar"><button type="button" class="btn btn-primary">Aceptar</button></a>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                            
+                    </div>
+        </div>
+    </div>
+
+<!-- Body End -->
+{% endblock %}
