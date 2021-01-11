@@ -1,0 +1,336 @@
+{% extends "master-page.html" %}
+
+{% block body %}
+
+<!-- Body Start -->
+<div class="wrapper">
+    <div class="sa4d25">
+        <div class="container-fluid">			
+            <div class="row">
+                <div class="col-xl-9 col-lg-8">
+                 <!-- Inicio calendario --> 
+                 <div id="calendar" class="col-md-12"></div>
+                 <!--Funcion para agregar evento-->
+                 <div class="modal" id="ModalAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <form method="POST" action="{{host}}{{directory}}calendarios/agregar" enctype="multipart/form-data">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+              <!--Aqui formulario para agregar un nuevo evento al calendario -->
+                             
+                            <div class="modal-header">
+                                
+                                <h4 class="modal-title" id="myModalLabel">Agregar Evento</h4>
+                            </div>
+                            <div class="modal-body">
+                             <div class="form-group">
+                                  <div class="col-sm-12">
+                                    <label class="float-left">Titulo</label>
+                                  <input type="text" name="titulo" class="form-control" id="title" placeholder="Titulo">
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <div class="col-sm-12">
+                                    <label class="float-left">Color</label>
+                                <select name="color" class="form-control" id="color">
+              <!--Paleta de colores-->
+                                    <option value="">Seleccionar</option>
+                                    <option style="color:#0071c5;" value="#0071c5">&#9724; Azul oscuro</option>
+                                    <option style="color:#40E0D0;" value="#40E0D0">&#9724; Turquesa</option>
+                                    <option style="color:#008000;" value="#008000">&#9724; Verde</option>						  
+                                    <option style="color:#FFD700;" value="#FFD700">&#9724; Amarillo</option>
+                                    <option style="color:#FF8C00;" value="#FF8C00">&#9724; Naranja</option>
+                                    <option style="color:#FF0000;" value="#FF0000">&#9724; Rojo</option>
+                                    <option style="color:#9b9b9b;;" value="#000">&#9724; Gris</option>
+                                  </select>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <label class="float-left">Fecha Inicial</label>
+                                 <input type="date" id="start" name="fecha_inicio" class="form-control"  min="2020-01-01" max="2050-01-31">
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <div class="col-sm-12">
+                                    <label class="float-left">Hora Inicial</label>
+                                 <input type="time" name="hora_inicial"  class="form-control">
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                  <div class="col-sm-12">
+                                    <label class="float-left">Fecha Final</label>
+                                  <input type="date" id="end" name="fecha_fin" class="form-control"  min="2020-01-01-00:00" max="2050-01-31-00:00">
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <div class="col-sm-12">
+                                <label class="float-left">Hora Final</label>
+                                 <input type="time" name="hora_final"  class="form-control">
+                                </div>
+                              </div>
+                              <div class="form-group"> 
+                                    <div class="col-sm-12">
+                                      <label class="float-left">Descripción</label>
+                                      <textarea class="form-control" id="exampleFormControlTextarea1" name="desc" rows="3" placeholder="Descripcion"></textarea> 
+                                      </div>
+                              </div>
+                  </div>
+                  <!--Botones para cerrar recuadro o guardar-->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-info" data-dismiss="ModalAdd" id="CloseModalAdd">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                      </form>
+                      </div>
+                    </div>
+                  </div>
+                 <!--Aqui termina funcion para agregar evento-->
+                 
+                <!-- Fin calendario -->
+                </div>
+                <!---En esta parte inicia funcion para mostrar detalles de evento-->
+                <div class="modal" id="ModalShow" tabindex="2" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+              <!--Aqui formulario para agregar un nuevo evento al calendario -->
+                          <form class="form-horizontal" method="POST" action="#">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myModalLabel">Información de evento</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                      <label class="float-left">Titulo</label>
+                                    <input type="text" name="titulo" class="form-control" id="title" placeholder="Titulo" readonly>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <div class="col-sm-12">
+                                      <label class="float-left">Color</label>
+                                      <input type="text" id="color" name="color"  class="form-control" readonly>
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                  <div class="col-sm-12">
+                                      <label class="float-left">Fecha Inicial</label>
+                                   <input type="date" id="start" name="fecha_inicio" class="form-control"  min="2020-01-01" max="2050-01-31" readonly>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <div class="col-sm-12">
+                                      <label class="float-left">Hora Inicial</label>
+                                   <input type="time" name="hora_inicial"  class="form-control" id="starth" readonly>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                      <label class="float-left">Fecha Final</label>
+                                    <input type="date" id="end" name="fecha_fin" class="form-control"  min="2020-01-01-00:00" max="2050-01-31-00:00" readonly>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <div class="col-sm-12">
+                                  <label class="float-left">Hora Final</label>
+                                   <input type="time" name="hora_final"  class="form-control" id="endh" readonly>
+                                  </div>
+                                </div>
+                                <div class="form-group"> 
+                                      <div class="col-sm-12">
+                                        <label class="float-left">Descripción</label>
+                                        <textarea class="form-control" id="exampleFormControlTextarea1" name="desc" rows="3" placeholder="Descripcion" readonly></textarea> 
+                                        </div>
+                                </div>
+                  </div>
+                  <!--Botones para cerrar recuadro o guardar-->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-info" data-dismiss="modal" id="CloseModalShow">Cerrar</button>
+                        </div>
+                      </form>
+                      </div>
+                    </div>
+                  </div>
+                 <!--En esta parte termina la funcion para mostrar detalles de evento-->
+                <div class="col-xl-3 col-lg-4">
+                    <div class="right_side">
+                        <div class="fcrse_2 mb-30">
+                            <div class="tutor_img">
+                                <a href="my_#"><img src="{{assets}}images/left-imgs/img-10.jpg" alt=""></a>												
+                            </div>
+                            <div class="tutor_content_dt">
+                                <div class="tutor150">
+                                    <a href="my_#" class="tutor_name">{{nombre}}</a>
+                                    <div class="mef78" title="Verify">
+                                        <i class="uil uil-check-circle"></i>
+                                    </div>
+                                </div>
+                                <div class="tutor_cate">Me encanta dar todo sobre mí</div>
+                                <ul class="tutor_social_links">
+                                    <li><a href="#" class="fb"><i class="fab fa-facebook-f"></i></a></li>
+                                    <li><a href="#" class="tw"><i class="fab fa-twitter"></i></a></li>
+                                    <li><a href="#" class="ln"><i class="fab fa-linkedin-in"></i></a></li>
+                                    <li><a href="#" class="yu"><i class="fab fa-youtube"></i></a></li>
+                                </ul>
+                                
+                                
+                            </div> 
+                        </div>
+                        
+                        <div class="get1452">
+                            <h4>Anuncio</h4>
+                            <p>Revisa las nuevas politicas de la escuela.</p>
+                            <button class="Get_btn" onclick="window.location.href = '#';">Revisar</button>
+                        </div>
+                        <div class="fcrse_3">
+                            <div class="cater_ttle">
+                                <h4>Categorias</h4>
+                            </div>
+                            <ul class="allcate15">
+                                <li><a href="#" class="ct_item"><i class='uil uil-arrow'></i>Español</a></li>
+                                <li><a href="#" class="ct_item"><i class='uil uil-graph-bar'></i>Matematicas</a></li>
+                                <li><a href="#" class="ct_item"><i class='uil uil-monitor'></i>Civismo</a></li>
+                                <li><a href="#" class="ct_item"><i class='uil uil-ruler'></i>Diseño</a></li>
+                                <li><a href="#" class="ct_item"><i class='uil uil-chart-line'></i>Fisica</a></li>
+                                <li><a href="#" class="ct_item"><i class='uil uil-book-open'></i>Ejercicios</a></li>
+                                
+                            </ul>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <footer class="footer mt-30">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="footer_bottm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul class="fotb_left">
+                                    <li>
+                                        <a href="index.html">
+                                            <div class="footer_logo">
+                                                <img src="{{assets}}images/logo1.svg" alt="">
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <p>© 2020 <strong>Eduflix</strong>. All Rights Reserved.</p>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="edu_social_links">
+                                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                    <a href="#"><i class="fab fa-twitter"></i></a>
+                                    <a href="#"><i class="fab fa-google-plus-g"></i></a>
+                                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                    <a href="#"><i class="fab fa-instagram"></i></a>
+                                    <a href="#"><i class="fab fa-youtube"></i></a>
+                                    <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                                </div>
+                            </div>		
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+<!-- Body End -->
+
+{% endblock %}
+
+
+
+
+{% block javascripts %}
+<script src="{{assets}}js/vertical-responsive-menu.min.js"></script>
+<script src="{{assets}}js/jquery-3.3.1.min.js"></script>
+<script src="{{assets}}vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="{{assets}}vendor/OwlCarousel/owl.carousel.js"></script>
+<script src="{{assets}}vendor/semantic/semantic.min.js"></script>
+<script src="{{assets}}js/night-mode.js"></script>	
+
+<!-- FullCalendar -->
+<script src='{{assets}}js/moment.min.js'></script>
+<script src='{{assets}}js/fullcalendar/fullcalendar.min.js'></script>
+<script src='{{assets}}js/fullcalendar/fullcalendar.js'></script>
+<script src='{{assets}}js/fullcalendar/locale/es.js'></script>
+
+<script>
+    //Funcion para cerrar el modal
+    $('#CloseModalAdd').click(function(e){
+        $('#ModalAdd').modal('hide');
+    });
+    $('#CloseModalShow').click(function(e){
+        $('#ModalShow').modal('hide');
+    });
+	$(document).ready(function() {
+
+	  var date = new Date();
+       var yyyy = date.getFullYear().toString();
+       var mm = (date.getMonth()+1).toString().length == 1 ? "0"+(date.getMonth()+1).toString() : (date.getMonth()+1).toString();
+       var dd  = (date.getDate()).toString().length == 1 ? "0"+(date.getDate()).toString() : (date.getDate()).toString();
+		$('#calendar').fullCalendar({
+            customButtons: {
+    		myCustomButton: {
+      		text: 'Agregar evento',
+      		click: function(start) {
+            $('#ModalAdd').modal("show");
+            $('#ModalAdd').modal({
+                backdrop: 'static'
+            });
+      		}
+    		}
+  			},
+			header: {
+				 language: 'es',
+				left: 'prev,next today myCustomButton',
+				center: 'title',
+				right: 'month,basicWeek,basicDay',
+
+			},
+			defaultDate: yyyy+"-"+mm+"-"+dd,
+			editable: true,
+			eventLimit: true, // allow "more" link when too many events
+			selectable: false,
+			selectHelper: false,
+			select: function(start, end) {
+				
+				$('#ModalAdd #start').val(moment(start).format('YYYY-MM-DD'));
+				$('#ModalAdd #end').val(moment(end).format('YYYY-MM-DD'));
+				$('#ModalAdd').modal('show');
+			},
+			eventRender: function(event, element) {
+				element.bind('dblclick', function() {
+					$('#ModalEdit #id').val(event.id);
+					$('#ModalEdit #title').val(event.title);
+					$('#ModalEdit #color').val(event.color);
+					$('#ModalEdit').modal('show');
+				});
+  			},
+  				eventClick: function(info) {		 
+   					 $('#ModalShow #title').val(info.title);
+   					 $('#ModalShow #color').val(info.color);
+   					 $('#ModalShow #start').val(info.desc_ini);
+   					 $('#ModalShow #end').val(info.desc_fin);
+   					 $('#ModalShow #desc').val(info.description);
+   					 $('#ModalShow #starth').val(info.desc_inih);
+   					 $('#ModalShow #endh').val(info.desc_finh);
+    				 $('#ModalShow').modal('show');
+                     $('#ModalShow').modal({
+                    backdrop: 'static'
+                });
+  				},
+                 events: [                 
+                        {{eventos|raw}}
+                        ]            
+		})
+			
+	});
+</script>
+
+{% endblock %}

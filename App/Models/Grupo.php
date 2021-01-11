@@ -10,9 +10,9 @@ class Grupo extends \Core\Model
     public static function tabla()
     {    
         try 
-        {
+        { 
             $db = static::getDB();
-            $stmt = $db->prepare("SELECT *, (SELECT categoria FROM categorias WHERE id=id_categoria) AS categoria FROM grupos WHERE borrado ='0'");
+            $stmt = $db->prepare("SELECT *, (SELECT * FROM grupos WHERE id=id_categoria) AS categoria FROM grupos WHERE borrado ='0'");
             $stmt->execute([$_SESSION['eduflix']['id']]); 
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $results;

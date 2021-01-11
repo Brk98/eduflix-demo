@@ -13,7 +13,7 @@ class Grupos extends \Core\Controller
     }
 
     public function tablaAction()
-    {      
+    {       
         try 
         {  
             $grupos = Grupo::tabla();
